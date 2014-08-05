@@ -1,2 +1,2 @@
-YanagiNiTsubame
+Yanagi-ni-Tsubame
 ===============
