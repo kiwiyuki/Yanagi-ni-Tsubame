@@ -13,27 +13,26 @@ Coding Rule
 
 OK : 
 
-'var foo = "hoge";'
+`var foo = "hoge";`
 
 NG : 
 
-'var foo = 'hoge';'
+`var foo = 'hoge';
 
 ##中括弧
 中括弧は文と同じ行に書く
 
 OK :
-```if(true) {
+`if(true) {
     ...
 }
-```
+`
 
 NG :
-```if(true)
+`if(true)
 {
     ...
-}
-```
+}`
 
 ##変数宣言
 
