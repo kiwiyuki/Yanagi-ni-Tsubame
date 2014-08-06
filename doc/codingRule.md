@@ -14,7 +14,7 @@ Coding Rule
 OK :  
 
 ```javascript
-var foo = "hoge";`
+var foo = "hoge";
 ```
 
 NG :  
