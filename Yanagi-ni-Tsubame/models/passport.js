@@ -18,7 +18,7 @@ passport.use(new FacebookStrategy({
 	enableProof: false
 	// profileFields: ['id', 'displayName', 'photos']
 },function (accessToken, refreshToken, profile, done) {
-	// console.log([accessToken, refreshToken, profile, done]);
+	done(null, profile);
 }));
 
 passport.serializeUser(function (user, done) {

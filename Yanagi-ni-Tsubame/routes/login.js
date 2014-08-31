@@ -5,18 +5,22 @@ var passport = require("../models/passport");
 router.use(passport.initialize());
 router.use(passport.session());
 
+router.get("/", function (req, res) {
+	res.render("login");
+});
 router.get("/twitter", passport.authenticate("twitter"));
 router.get("/twitter/callback", passport.authenticate("twitter", {
-	failuerRedirect: "/"
+	failuerRedirect: "/login"
 }), function (req, res) {
-	res.redirect("index");
+	res.redirect("/");
 } );
 
 router.get("/facebook", passport.authenticate("facebook"));
 router.get("/facebook/callback", passport.authenticate("facebook", {
-	failuerRedirect: "/"
+	// successRedirect: '/',
+	failuerRedirect: "/login"
 }), function (req, res) {
-	console.log(req);
-	res.redirect("index");
+	// console.log(req);
+	res.redirect("/");
 });
 module.exports = router;

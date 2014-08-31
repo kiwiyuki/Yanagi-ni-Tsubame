@@ -2,7 +2,26 @@ doctype html
 html
   head
     title= title
+    link(href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css", rel="stylesheet")
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src="//code.jquery.com/jquery-1.11.1.min.js")    
+    script(src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
     block head
   body
-    block content
+    header
+      div.navbar.navbar-fixed-top
+        div.container
+          a.brand(href="/") Yanagi-ni-Tsubame
+          div.pull-right
+            ul.nav
+              li.dropdown
+                a.dropdown-toggle(href="#",data-toggle="dropdown") login
+                ul.dropdown-menu
+                  li
+                    span.glyphicon
+                    a(href="/login/twitter") login Twitter
+                  li
+                    a(href="/login/facebook") login Facebook
+    div#main
+      block content
+    footer
