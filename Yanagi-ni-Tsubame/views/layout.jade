@@ -19,7 +19,10 @@ html
                 li.dropdown
                   a.dropdown-toggle(href="#",data-toggle="dropdown")
                     img#userIcon(src=user.photo)
-                    span= ' ' + user.username
+                    if user.provider === 'twitter'
+                      span= ' ' + user.username
+                    else 
+                      span= ' ' + user.displayName
                     span.caret
                   ul.dropdown-menu
                     li
