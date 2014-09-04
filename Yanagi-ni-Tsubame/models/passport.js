@@ -15,8 +15,8 @@ passport.use(new FacebookStrategy({
 	clientID: setting.facebook.clientID,
 	clientSecret: setting.facebook.clientSecret,
 	callbackURL: setting.facebook.callbackURL,
-	enableProof: false
-	// profileFields: ['id', 'displayName', 'photos']
+	enableProof: false,
+	profileFields: ['id', 'displayName', 'photos']
 },function (accessToken, refreshToken, profile, done) {
 	done(null, profile);
 }));
