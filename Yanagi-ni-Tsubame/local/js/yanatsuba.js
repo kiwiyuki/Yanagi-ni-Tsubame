@@ -3,7 +3,7 @@ $(document).ready(function() {
 	// 大域変数
 	var WIDTH = window.innerWidth;
 	var HEIGHT = window.innerHeight;
-	var scene, camera, renderer, background;
+	var scene, camera, renderer, background, player;
 	var gameDomElement = document.getElementById("game");
 	var bgColor = 0x333333;
 
@@ -38,6 +38,10 @@ $(document).ready(function() {
 		background = new Background();
 		scene.add(background.mesh);
 
+		// プレイヤー
+		player = new Player(camera);
+		scene.add(player.mesh);
+
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
 
@@ -52,6 +56,7 @@ $(document).ready(function() {
 	function loop() {
 		// 状態更新
 		background.update();
+		player.update();
 
 		// レンダリング
 		renderer.render(scene, camera);
