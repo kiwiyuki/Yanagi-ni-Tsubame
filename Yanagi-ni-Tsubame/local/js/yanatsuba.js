@@ -39,8 +39,10 @@ $(document).ready(function() {
 		scene.add(background.mesh);
 
 		// プレイヤー
-		player = new Player(camera);
-		scene.add(player.mesh);
+		player = new Player(scene, camera);
+
+		// 敵
+		// scene.add(new Enemy().mesh)
 
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
