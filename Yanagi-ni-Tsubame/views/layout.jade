@@ -5,8 +5,9 @@ html
     link(href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css", rel="stylesheet")
     link(href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet")
     link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src="//code.jquery.com/jquery-1.11.1.min.js")    
+    script(src="//code.jquery.com/jquery-1.11.1.min.js")
     script(src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
+    script(src="//cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.min.js")
     block head
   body
     header.navbar.navbar-fixed-top.navbar-inverse
@@ -19,7 +20,7 @@ html
                 li.dropdown
                   a.dropdown-toggle(href="#",data-toggle="dropdown")
                     img#userIcon(src=user.photo)
-                    if user.provider === 'twitter'
+                    if user.provider === "twitter"
                       span= ' ' + user.username
                     else 
                       span= ' ' + user.displayName
@@ -40,5 +41,7 @@ html
                       a(href="/login/facebook") 
                         i.fa.fa-facebook-square  with Facebook
     div#main
+      div#screen
+        span#load_msg now loading...
       block content
     footer

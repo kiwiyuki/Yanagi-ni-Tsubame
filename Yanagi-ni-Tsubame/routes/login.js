@@ -6,7 +6,11 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 router.get("/", function (req, res) {
-	res.render("login");
+	res.render("login", {
+		title: "Yanagi-ni-Tsubame Login",
+		isLogin: req.session.isLogin,
+		user: req.session.user
+	});
 });
 router.get("/twitter", passport.authenticate("twitter"));
 router.get("/twitter/callback", passport.authenticate("twitter", {
