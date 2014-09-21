@@ -3,12 +3,21 @@ $(document).ready(function() {
 	// 大域変数
 	var WIDTH = window.innerWidth;
 	var HEIGHT = window.innerHeight;
+	var socket;
 	var scene, camera, renderer, background, player;
 	var gameDomElement = document.getElementById("game");
 	var bgColor = 0x333333;
 
-	// 初期化
-	init();
+	// socket通信開始
+	socket = io.connect();
+
+	// 初回データ受信
+	socket.on("first_message", function(data) {
+		// 初期化
+		init();
+
+		console.log(data.msg);
+	});
 
 	// 初期化
 	function init() {

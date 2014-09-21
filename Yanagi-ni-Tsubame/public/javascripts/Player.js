@@ -36,8 +36,6 @@ var Player = function(scene, camera, domElement) {
 	}
 	this.mesh.add(core);
 
-	console.log(this.mesh.position.x);
-
 	// 砲台メッシュ
 	var g = new THREE.SphereGeometry(3, 4, 4);
 	var m = new THREE.MeshLambertMaterial({color: 0xff0000});
