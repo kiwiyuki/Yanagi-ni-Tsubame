@@ -13,7 +13,12 @@ $(document).ready(function() {
 
 	// 初回データ受信
 	socket.on("first_message", function(data) {
+		// プレイヤーデータ
+		// 敵データ
+		// アイテムデータ
+
 		// 初期化
+		// TODO タイトルへ遷移
 		init();
 
 		console.log(data.msg);
