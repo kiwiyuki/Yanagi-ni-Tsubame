@@ -1,4 +1,4 @@
-var socketio = require("socket.io");
+var Socket = require("socket.io");
 var go = require("./gameObject");
 var session = require("express-session").Session;
 var COOKIE_SECRET = "secret-session";
@@ -10,12 +10,12 @@ var enemys = [];
 var items = [];
 
 function socketio (server) {
-	var io = socketio.listen(server);
+	var io = Socket.listen(server);
 	io.use(function　(socket, next) {
-		var cookie = require("cookie").parse(socket.request.headers.cookie);
+		var cookie = require("cookie-parser/node_modules/cookie").parse(socket.request.headers.cookie);
 		cookie = require('cookie-parser/lib/parse').signedCookies(cookie, COOKIE_SECRET);
 		var sessionID = cookie[COOKIE_KEY];
-		console.log(sessionID);
+		console.log("sessionID" + sessionID);
 	});
 	// サーバー接続処理
 	io.sockets.on('connection', function(socket) {
