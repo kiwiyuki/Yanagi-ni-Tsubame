@@ -13,19 +13,14 @@ $(document).ready(function() {
 
 	// 初回データ受信
 	socket.on("first_message", function(data) {
+		console.log(data);
+
 		// プレイヤーデータ
 		// 敵データ
 		// アイテムデータ
 
 		// 初期化
 		// TODO タイトルへ遷移
-		init();
-
-		console.log(data.msg);
-	});
-
-	// 初期化
-	function init() {
 		// シーン
 		scene = new THREE.Scene();
 
@@ -66,7 +61,7 @@ $(document).ready(function() {
 
 		// ループ開始
 		requestAnimationFrame(loop);
-	}
+	});
 
 	// ループ
 	function loop() {
