@@ -10,6 +10,7 @@ var items = [];
 
 function socketio (server) {
 	var io = socketio.listen(server);
+
 	io.use(function　(socket, next) {
 		var cookie = require('cookie').parse(socket.request.headers.cookie);
 		cookie = require('cookie-parser/lib/parse').signedCookies(cookie, COOKIE_SECRET);
@@ -24,11 +25,11 @@ function socketio (server) {
 		console.log(socket);
 
 		// 初回データ送信
-		socket.json.emit('first_message', { player: p, players: players, enemys: enemys, items: items }, function() {});
+		socket.json.emit('first_message', { player: p, players: players, enemys: enemys, items: items });
 		
 		// 各クライアントのデータ受信
 		socket.json.on('client_data', function (data) {
-
+			
 		});
 
 		// 切断処理

@@ -14,6 +14,7 @@ $(document).ready(function() {
 	// 初回データ受信
 	socket.on("first_message", function(data) {
 		console.log(data);
+		
 		// プレイヤーデータ
 		// 敵データ
 		// アイテムデータ
