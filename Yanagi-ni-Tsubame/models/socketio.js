@@ -18,8 +18,17 @@ function socketio (server) {
 		socket.json.emit('first_message', { player: p, players: players, enemys: enemys, items: items });
 		
 		// 各クライアントのデータ受信
-		socket.json.on('client_data', function (data) {
-
+		socket.json.on('player_data', function (data) {
+			for(var i = 0; i < players.length; i++) {
+				if(players[i].id === data.id) {
+					//playerデータの更新
+					players[i].x = data.x;
+					players[i].y = data.y;
+					players[i].hp = data.hp;
+					players[i].state = data.state;
+					break;
+				}
+			}
 		});
 
 		// 切断処理
