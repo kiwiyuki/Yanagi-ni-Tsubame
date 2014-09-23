@@ -25,7 +25,7 @@ var EnemyManager = function(scene) {
 	}
 
 	this.animate = function() {
-		EnemyArray.forEach(function(enemy) {
+		enemysArray.forEach(function(enemy) {
 			enemy.animate();
 		});
 	};
@@ -62,7 +62,6 @@ var EnemyManager = function(scene) {
 
 		// 自分以外のプレイヤーが配列に登録してあるか検索
 		allEnemys.forEach(function(ae) {
-			if(playerID != ae.id) {
 				// 見つかれば位置の更新
 				// そうじゃなければ新規登録
 				var isFinded = false;
@@ -80,7 +79,6 @@ var EnemyManager = function(scene) {
 					scene.add(e.mesh);
 					console.log("enemy num : " + enemysArray.length);
 				}
-			}
-		});
+			});
 	};
 };
