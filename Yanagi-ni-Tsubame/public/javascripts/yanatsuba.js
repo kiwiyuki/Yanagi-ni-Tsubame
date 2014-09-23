@@ -55,7 +55,8 @@ $(document).ready(function() {
 		avatarManager.update(data.players);
 
 		// 敵
-		// scene.add(new Enemy().mesh)
+		enemyManager = new EnemyManager(scene);
+		enemyManager.update(data.enemys);
 
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
@@ -70,6 +71,7 @@ $(document).ready(function() {
 	// 鯖データ受信
 	socket.on('server_update', function(data) {
 		avatarManager.update(data.players);
+		enemyManager.update(data.enemys);
 	});
 
 	// ループ
@@ -78,6 +80,7 @@ $(document).ready(function() {
 		background.update();
 		player.update();
 		avatarManager.animate();
+		enemyManager.animate();
 
 		// レンダリング
 		renderer.render(scene, camera);
