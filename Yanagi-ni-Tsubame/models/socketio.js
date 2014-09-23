@@ -20,7 +20,7 @@ function socketio (server) {
 
 	// サーバー接続処理
 	io.sockets.on('connection', function (socket) {
-		var p = new go.Player(socket.id, 0, 0, '');
+		var p = new go.Player(socket.id, 0, 0, Math.random());
 		players.push(p);
 		console.log('player num : ' + players.length);
 
@@ -45,9 +45,9 @@ function socketio (server) {
 	});
 
 	// 全プレイヤーデータ送信（毎秒30回）
-	// setInterval(function() {
-	// 	io.sockets.json.emit('world_data', world_data);
-	// }, 33);
+	setInterval(function() {
+		io.sockets.json.emit('server_update', { players : players });
+	}, 33);
 }
 
 module.exports = socketio;
