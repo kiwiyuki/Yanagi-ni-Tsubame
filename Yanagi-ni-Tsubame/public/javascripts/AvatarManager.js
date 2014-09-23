@@ -24,29 +24,35 @@ var AvatarManager = function(scene, playerID) {
 	};
 
 	this.update = function(allPlayers) {
-		console.log(avatarsArray.length);
+		console.log("avatar num : " + avatarsArray.length);
 
 		// 鯖にいないプレイヤーの検索
-		// var removeAvatarsID = [];
-		// avatarsArray.forEach(function(avatar) {
-		// 	var flag = allPlayers.filter(function(item) {
-		// 		return item == avatar.id;
-		// 	});
+		var removeAvatarsID = [];
+		avatarsArray.forEach(function(avatar) {
+			// TODO filter関数使いたかった
+			var flag = true;
+			for (var i = 0; i < allPlayers.length; i++) {
+				if(allPlayers[i].id == avatar.id) {
+					flag = false;
+					break;
+				}
+			};
 
-		// 	if(!flag) {
-		// 		removeAvatarsID.push(avatar.id);
-		// 	}
-		// });
+			if(flag) {
+				removeAvatarsID.push(avatar.id);
+			}
+		});
 
 		// 他プレイヤーの削除
-		// removeAvatarsID.forEach(function(avatar) {
-		// 	var index = avatarsArray.filter(function(item, index) {
-		// 		if(item == avatar.id) return index;
-		// 	});
-
-		// 	scene.remove(avatarsArray[index].mesh);
-		// 	avatarsArray.splice(index, 1);
-		// });
+		removeAvatarsID.forEach(function(rmAvatarID) {
+			for (var i = 0; i < avatarsArray.length; i++) {
+				if(avatarsArray[i].id == rmAvatarID) {
+					scene.remove(avatarsArray[i].mesh);
+					avatarsArray.splice(i, 1);
+					break;
+				}
+			};
+		});
 
 		// 自分以外のプレイヤーが配列に登録してあるか検索
 		allPlayers.forEach(function(p) {
