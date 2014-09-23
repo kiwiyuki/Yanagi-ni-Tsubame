@@ -24,52 +24,55 @@ var AvatarManager = function(scene, playerID) {
 	};
 
 	this.update = function(allPlayers) {
-		console.log(avatarsArray.length);
+		console.log("avatar num : " + avatarsArray.length);
 
 		// 鯖にいないプレイヤーの検索
-		// var removeAvatarsID = [];
-		// avatarsArray.forEach(function(avatar) {
-		// 	var flag = allPlayers.filter(function(item) {
-		// 		return item == avatar.id;
-		// 	});
-
-		// 	if(!flag) {
-		// 		removeAvatarsID.push(avatar.id);
-		// 	}
-		// });
-
-		// 他プレイヤーの削除
-		// removeAvatarsID.forEach(function(avatar) {
-		// 	var index = avatarsArray.filter(function(item, index) {
-		// 		if(item == avatar.id) return index;
-		// 	});
-
-		// 	scene.remove(avatarsArray[index].mesh);
-		// 	avatarsArray.splice(index, 1);
-		// });
-
-		// 自分以外のプレイヤーが配列に登録してあるか検索
-		console.log("playerID : " + playerID);
-		var newPlayersList = [];
+		var removeAvatarsID = [];
 		avatarsArray.forEach(function(avatar) {
-			newPlayersList = allPlayers.filter(function(item) {
-				console.log("p");
-				if(item.id == avatar.id) {
-					avatar.position.x = item.x;
-					avatar.position.y = item.y;
-					isFined = true;
-
-					return false;
+			// TODO filter関数使いたかった
+			var flag = true;
+			for (var i = 0; i < allPlayers.length; i++) {
+				if(allPlayers[i].id == avatar.id) {
+					flag = false;
+					break;
 				}
-				
-				return item.id != playerID;
-			});
+			};
+
+			if(flag) {
+				removeAvatarsID.push(avatar.id);
+			}
 		});
 
-		newPlayersList.forEach(function(ply) {
-			var a = new Avatar(ply);
-			avatarsArray.push(a);
-			scene.add(a.mesh);
+		// 他プレイヤーの削除
+		removeAvatarsID.forEach(function(rmAvatarID) {
+			for (var i = 0; i < avatarsArray.length; i++) {
+				if(avatarsArray[i].id == rmAvatarID) {
+					scene.remove(avatarsArray[i].mesh);
+					avatarsArray.splice(i, 1);
+					break;
+				}
+			};
+		});
+
+		// 自分以外のプレイヤーが配列に登録してあるか検索
+		allPlayers.forEach(function(p) {
+			if(playerID != p.id) {
+				// 見つかれば位置の更新
+				// そうじゃなければ新規登録
+				var isFinded = false;
+
+				avatarsArray.forEach(function(avatar) {
+					if(avatar.id == p.id) {
+						avatar.mesh.position.set(p.x, p.y, 0);
+						isFinded = true;
+					};
+				});
+				if(!isFinded) {
+					var a = new Avatar(p);
+					avatarsArray.push(a);
+					scene.add(a.mesh);
+				}
+			}
 		});
 	};
 };
