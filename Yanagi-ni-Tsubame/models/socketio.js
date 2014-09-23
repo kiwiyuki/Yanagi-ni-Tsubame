@@ -49,7 +49,7 @@ function socketio (server) {
 		time_conuter++;
 		//敵の更新
 		for(var i = 0; i < enemys.length; i++) {
-			enemys[i].counter++;
+			enemys[i].update();
 		}
 
 		//敵の生成

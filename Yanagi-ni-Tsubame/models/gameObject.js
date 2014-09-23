@@ -27,9 +27,13 @@ var Enemy = function(_id, _x, _y, _type) {
 
 	switch(_type) {
 		case 'test':
-		this.update = function() {
-
-		}
+			this.update = function() {
+				if(this.x > 0) {
+					this.x -= 3;
+				} else {
+					// this.x += 3;
+				}
+			}
 		break;
 	}
 };
