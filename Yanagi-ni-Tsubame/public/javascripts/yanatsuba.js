@@ -83,6 +83,15 @@ $(document).ready(function() {
 		renderer.render(scene, camera);
 
 		requestAnimationFrame(loop);
+
+		// 鯖へデータ送信
+		socket.json.emit("player_data", {
+			id : player.id,
+			x : player.mesh.position.x,
+			y : player.mesh.position.y,
+			hp : player.hp,
+			state : player.state
+		});
 	}
 
 	// イベントリスナー

@@ -14,8 +14,9 @@ var Player = function(scene, camera, data) {
 	var canonRadius = 20;
 	var canonAngle = 0;
 
-	this.hp = 0;
 	this.id = data.id;
+	this.hp = 0;
+	this.state = data.state;
 
 	// イベントリスナー用
 	this.domElement = document;
