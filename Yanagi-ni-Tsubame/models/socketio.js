@@ -44,8 +44,25 @@ function socketio (server) {
 	});
 
 	// 全プレイヤーデータ送信（毎秒30回）
+	var time_conuter = 0;
 	setInterval(function() {
-		io.sockets.json.emit('server_update', { players : players });
+		time_conuter++;
+		//敵の更新
+		for(var i = 0; i < enemys.length; i++) {
+			enemys[i].counter++;
+		}
+		//敵の生成
+		if (time_conuter === 100　&& enemys.length < 100) {
+			var _id = Date.now() + Math.random();
+			var _x = Math.floor((Math.random() * 10) - 5) * 100;
+			var _y = Math.floor((Math.random() * 10) - 5) * 100;
+			var enemy = new go.Enemy(_id, _x, _y, "test");
+			enemys.push(enemy);
+		}
+		if(enemys.length > 0 && enemys[0].counter > 500) {
+			enemys.shift();
+		}
+		io.sockets.json.emit('server_update', { players : players , enemys : enemys });
 	}, 33);
 }
 
