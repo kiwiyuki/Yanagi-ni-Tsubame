@@ -27,13 +27,20 @@ var Enemy = function(_id, _x, _y, _type) {
 
 	switch(_type) {
 		case 'test':
-			this.update = function() {
-				if(this.x > 0) {
-					this.x -= 3;
-				} else {
-					// this.x += 3;
-				}
+		var speed = 6;
+		var d = 360;
+
+		this.update = function() {
+			this.x += speed;
+
+			if(this.x > _x + d) {
+				this.x = _x + d;
+				speed = -speed;
+			} else if (this.x < _x - d) {
+				this.x = _x - d;
+				speed = -speed;
 			}
+		}
 		break;
 	}
 };
