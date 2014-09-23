@@ -24,14 +24,14 @@ var Player = function(scene, camera, data) {
 
 	// 本体メッシュ
 	var core = new THREE.Object3D();
-	var c = new THREE.Color();
-	c.setHSL(data.color, 1.0, 0.5);
+	var color = new THREE.Color();
+	color.setHSL(data.color, 1.0, 0.5);
 	for (var i = 0; i < 8; i++) {
 		var ix = i & 1;
 		var iy = (i >> 1) & 1;
 		var iz = (i >> 2) & 1;
 		var g = new THREE.BoxGeometry(4, 4, 4);
-		var m = new THREE.MeshLambertMaterial({color : c});
+		var m = new THREE.MeshLambertMaterial({color : color});
 		var box = new THREE.Mesh(g, m);
 		box.position.set(3 - 6 * ix, 3 - 6 * iy, 3 - 6 * iz);
 		core.add(box);
@@ -40,7 +40,7 @@ var Player = function(scene, camera, data) {
 
 	// 砲台メッシュ
 	var g = new THREE.SphereGeometry(3, 4, 4);
-	var m = new THREE.MeshLambertMaterial({color: 0xff0000});
+	var m = new THREE.MeshLambertMaterial({color: color});
 	var canon = new THREE.Mesh(g, m);
 	canon.position.set(canonRadius, 0, 0);
 	this.mesh.add(canon);
@@ -82,7 +82,7 @@ var Player = function(scene, camera, data) {
 			canon.position.set(canonRadius * Math.cos(canonAngle), canonRadius * Math.sin(canonAngle), 0);
 
 			var g = new THREE.SphereGeometry(8, 6, 6);
-			var m = new THREE.MeshBasicMaterial({color: 0xff0000});
+			var m = new THREE.MeshBasicMaterial({color: color});
 			var bullet = new THREE.Mesh(g, m);
 			bullet.position.set(this.mesh.position.x, this.mesh.position.y, 0);
 			bullet.speedX = 6 * Math.cos(canonAngle);

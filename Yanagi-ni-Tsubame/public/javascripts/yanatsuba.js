@@ -4,7 +4,7 @@ $(document).ready(function() {
 	var WIDTH = window.innerWidth;
 	var HEIGHT = window.innerHeight;
 	var socket;
-	var scene, camera, renderer, background, player;
+	var scene, camera, renderer, background, player, avatarManager;
 	var gameDomElement = document.getElementById("game");
 	var bgColor = 0x333333;
 
@@ -50,6 +50,10 @@ $(document).ready(function() {
 		// プレイヤー
 		player = new Player(scene, camera, data.player);
 
+		// 他プレイヤー（アバター）
+		avatarManager = new AvatarManager(scene, data.player.id);
+		avatarManager.update(data.players);
+
 		// 敵
 		// scene.add(new Enemy().mesh)
 
@@ -61,6 +65,11 @@ $(document).ready(function() {
 
 		// ループ開始
 		requestAnimationFrame(loop);
+	});
+
+	// 鯖データ受信
+	socket.on('server_update', function(data) {
+		avatarManager.update(data.players);
 	});
 
 	// ループ
