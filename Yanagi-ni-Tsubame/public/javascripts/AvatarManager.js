@@ -23,9 +23,14 @@ var AvatarManager = function(scene, playerID) {
 		this.mesh.add(core);
 	};
 
-	this.update = function(allPlayers) {
-		console.log("avatar num : " + avatarsArray.length);
+	this.animate = function() {
+		avatarsArray.forEach(function(avatar) {
+			avatar.mesh.rotation.x += 0.05;
+			avatar.mesh.rotation.y += 0.05;
+		});
+	};
 
+	this.update = function(allPlayers) {
 		// 鯖にいないプレイヤーの検索
 		var removeAvatarsID = [];
 		avatarsArray.forEach(function(avatar) {
@@ -49,6 +54,7 @@ var AvatarManager = function(scene, playerID) {
 				if(avatarsArray[i].id == rmAvatarID) {
 					scene.remove(avatarsArray[i].mesh);
 					avatarsArray.splice(i, 1);
+					console.log("avatar num : " + avatarsArray.length);
 					break;
 				}
 			};
@@ -67,10 +73,12 @@ var AvatarManager = function(scene, playerID) {
 						isFinded = true;
 					};
 				});
+
 				if(!isFinded) {
 					var a = new Avatar(p);
 					avatarsArray.push(a);
 					scene.add(a.mesh);
+					console.log("avatar num : " + avatarsArray.length);
 				}
 			}
 		});

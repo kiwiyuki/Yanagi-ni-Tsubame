@@ -77,6 +77,7 @@ $(document).ready(function() {
 		// 状態更新
 		background.update();
 		player.update();
+		avatarManager.animate();
 
 		// レンダリング
 		renderer.render(scene, camera);
