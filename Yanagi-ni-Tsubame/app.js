@@ -28,13 +28,15 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+var sS = new sessionStore;
+app.sessionStore = sS;
 app.use(session({
     cookie: {
         httpOnly: false,
         maxAge: 60*60*24
     },
     secret: "secret-session", //TODO ランダムな文字列に変える必要あり？
-    store: new sessionStore
+    store: sS
 }));
 
 app.use("/", routes);
