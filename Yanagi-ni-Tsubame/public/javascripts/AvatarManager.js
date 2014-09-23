@@ -49,27 +49,24 @@ var AvatarManager = function(scene, playerID) {
 		// });
 
 		// 自分以外のプレイヤーが配列に登録してあるか検索
-		console.log("playerID : " + playerID);
-		var newPlayersList = [];
-		avatarsArray.forEach(function(avatar) {
-			newPlayersList = allPlayers.filter(function(item) {
-				console.log("p");
-				if(item.id == avatar.id) {
-					avatar.position.x = item.x;
-					avatar.position.y = item.y;
-					isFined = true;
+		allPlayers.forEach(function(p) {
+			if(playerID != p.id) {
+				// 見つかれば位置の更新
+				// そうじゃなければ新規登録
+				var isFinded = false;
 
-					return false;
+				avatarsArray.forEach(function(avatar) {
+					if(avatar.id == p.id) {
+						avatar.mesh.position.set(p.x, p.y, 0);
+						isFinded = true;
+					};
+				});
+				if(!isFinded) {
+					var a = new Avatar(p);
+					avatarsArray.push(a);
+					scene.add(a.mesh);
 				}
-				
-				return item.id != playerID;
-			});
-		});
-
-		newPlayersList.forEach(function(ply) {
-			var a = new Avatar(ply);
-			avatarsArray.push(a);
-			scene.add(a.mesh);
+			}
 		});
 	};
 };
