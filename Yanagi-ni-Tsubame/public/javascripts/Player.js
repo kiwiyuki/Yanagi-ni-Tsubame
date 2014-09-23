@@ -1,4 +1,4 @@
-var Player = function(scene, camera, domElement) {
+var Player = function(scene, camera, data) {
 	var speed = 3;
 	var d = 0.8; // カメラ操作用
 	var controls = {
@@ -15,21 +15,23 @@ var Player = function(scene, camera, domElement) {
 	var canonAngle = 0;
 
 	this.hp = 0;
-	this.id = "";
+	this.id = data.id;
 
 	// イベントリスナー用
-	this.domElement = (domElement !== undefined) ? domElement : document;
+	this.domElement = document;
 	
 	this.mesh = new THREE.Object3D();
 
 	// 本体メッシュ
 	var core = new THREE.Object3D();
+	var c = new THREE.Color();
+	c.setHSL(data.color, 1.0, 0.5);
 	for (var i = 0; i < 8; i++) {
 		var ix = i & 1;
 		var iy = (i >> 1) & 1;
 		var iz = (i >> 2) & 1;
 		var g = new THREE.BoxGeometry(4, 4, 4);
-		var m = new THREE.MeshLambertMaterial({color : 0xff0000});
+		var m = new THREE.MeshLambertMaterial({color : c});
 		var box = new THREE.Mesh(g, m);
 		box.position.set(3 - 6 * ix, 3 - 6 * iy, 3 - 6 * iz);
 		core.add(box);
@@ -42,6 +44,7 @@ var Player = function(scene, camera, domElement) {
 	var canon = new THREE.Mesh(g, m);
 	canon.position.set(canonRadius, 0, 0);
 	this.mesh.add(canon);
+	this.mesh.position.set(data.x, data.y, 0);
 
 	// 弾の管理
 	this.bullets = new THREE.Object3D();

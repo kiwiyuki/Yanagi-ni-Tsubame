@@ -48,7 +48,7 @@ $(document).ready(function() {
 		scene.add(background.mesh);
 
 		// プレイヤー
-		player = new Player(scene, camera);
+		player = new Player(scene, camera, data.player);
 
 		// 敵
 		// scene.add(new Enemy().mesh)
