@@ -11,12 +11,7 @@ html, body {
 }
 
 header {
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, #000), color-stop(0.00, #555));
-	background: -webkit-linear-gradient(#555, #000);
-	background: -moz-linear-gradient(#555, #000);
-	background: -o-linear-gradient(#555, #000);
-	background: -ms-linear-gradient(#555, #000);
-	background: linear-gradient(#555, #000);
+	margin: 0 !important;
 }
 #userIcon {
 	width: 24px;

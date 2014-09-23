@@ -1,8 +1,5 @@
 var sio = require('socket.io');
 var go = require('./gameObject');
-var session = require('express-session').Session;
-var COOKIE_SECRET = 'secret-session';
-var COOKIE_KEY    = 'sid';
 
 var players = [];
 var enemys = [];
@@ -11,18 +8,11 @@ var items = [];
 function socketio (server) {
 	var io = sio.listen(server);
 
-	// io.use(function (socket, next) {
-	// 	var cookie = require('cookie').parse(socket.request.headers.cookie);
-	// 	cookie = require('cookie-parser/lib/parse').signedCookies(cookie, COOKIE_SECRET);
-	// 	var sessionID = cookie[COOKIE_KEY];
-	// 	console.log(sessionID);
-	// });
-
 	// サーバー接続処理
 	io.sockets.on('connection', function (socket) {
 		var p = new go.Player(socket.id, 0, 0, Math.random());
 		players.push(p);
-		console.log('player num : ' + players.length);
+		console.log('connection \n player num : ' + players.length);
 
 		// 初回データ送信
 		socket.json.emit('first_message', { player: p, players: players, enemys: enemys, items: items });
@@ -37,7 +27,7 @@ function socketio (server) {
 			for(var i = 0; i < players.length; i++) {
 				if(players[i].id === socket.id) {
 					players.splice(i, 1);
-					console.log('player num : ' + players.length);
+					console.log('disconnection \n player num : ' + players.length);
 					break;
 				}
 			}
