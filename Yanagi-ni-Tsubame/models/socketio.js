@@ -58,6 +58,7 @@ function socketio (server) {
 			var _y = Math.floor((Math.random() * 10) - 5) * 100;
 			var enemy = new go.Enemy(_id, _x, _y, "test");
 			enemys.push(enemy);
+			time_conuter = 0;
 		}
 		if(enemys.length > 0 && enemys[0].counter > 500) {
 			enemys.shift();
