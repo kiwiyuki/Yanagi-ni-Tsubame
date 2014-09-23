@@ -22,6 +22,7 @@ function socketio (server) {
 	io.sockets.on('connection', function (socket) {
 		var p = new go.Player(socket.id, 0, 0, '');
 		players.push(p);
+		console.log('player num : ' + players.length);
 
 		// 初回データ送信
 		socket.json.emit('first_message', { player: p, players: players, enemys: enemys, items: items });
@@ -34,8 +35,9 @@ function socketio (server) {
 		// 切断処理
 		socket.on('disconnect', function() {
 			for(var i = 0; i < players.length; i++) {
-				if(players.id === socket.id) {
-					players.splice(i,1);
+				if(players[i].id === socket.id) {
+					players.splice(i, 1);
+					console.log('player num : ' + players.length);
 					break;
 				}
 			}
