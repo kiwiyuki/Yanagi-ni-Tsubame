@@ -51,6 +51,7 @@ function socketio (server) {
 		for(var i = 0; i < enemys.length; i++) {
 			enemys[i].counter++;
 		}
+
 		//敵の生成
 		if (time_conuter === 100　&& enemys.length < 100) {
 			var _id = Date.now() + Math.random();
@@ -60,9 +61,11 @@ function socketio (server) {
 			enemys.push(enemy);
 			time_conuter = 0;
 		}
+
 		if(enemys.length > 0 && enemys[0].counter > 500) {
 			enemys.shift();
 		}
+		
 		io.sockets.json.emit('server_update', { players : players , enemys : enemys });
 	}, 33);
 }

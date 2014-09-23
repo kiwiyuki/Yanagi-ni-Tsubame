@@ -18,14 +18,20 @@ var Shots = function() {
 
 
 var Enemy = function(_id, _x, _y, _type) {
-	return {
-		id: _id,
-		x: _x,
-		y: _y,
-		type: _type,
-		hp: 0,
-		counter: 0
-	};
+	this.id = _id;
+	this.x = _x;
+	this.y = _y;
+	this.type = _type;
+	this.hp = 0;
+	this.counter = 0;
+
+	switch(_type) {
+		case 'test':
+		this.update = function() {
+
+		}
+		break;
+	}
 };
 
 var Item = function(_id, _x, _y, _type) {
