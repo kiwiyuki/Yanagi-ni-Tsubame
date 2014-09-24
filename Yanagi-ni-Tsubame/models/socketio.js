@@ -12,7 +12,8 @@ var enemys = [];
 var items = [];
 function socketio (server) {
 	var io = sio.listen(server);
-	// io.use(function　(socket, next) {
+	io.use(function (socket, next) {
+		console.log(socket.request);
 	// 	var cookieParser = require('cookie-parser');
 	// 	var parseCookie = cookieParser(COOKIE_SECRET);
 	// 	parseCookie(socket.handshake, null, function(err) {
@@ -29,8 +30,8 @@ function socketio (server) {
 	// 	console.dir(socket.request);
 	// 	sessionStore.get(sessionID, function (err, sessionData){
 	// 		console.log("hoge");
-	// 	});
-	// });
+		// });
+	});
 
 	// サーバー接続処理
 	io.sockets.on('connection', function(socket) {
