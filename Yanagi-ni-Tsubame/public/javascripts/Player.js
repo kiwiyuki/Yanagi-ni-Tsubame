@@ -13,6 +13,7 @@ var Player = function(scene, camera, data) {
 	};
 	var canonRadius = 20;
 	var canonAngle = 0;
+	var shotCounter = 0; // ショット制御用
 
 	this.id = data.id;
 	this.hp = 0;
@@ -70,7 +71,8 @@ var Player = function(scene, camera, data) {
 		camera.position.y = targetPositionY;
 		camera.lookAt(new THREE.Vector3(targetPositionX, targetPositionY, 0));
 
-		// ショット
+		// ショット関連
+		shotCounter++;
 		if(controls.shotLeft | controls.shotUp | controls.shotRight | controls.shotDown) {
 			// 砲台移動
 			var targetAngle = Math.atan2(controls.shotUp - controls.shotDown, controls.shotRight - controls.shotLeft);
@@ -82,14 +84,18 @@ var Player = function(scene, camera, data) {
 			}
 			canon.position.set(canonRadius * Math.cos(canonAngle), canonRadius * Math.sin(canonAngle), 0);
 
-			var g = new THREE.SphereGeometry(8, 6, 6);
-			var m = new THREE.MeshBasicMaterial({color: color});
-			var bullet = new THREE.Mesh(g, m);
-			bullet.position.set(this.mesh.position.x, this.mesh.position.y, 0);
-			bullet.speedX = 6 * Math.cos(canonAngle);
-			bullet.speedY = 6 * Math.sin(canonAngle);
-			bullet.counter = 0;
-			this.bullets.add(bullet);
+			// ショット
+			if(shotCounter > 5) {
+				var g = new THREE.SphereGeometry(8, 6, 6);
+				var m = new THREE.MeshBasicMaterial({color: color});
+				var bullet = new THREE.Mesh(g, m);
+				bullet.position.set(this.mesh.position.x, this.mesh.position.y, 0);
+				bullet.speedX = 6 * Math.cos(canonAngle);
+				bullet.speedY = 6 * Math.sin(canonAngle);
+				bullet.counter = 0;
+				this.bullets.add(bullet);
+				shotCounter = 0;
+			}
 		}
 
 		// 自弾処理

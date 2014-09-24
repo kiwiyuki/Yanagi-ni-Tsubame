@@ -43,7 +43,7 @@ function socketio (server) {
 		});
 	});
 
-	// 全プレイヤーデータ送信（毎秒30回）
+	// 全プレイヤーデータ送信（毎秒60回）
 	var time_conuter = 0;
 	setInterval(function() {
 		time_conuter++;
@@ -67,7 +67,7 @@ function socketio (server) {
 		}
 		
 		io.sockets.json.emit('server_update', { players : players , enemys : enemys });
-	}, 33);
+	}, 17);
 }
 
 module.exports = socketio;
