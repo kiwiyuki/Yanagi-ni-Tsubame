@@ -44,6 +44,7 @@ $(document).ready(function() {
 		scene.add(background.mesh);
 
 		// ローカルデータ定義
+		localData = {};
 		localData.player = {};
 		localData.atkEnemys = [];
 
