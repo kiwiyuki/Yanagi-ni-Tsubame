@@ -1,5 +1,6 @@
 var sio = require('socket.io');
 var go = require('./gameObject');
+var database = require("./sqlite3");
 
 var players = [];
 var enemys = [];
@@ -36,6 +37,7 @@ function socketio (server) {
 		socket.on('disconnect', function() {
 			for(var i = 0; i < players.length; i++) {
 				if(players[i].id === socket.id) {
+					// database.run("update game set lastX = $x, lastY = $y where id = $id", { $x: players[i].x, $y: players[i].y, $id: players[i].id} );
 					players.splice(i, 1);
 					console.log('disconnection\nplayer num : ' + players.length);
 					break;
