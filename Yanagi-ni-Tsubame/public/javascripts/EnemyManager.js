@@ -1,4 +1,4 @@
-var EnemyManager = function(scene, player) {
+var EnemyManager = function(scene, player, atkEnemys) {
 	var enemysArray = [];
 
 	var Enemy = function(data) {
@@ -27,12 +27,25 @@ var EnemyManager = function(scene, player) {
 		}
 	}
 
-	this.animate = function() {
+	this.localUpdate = function() {
 		enemysArray.forEach(function(enemy) {
 			enemy.animate();
 		});
 
+		// 自弾と敵の当たり判定
+		atkEnemys = [];
+
+		var bulletHitBox = new THREE.Box2(new THREE.Vector2(bullet.mesh.position.x - bullet.halfSize, bullet.mesh.position.y - bullet.halfSize),
+			new THREE.Vector2(bullet.mesh.position.x + bullet.halfSize, bullet.mesh.position.y + bullet.halfSize));
 		
+		enemysArray.forEach(function(enemy) {
+			var enemyHitBox = new THREE.Box2(new THREE.Vector2(enemy.mesh.position.x - enemy.halfSize, enemy.mesh.position.y - enemy.halfSize),
+				new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
+
+			if(bulletHitBox.isIntersectionBox(enemy)) {
+				atkEnemys.push({ id : enemy.id, damage : bullet.atk });
+			}
+		});
 	};
 
 	this.update = function(allEnemys) {
@@ -86,16 +99,16 @@ var EnemyManager = function(scene, player) {
 	};
 
 	// 当たり判定メソッド
-	function isCollidedEnemy(shot, enemysArray) {
-		var shotHitBox = new THREE.Box2(new THREE.Vector2(shot.mesh.position.x - shot.halfSize, shot.mesh.position.y - shot.halfSize),
-			new THREE.Vector2(shot.mesh.position.x + shot.halfSize, shot.mesh.position.y + shot.halfSize));
+	function isCollidedEnemy(bullet, enemysArray) {
+		var bulletHitBox = new THREE.Box2(new THREE.Vector2(bullet.mesh.position.x - bullet.halfSize, bullet.mesh.position.y - bullet.halfSize),
+			new THREE.Vector2(bullet.mesh.position.x + bullet.halfSize, bullet.mesh.position.y + bullet.halfSize));
 		
 		enemysArray.forEach(function(enemy) {
 			var enemyHitBox = new THREE.Box2(new THREE.Vector2(enemy.mesh.position.x - enemy.halfSize, enemy.mesh.position.y - enemy.halfSize),
-			new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
+				new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
 
-			if(shotHitBox.isIntersectionBox(enemy)) {
-				enemy.hp -= shot.atk;
+			if(bulletHitBox.isIntersectionBox(enemy)) {
+				enemy.hp -= bullet.atk;
 			}
 		});
 	}
