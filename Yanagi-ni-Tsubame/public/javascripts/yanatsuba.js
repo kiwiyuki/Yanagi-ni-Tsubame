@@ -43,6 +43,10 @@ $(document).ready(function() {
 		background = new Background();
 		scene.add(background.mesh);
 
+		// ローカルデータ定義
+		localData.player = {};
+		localData.atkEnemys = [];
+
 		// プレイヤー
 		player = new Player(scene, camera, data.player);
 
@@ -51,12 +55,8 @@ $(document).ready(function() {
 		avatarManager.update(data.players);
 
 		// 敵
-		enemyManager = new EnemyManager(scene, player);
+		enemyManager = new EnemyManager(scene, player, localData.atkEnemys);
 		enemyManager.update(data.enemys);
-
-		// ローカルデータ定義
-		localData.player = {};
-		localData.atkEnemy = [];
 
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
@@ -78,9 +78,9 @@ $(document).ready(function() {
 	function loop() {
 		// 状態更新
 		background.update();
-		avatarManager.animate();
-		enemyManager.animate();
 		player.update();
+		avatarManager.animate();
+		enemyManager.localUpdate();
 
 		// レンダリング
 		renderer.render(scene, camera);
