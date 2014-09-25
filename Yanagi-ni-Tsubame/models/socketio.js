@@ -12,7 +12,7 @@ function socketio (server) {
 	io.sockets.on('connection', function (socket) {
 		var p = new go.Player(socket.id, 0, 0, Math.random());
 		players.push(p);
-		console.log('connection \n player num : ' + players.length);
+		console.log('connection\nplayer num : ' + players.length);
 
 		// 初回データ送信
 		socket.json.emit('first_message', { player: p, players: players, enemys: enemys, items: items });
@@ -36,7 +36,7 @@ function socketio (server) {
 			for(var i = 0; i < players.length; i++) {
 				if(players[i].id === socket.id) {
 					players.splice(i, 1);
-					console.log('disconnection \n player num : ' + players.length);
+					console.log('disconnection\nplayer num : ' + players.length);
 					break;
 				}
 			}
@@ -44,28 +44,34 @@ function socketio (server) {
 	});
 
 	// 全プレイヤーデータ送信（毎秒60回）
-	var time_conuter = 0;
+	var timeCounter = 0;
 	setInterval(function() {
-		time_conuter++;
-		//敵の更新
-		for(var i = 0; i < enemys.length; i++) {
-			enemys[i].update();
-		}
+		timeCounter++;
+
+		//敵の更新、HPが0の敵を検索
+		var deadEnemys = [];
+		enemys.forEach(function(enemy) {
+			enemy.update();
+			if (enemy.hp <= 0) {
+				deadEnemys.push(enemy);
+			}
+		});
+
+		// HP0の敵を削除
+		deadEnemys.forEach(function(de) {
+			enemys.splice(enemys.indexOf(de), 1);
+		});
 
 		//敵の生成
-		if (time_conuter === 100　&& enemys.length < 100) {
+		if (timeCounter === 100　&& enemys.length < 50) {
 			var _id = Date.now() + Math.random();
 			var _x = Math.floor((Math.random() * 10) - 5) * 100;
 			var _y = Math.floor((Math.random() * 10) - 5) * 100;
 			var enemy = new go.Enemy(_id, _x, _y, "test");
 			enemys.push(enemy);
-			time_conuter = 0;
+			timeCounter = 0;
 		}
 
-		if(enemys.length > 0 && enemys[0].counter > 500) {
-			enemys.shift();
-		}
-		
 		io.sockets.json.emit('server_update', { players : players , enemys : enemys });
 	}, 17);
 }

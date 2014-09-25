@@ -15,10 +15,6 @@ $(document).ready(function() {
 	socket.on("first_message", function(data) {
 		console.log(data);
 
-		// プレイヤーデータ
-		// 敵データ
-		// アイテムデータ
-
 		// 初期化
 		// TODO タイトルへ遷移
 		// シーン

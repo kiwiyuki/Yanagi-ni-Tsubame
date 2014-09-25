@@ -26,11 +26,14 @@ var Enemy = function(_id, _x, _y, _type) {
 	this.counter = 0;
 
 	switch(_type) {
+		// ヤナギニツバメ零号機
 		case 'test':
-		var speed = 6;
+		this.hp = 300;
+		var speed = 3;
 		var d = 360;
 
 		this.update = function() {
+			// 移動
 			this.x += speed;
 
 			if(this.x > _x + d) {
@@ -39,6 +42,12 @@ var Enemy = function(_id, _x, _y, _type) {
 			} else if (this.x < _x - d) {
 				this.x = _x - d;
 				speed = -speed;
+			}
+
+			// 発生から1分で自動的に死ぬ
+			this.counter++;
+			if(this.counter > 3600) {
+				this.hp = 0;
 			}
 		}
 		break;
