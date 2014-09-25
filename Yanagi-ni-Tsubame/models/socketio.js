@@ -3,8 +3,10 @@ var sio = require("socket.io");
 var go = require("./gameObject");
 var session = require("express-session");
 var setting = require("../setting");
-var database = require("./sqlite3");
-
+var sqlite3 = require("./sqlite3");
+var gameDB = sqlite3.gameDB;
+var sessionDB = sqlite3.sessionDB;
+	
 var players = [];
 var enemys = [];
 var items = [];
@@ -14,13 +16,12 @@ function socketio (server) {
 	io.use(function (socket, next) {
 		var cookieParser = require('cookie-parser');
 		var parseCookie = cookieParser(setting.cookie.secret);
-		parseCookie(socket.handshake, null, function(err) {
-			if (err) {
-				return accept('Error parseCookie.', false);
+		parseCookie(socket.handshake, null, function (err) {
+			if (!err) {
+				var sessionId = socket.handshake.signedCookies[setting.cookie.key];
+				socket.sessionId = sessionId;
+				next();
 			}
-			var sessionId = socket.handshake.signedCookies[setting.cookie.key];
-			console.log("sessionId " + sessionId);
-			next();
 		});
 	});
 
@@ -63,7 +64,7 @@ function socketio (server) {
 		socket.on('disconnect', function() {
 			for(var i = 0; i < players.length; i++) {
 				if(players[i].id === socket.id) {
-					// database.run("update game set lastX = $x, lastY = $y where id = $id", { $x: players[i].x, $y: players[i].y, $id: players[i].id} );
+					// gameDB.run("update game set lastX = $x, lastY = $y where id = $id", { $x: players[i].x, $y: players[i].y, $id: players[i].id} );
 					players.splice(i, 1);
 					console.log('disconnection\nplayer num : ' + players.length);
 					break;
