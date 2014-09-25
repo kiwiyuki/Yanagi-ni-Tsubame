@@ -33,8 +33,6 @@ var EnemyManager = function(scene, player, atkEnemys) {
 		});
 
 		// 自弾と敵の当たり判定
-		atkEnemys = [];
-
 		player.bullets.children.forEach(function(bullet) {
 			var bulletHitBox = new THREE.Box2(new THREE.Vector2(bullet.position.x - bullet.halfSize, bullet.position.y - bullet.halfSize),
 				new THREE.Vector2(bullet.position.x + bullet.halfSize, bullet.position.y + bullet.halfSize));
@@ -43,8 +41,9 @@ var EnemyManager = function(scene, player, atkEnemys) {
 				var enemyHitBox = new THREE.Box2(new THREE.Vector2(enemy.mesh.position.x - enemy.halfSize, enemy.mesh.position.y - enemy.halfSize),
 					new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
 
-				if(bulletHitBox.isIntersectionBox(enemy)) {
+				if(bulletHitBox.isIntersectionBox(enemyHitBox)) {
 					atkEnemys.push({ id : enemy.id, damage : bullet.atk });
+					bullet.visible = false;
 				}
 			});
 		});

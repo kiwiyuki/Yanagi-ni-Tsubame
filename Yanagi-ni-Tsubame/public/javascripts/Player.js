@@ -94,6 +94,7 @@ var Player = function(scene, camera, data) {
 				bullet.speedY = 6 * Math.sin(canonAngle);
 				bullet.counter = 0;
 				bullet.atk = 20;
+				bullet.halfSize = 4
 				this.bullets.add(bullet);
 				shotCounter = 0;
 			}
@@ -106,7 +107,7 @@ var Player = function(scene, camera, data) {
 			b.position.y += b.speedY;
 			b.counter++;
 
-			if(b.counter > 60) {
+			if(b.counter > 60 || !b.visible) {
 				removeBullets.push(b);
 			}
 		});

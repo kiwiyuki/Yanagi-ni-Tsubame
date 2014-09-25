@@ -31,6 +31,16 @@ function socketio (server) {
 					break;
 				}
 			}
+
+			// ダメージ処理
+			data.atkEnemys.forEach(function(data) {
+				for(var i = 0; i < enemys.length; i++) {
+					if(enemys[i].id == data.id) {
+						enemys[i].hp -= data.damage;
+						break;
+					}
+				}
+			});
 		});
 
 		// 切断処理
@@ -51,7 +61,7 @@ function socketio (server) {
 	setInterval(function() {
 		timeCounter++;
 
-		//敵の更新、HPが0の敵を検索
+		//敵の更新、HPが0以下の敵を検索
 		var deadEnemys = [];
 		enemys.forEach(function(enemy) {
 			enemy.update();
@@ -60,7 +70,7 @@ function socketio (server) {
 			}
 		});
 
-		// HP0の敵を削除
+		// 敵の削除
 		deadEnemys.forEach(function(de) {
 			enemys.splice(enemys.indexOf(de), 1);
 		});
