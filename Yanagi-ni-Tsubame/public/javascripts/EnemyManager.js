@@ -1,4 +1,4 @@
-var EnemyManager = function(scene) {
+var EnemyManager = function(scene, player) {
 	var enemysArray = [];
 
 	var Enemy = function(data) {
@@ -6,9 +6,12 @@ var EnemyManager = function(scene) {
 		this.hp = data.hp;
 		this.mesh = new THREE.Object3D();
 		this.mesh.position.set(data.x, data.y, 0);
+		this.halfSize = 0;
 
 		switch(data.type) {
 			case "test":
+			this.halfSize = 9;
+
 			var g = new THREE.BoxGeometry(20, 20, 20);
 			var m = new THREE.MeshLambertMaterial({color : 0xff0000});
 			this.mesh.add(new THREE.Mesh(g, m));
@@ -28,6 +31,8 @@ var EnemyManager = function(scene) {
 		enemysArray.forEach(function(enemy) {
 			enemy.animate();
 		});
+
+		
 	};
 
 	this.update = function(allEnemys) {
@@ -79,4 +84,19 @@ var EnemyManager = function(scene) {
 				}
 			});
 	};
+
+	// 当たり判定メソッド
+	function isCollidedEnemy(shot, enemysArray) {
+		var shotHitBox = new THREE.Box2(new THREE.Vector2(shot.mesh.position.x - shot.halfSize, shot.mesh.position.y - shot.halfSize),
+			new THREE.Vector2(shot.mesh.position.x + shot.halfSize, shot.mesh.position.y + shot.halfSize));
+		
+		enemysArray.forEach(function(enemy) {
+			var enemyHitBox = new THREE.Box2(new THREE.Vector2(enemy.mesh.position.x - enemy.halfSize, enemy.mesh.position.y - enemy.halfSize),
+			new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
+
+			if(shotHitBox.isIntersectionBox(enemy)) {
+				enemy.hp -= shot.atk;
+			}
+		});
+	}
 };

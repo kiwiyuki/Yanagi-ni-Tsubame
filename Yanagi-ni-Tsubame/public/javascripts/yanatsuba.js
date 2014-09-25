@@ -3,7 +3,7 @@ $(document).ready(function() {
 	// 大域変数
 	var WIDTH = window.innerWidth;
 	var HEIGHT = window.innerHeight;
-	var socket;
+	var socket, localData;
 	var scene, camera, renderer, background, player, avatarManager;
 	var gameDomElement = document.getElementById("game");
 	var bgColor = 0x333333;
@@ -43,16 +43,20 @@ $(document).ready(function() {
 		background = new Background();
 		scene.add(background.mesh);
 
+		// プレイヤー
+		player = new Player(scene, camera, data.player);
+
 		// 他プレイヤー（アバター）
 		avatarManager = new AvatarManager(scene, data.player.id);
 		avatarManager.update(data.players);
 
 		// 敵
-		enemyManager = new EnemyManager(scene);
+		enemyManager = new EnemyManager(scene, player);
 		enemyManager.update(data.enemys);
 
-		// プレイヤー
-		player = new Player(scene, camera, data.player);
+		// ローカルデータ定義
+		localData.player = {};
+		localData.atkEnemy = [];
 
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
@@ -84,13 +88,15 @@ $(document).ready(function() {
 		requestAnimationFrame(loop);
 
 		// 鯖へデータ送信
-		socket.json.emit("player_data", {
+		localData.player = {
 			id : player.id,
 			x : player.mesh.position.x,
 			y : player.mesh.position.y,
 			hp : player.hp,
 			state : player.state
-		});
+		};
+
+		socket.json.emit("player_data", localData);
 	}
 
 	// イベントリスナー

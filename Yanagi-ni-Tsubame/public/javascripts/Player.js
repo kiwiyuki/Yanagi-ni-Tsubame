@@ -93,6 +93,7 @@ var Player = function(scene, camera, data) {
 				bullet.speedX = 6 * Math.cos(canonAngle);
 				bullet.speedY = 6 * Math.sin(canonAngle);
 				bullet.counter = 0;
+				bullet.atk = 20;
 				this.bullets.add(bullet);
 				shotCounter = 0;
 			}
