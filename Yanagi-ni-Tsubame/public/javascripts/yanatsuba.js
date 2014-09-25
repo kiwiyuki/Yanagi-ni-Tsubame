@@ -43,9 +43,6 @@ $(document).ready(function() {
 		background = new Background();
 		scene.add(background.mesh);
 
-		// プレイヤー
-		player = new Player(scene, camera, data.player);
-
 		// 他プレイヤー（アバター）
 		avatarManager = new AvatarManager(scene, data.player.id);
 		avatarManager.update(data.players);
@@ -53,6 +50,9 @@ $(document).ready(function() {
 		// 敵
 		enemyManager = new EnemyManager(scene);
 		enemyManager.update(data.enemys);
+
+		// プレイヤー
+		player = new Player(scene, camera, data.player, enemyManager.enemysArray);
 
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
@@ -74,9 +74,9 @@ $(document).ready(function() {
 	function loop() {
 		// 状態更新
 		background.update();
-		player.update();
 		avatarManager.animate();
 		enemyManager.animate();
+		player.update();
 
 		// レンダリング
 		renderer.render(scene, camera);

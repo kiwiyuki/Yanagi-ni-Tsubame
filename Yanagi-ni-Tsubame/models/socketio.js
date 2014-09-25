@@ -64,7 +64,7 @@ function socketio (server) {
 
 		//敵の生成
 		if (timeCounter === 100　&& enemys.length < 50) {
-			var _id = Date.now() + Math.random();
+			var _id = "" + Date.now() + Math.random();
 			var _x = Math.floor((Math.random() * 10) - 5) * 100;
 			var _y = Math.floor((Math.random() * 10) - 5) * 100;
 			var enemy = new go.Enemy(_id, _x, _y, "test");

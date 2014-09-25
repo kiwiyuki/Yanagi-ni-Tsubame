@@ -1,5 +1,5 @@
 var EnemyManager = function(scene) {
-	var enemysArray = [];
+	this.enemysArray = [];
 
 	var Enemy = function(data) {
 		this.id = data.id;
@@ -25,7 +25,7 @@ var EnemyManager = function(scene) {
 	}
 
 	this.animate = function() {
-		enemysArray.forEach(function(enemy) {
+		this.enemysArray.forEach(function(enemy) {
 			enemy.animate();
 		});
 	};
@@ -33,7 +33,7 @@ var EnemyManager = function(scene) {
 	this.update = function(allEnemys) {
 		// 鯖にいない敵の検索
 		var removeEnemysID = [];
-		enemysArray.forEach(function(enemy) {
+		this.enemysArray.forEach(function(enemy) {
 			// TODO filter関数使いたかった
 			var flag = true;
 			for (var i = 0; i < allEnemys.length; i++) {
@@ -48,25 +48,25 @@ var EnemyManager = function(scene) {
 			}
 		});
 
-		// 他プレイヤーの削除
+		// 敵の削除
 		removeEnemysID.forEach(function(rmEnemyID) {
-			for (var i = 0; i < enemysArray.length; i++) {
-				if(enemysArray[i].id == rmEnemyID) {
-					scene.remove(enemysArray[i].mesh);
-					enemysArray.splice(i, 1);
-					console.log("enemy num : " + enemysArray.length);
+			for (var i = 0; i < this.enemysArray.length; i++) {
+				if(this.enemysArray[i].id == rmEnemyID) {
+					scene.remove(this.enemysArray[i].mesh);
+					this.enemysArray.splice(i, 1);
+					console.log("enemy num : " + this.enemysArray.length);
 					break;
 				}
 			};
 		});
 
-		// 自分以外のプレイヤーが配列に登録してあるか検索
+		// 敵が自前の配列に登録してあるか検索
 		allEnemys.forEach(function(ae) {
 				// 見つかれば位置の更新
 				// そうじゃなければ新規登録
 				var isFinded = false;
 
-				enemysArray.forEach(function(enemy) {
+				this.enemysArray.forEach(function(enemy) {
 					if(enemy.id == ae.id) {
 						enemy.mesh.position.set(ae.x, ae.y, 0);
 						isFinded = true;
@@ -74,10 +74,10 @@ var EnemyManager = function(scene) {
 				});
 
 				if(!isFinded) {
-					var e = new Enemy(ae);
-					enemysArray.push(e);
-					scene.add(e.mesh);
-					console.log("enemy num : " + enemysArray.length);
+					var newEnemy = new Enemy(ae);
+					this.enemysArray.push(newEnemy);
+					scene.add(newEnemy.mesh);
+					console.log("enemy num : " + this.enemysArray.length);
 				}
 			});
 	};
