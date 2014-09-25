@@ -28,7 +28,7 @@ var Enemy = function(_id, _x, _y, _type) {
 	switch(_type) {
 		// ヤナギニツバメ零号機
 		case 'test':
-		this.hp = 100;
+		this.hp = 300;
 		var speed = 3;
 		var d = 360;
 
