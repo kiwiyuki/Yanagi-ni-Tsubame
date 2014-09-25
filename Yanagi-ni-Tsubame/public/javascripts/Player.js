@@ -1,4 +1,4 @@
-var Player = function(scene, camera, data, enemysArray) {
+var Player = function(scene, camera, data) {
 	var speed = 3;
 	var d = 0.8; // カメラ操作用
 	var controls = {

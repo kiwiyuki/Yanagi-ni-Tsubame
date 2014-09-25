@@ -54,7 +54,6 @@ var AvatarManager = function(scene, playerID) {
 				if(avatarsArray[i].id == rmAvatarID) {
 					scene.remove(avatarsArray[i].mesh);
 					avatarsArray.splice(i, 1);
-					console.log("avatar num : " + avatarsArray.length);
 					break;
 				}
 			};
@@ -78,7 +77,6 @@ var AvatarManager = function(scene, playerID) {
 					var a = new Avatar(p);
 					avatarsArray.push(a);
 					scene.add(a.mesh);
-					console.log("avatar num : " + avatarsArray.length);
 				}
 			}
 		});
