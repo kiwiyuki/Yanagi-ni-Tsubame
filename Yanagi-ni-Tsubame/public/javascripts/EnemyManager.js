@@ -33,6 +33,9 @@ var EnemyManager = function(scene, player, atkEnemys) {
 		});
 
 		// 自弾と敵の当たり判定
+		if(atkEnemys.length > 0) {
+			atkEnemys = [];
+		}
 		player.bullets.children.forEach(function(bullet) {
 			var bulletHitBox = new THREE.Box2(new THREE.Vector2(bullet.position.x - bullet.halfSize, bullet.position.y - bullet.halfSize),
 				new THREE.Vector2(bullet.position.x + bullet.halfSize, bullet.position.y + bullet.halfSize));

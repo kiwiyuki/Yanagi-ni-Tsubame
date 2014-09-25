@@ -33,10 +33,11 @@ function socketio (server) {
 			}
 
 			// ダメージ処理
-			data.atkEnemys.forEach(function(data) {
+			data.atkEnemys.forEach(function(ae) {
 				for(var i = 0; i < enemys.length; i++) {
-					if(enemys[i].id == data.id) {
-						enemys[i].hp -= data.damage;
+					if(enemys[i].id == ae.id) {
+						enemys[i].hp -= ae.damage;
+						console.log(enemys[i].hp);
 						break;
 					}
 				}
