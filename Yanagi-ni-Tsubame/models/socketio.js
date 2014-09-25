@@ -19,13 +19,14 @@ function socketio (server) {
 		
 		// 各クライアントのデータ受信
 		socket.json.on('player_data', function (data) {
+			var dp = data.player;
 			for(var i = 0; i < players.length; i++) {
-				if(players[i].id === data.id) {
+				if(players[i].id === dp.id) {
 					//playerデータの更新
-					players[i].x = data.x;
-					players[i].y = data.y;
-					players[i].hp = data.hp;
-					players[i].state = data.state;
+					players[i].x = dp.x;
+					players[i].y = dp.y;
+					players[i].hp = dp.hp;
+					players[i].state = dp.state;
 					break;
 				}
 			}
