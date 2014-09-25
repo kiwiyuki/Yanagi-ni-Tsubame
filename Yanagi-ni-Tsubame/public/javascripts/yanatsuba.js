@@ -3,8 +3,8 @@ $(document).ready(function() {
 	// 大域変数
 	var WIDTH = window.innerWidth;
 	var HEIGHT = window.innerHeight;
-	var socket;
-	var scene, camera, renderer, background, player;
+	var socket, localData;
+	var scene, camera, renderer, background, player, avatarManager;
 	var gameDomElement = document.getElementById("game");
 	var bgColor = 0x333333;
 
@@ -13,19 +13,10 @@ $(document).ready(function() {
 
 	// 初回データ受信
 	socket.on("first_message", function(data) {
-		// プレイヤーデータ
-		// 敵データ
-		// アイテムデータ
+		console.log(data);
 
 		// 初期化
 		// TODO タイトルへ遷移
-		init();
-
-		console.log(data.msg);
-	});
-
-	// 初期化
-	function init() {
 		// シーン
 		scene = new THREE.Scene();
 
@@ -52,11 +43,21 @@ $(document).ready(function() {
 		background = new Background();
 		scene.add(background.mesh);
 
+		// ローカルデータ定義
+		localData = {};
+		localData.player = {};
+		localData.atkEnemys = [];
+
 		// プレイヤー
-		player = new Player(scene, camera);
+		player = new Player(scene, camera, data.player);
+
+		// 他プレイヤー（アバター）
+		avatarManager = new AvatarManager(scene, data.player.id);
+		avatarManager.update(data.players);
 
 		// 敵
-		// scene.add(new Enemy().mesh)
+		enemyManager = new EnemyManager(scene, player, localData.atkEnemys);
+		enemyManager.update(data.enemys);
 
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
@@ -66,18 +67,37 @@ $(document).ready(function() {
 
 		// ループ開始
 		requestAnimationFrame(loop);
-	}
+	});
+
+	// 鯖データ受信
+	socket.on('server_update', function(data) {
+		avatarManager.update(data.players);
+		enemyManager.update(data.enemys);
+	});
 
 	// ループ
 	function loop() {
 		// 状態更新
 		background.update();
 		player.update();
+		avatarManager.animate();
+		enemyManager.localUpdate();
 
 		// レンダリング
 		renderer.render(scene, camera);
 
 		requestAnimationFrame(loop);
+
+		// 鯖へデータ送信
+		localData.player = {
+			id : player.id,
+			x : player.mesh.position.x,
+			y : player.mesh.position.y,
+			hp : player.hp,
+			state : player.state
+		};
+
+		socket.json.emit("player_data", localData);
 	}
 
 	// イベントリスナー

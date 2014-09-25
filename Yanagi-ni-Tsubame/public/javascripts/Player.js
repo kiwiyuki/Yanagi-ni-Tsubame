@@ -1,4 +1,4 @@
-var Player = function(scene, camera, domElement) {
+var Player = function(scene, camera, data) {
 	var speed = 3;
 	var d = 0.8; // カメラ操作用
 	var controls = {
@@ -13,23 +13,27 @@ var Player = function(scene, camera, domElement) {
 	};
 	var canonRadius = 20;
 	var canonAngle = 0;
+	var shotCounter = 0; // ショット制御用
 
+	this.id = data.id;
 	this.hp = 0;
-	this.id = "";
+	this.state = data.state;
 
 	// イベントリスナー用
-	this.domElement = (domElement !== undefined) ? domElement : document;
+	this.domElement = document;
 	
 	this.mesh = new THREE.Object3D();
 
 	// 本体メッシュ
 	var core = new THREE.Object3D();
+	var color = new THREE.Color();
+	color.setHSL(data.color, 1.0, 0.5);
 	for (var i = 0; i < 8; i++) {
 		var ix = i & 1;
 		var iy = (i >> 1) & 1;
 		var iz = (i >> 2) & 1;
 		var g = new THREE.BoxGeometry(4, 4, 4);
-		var m = new THREE.MeshLambertMaterial({color : 0xff0000});
+		var m = new THREE.MeshLambertMaterial({color : color});
 		var box = new THREE.Mesh(g, m);
 		box.position.set(3 - 6 * ix, 3 - 6 * iy, 3 - 6 * iz);
 		core.add(box);
@@ -38,10 +42,11 @@ var Player = function(scene, camera, domElement) {
 
 	// 砲台メッシュ
 	var g = new THREE.SphereGeometry(3, 4, 4);
-	var m = new THREE.MeshLambertMaterial({color: 0xff0000});
+	var m = new THREE.MeshLambertMaterial({color: color});
 	var canon = new THREE.Mesh(g, m);
 	canon.position.set(canonRadius, 0, 0);
 	this.mesh.add(canon);
+	this.mesh.position.set(data.x, data.y, 0);
 
 	// 弾の管理
 	this.bullets = new THREE.Object3D();
@@ -66,7 +71,8 @@ var Player = function(scene, camera, domElement) {
 		camera.position.y = targetPositionY;
 		camera.lookAt(new THREE.Vector3(targetPositionX, targetPositionY, 0));
 
-		// ショット
+		// ショット関連
+		shotCounter++;
 		if(controls.shotLeft | controls.shotUp | controls.shotRight | controls.shotDown) {
 			// 砲台移動
 			var targetAngle = Math.atan2(controls.shotUp - controls.shotDown, controls.shotRight - controls.shotLeft);
@@ -78,14 +84,20 @@ var Player = function(scene, camera, domElement) {
 			}
 			canon.position.set(canonRadius * Math.cos(canonAngle), canonRadius * Math.sin(canonAngle), 0);
 
-			var g = new THREE.SphereGeometry(8, 6, 6);
-			var m = new THREE.MeshBasicMaterial({color: 0xff0000});
-			var bullet = new THREE.Mesh(g, m);
-			bullet.position.set(this.mesh.position.x, this.mesh.position.y, 0);
-			bullet.speedX = 6 * Math.cos(canonAngle);
-			bullet.speedY = 6 * Math.sin(canonAngle);
-			bullet.counter = 0;
-			this.bullets.add(bullet);
+			// ショット
+			if(shotCounter > 5) {
+				var g = new THREE.SphereGeometry(8, 6, 6);
+				var m = new THREE.MeshBasicMaterial({color: color});
+				var bullet = new THREE.Mesh(g, m);
+				bullet.position.set(this.mesh.position.x, this.mesh.position.y, 0);
+				bullet.speedX = 6 * Math.cos(canonAngle);
+				bullet.speedY = 6 * Math.sin(canonAngle);
+				bullet.counter = 0;
+				bullet.atk = 20;
+				bullet.halfSize = 4
+				this.bullets.add(bullet);
+				shotCounter = 0;
+			}
 		}
 
 		// 自弾処理
@@ -95,7 +107,7 @@ var Player = function(scene, camera, domElement) {
 			b.position.y += b.speedY;
 			b.counter++;
 
-			if(b.counter > 60) {
+			if(b.counter > 60 || !b.visible) {
 				removeBullets.push(b);
 			}
 		});

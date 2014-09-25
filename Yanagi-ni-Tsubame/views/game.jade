@@ -1,10 +1,11 @@
 extends layout 
 block head
-	
+  link(rel="stylesheet", href="/stylesheets/game.css")
 block content
-	<div id="game"><span id="load_msg">now loading...</span></div>
-	script(src="/socket.io/socket.io.js")
-	script(src="javascripts/Background.js")
-	script(src="javascripts/Player.js")
-	script(src="javascripts/Enemy.js")
-	script(src="javascripts/yanatsuba.js")
+  <div id="game"><span id="load_msg">now loading...</span></div>
+  script(src="/socket.io/socket.io.js")
+  script(src="javascripts/Background.js")
+  script(src="javascripts/Player.js")
+  script(src="javascripts/AvatarManager.js")
+  script(src="javascripts/EnemyManager.js")
+  script(src="javascripts/yanatsuba.js")
