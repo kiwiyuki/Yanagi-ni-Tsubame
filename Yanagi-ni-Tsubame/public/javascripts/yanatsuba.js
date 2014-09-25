@@ -52,7 +52,7 @@ $(document).ready(function() {
 		enemyManager.update(data.enemys);
 
 		// プレイヤー
-		player = new Player(scene, camera, data.player, enemyManager.enemysArray);
+		player = new Player(scene, camera, data.player);
 
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
