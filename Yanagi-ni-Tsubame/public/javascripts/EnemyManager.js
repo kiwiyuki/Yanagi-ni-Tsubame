@@ -27,29 +27,32 @@ var EnemyManager = function(scene, player, atkEnemys) {
 		}
 	}
 
+	var isCollided = false;
 	this.localUpdate = function() {
 		enemysArray.forEach(function(enemy) {
 			enemy.animate();
 		});
 
 		// 自弾と敵の当たり判定
-		if(atkEnemys.length > 0) {
+		if(isCollided) {
 			atkEnemys = [];
-		}
-		player.bullets.children.forEach(function(bullet) {
-			var bulletHitBox = new THREE.Box2(new THREE.Vector2(bullet.position.x - bullet.halfSize, bullet.position.y - bullet.halfSize),
-				new THREE.Vector2(bullet.position.x + bullet.halfSize, bullet.position.y + bullet.halfSize));
+			player.bullets.children.forEach(function(bullet) {
+				var bulletHitBox = new THREE.Box2(new THREE.Vector2(bullet.position.x - bullet.halfSize, bullet.position.y - bullet.halfSize),
+					new THREE.Vector2(bullet.position.x + bullet.halfSize, bullet.position.y + bullet.halfSize));
 
-			enemysArray.forEach(function(enemy) {
-				var enemyHitBox = new THREE.Box2(new THREE.Vector2(enemy.mesh.position.x - enemy.halfSize, enemy.mesh.position.y - enemy.halfSize),
-					new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
+				enemysArray.forEach(function(enemy) {
+					var enemyHitBox = new THREE.Box2(new THREE.Vector2(enemy.mesh.position.x - enemy.halfSize, enemy.mesh.position.y - enemy.halfSize),
+						new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
 
-				if(bulletHitBox.isIntersectionBox(enemyHitBox)) {
-					atkEnemys.push({ id : enemy.id, damage : bullet.atk });
-					bullet.visible = false;
-				}
+					if(bulletHitBox.isIntersectionBox(enemyHitBox)) {
+						atkEnemys.push({ id : enemy.id, damage : bullet.atk });
+						bullet.visible = false;
+					}
+				});
 			});
-		});
+		} else {
+			isCollided = true;
+		}
 	};
 
 	this.update = function(allEnemys) {
@@ -101,19 +104,4 @@ var EnemyManager = function(scene, player, atkEnemys) {
 				}
 			});
 	};
-
-	// 当たり判定メソッド
-	function isCollidedEnemy(bullet, enemysArray) {
-		var bulletHitBox = new THREE.Box2(new THREE.Vector2(bullet.mesh.position.x - bullet.halfSize, bullet.mesh.position.y - bullet.halfSize),
-			new THREE.Vector2(bullet.mesh.position.x + bullet.halfSize, bullet.mesh.position.y + bullet.halfSize));
-		
-		enemysArray.forEach(function(enemy) {
-			var enemyHitBox = new THREE.Box2(new THREE.Vector2(enemy.mesh.position.x - enemy.halfSize, enemy.mesh.position.y - enemy.halfSize),
-				new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
-
-			if(bulletHitBox.isIntersectionBox(enemy)) {
-				enemy.hp -= bullet.atk;
-			}
-		});
-	}
 };
