@@ -1,9 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var passport = require("../models/passport");
-var sqlite3 = require("../models/sqlite3");
-var usersDB = sqlite3.usersDB;
-var gameDB = sqlite3.gameDB;
+var YTDB = require("../models/sqlite3").YTDB;
 
 
 router.use(passport.initialize());
@@ -36,11 +34,12 @@ function loginCallback (req, res) {
 		provider:req.session.passport.user.provider,
 		created: Date()
 	};
-	usersDB.all("select id, provider from users where id = $id and provider = $pr", { $id: req.session.user.id, $pr: req.session.user.provider }, function (err, rows) {
+	delete req.session.passport;
+	YTDB.all("select id, provider from users where id = $id and provider = $pr", { $id: req.session.user.id, $pr: req.session.user.provider }, function (err, rows) {
 		if(!err) {
 			//新規
 			if(rows.length === 0) {
-				usersDB.run("insert into users (id, username, displayName, photos, provider, created) values ($id, $un, $dN, $ph, $pr, $cr)",{
+				YTDB.run("insert into users (id, username, displayName, photos, provider, created) values ($id, $un, $dN, $ph, $pr, $cr)",{
 					$id: req.session.user.id,
 					$un: req.session.user.username,
 					$dN: req.session.user.displayName,
@@ -48,10 +47,10 @@ function loginCallback (req, res) {
 					$pr: req.session.user.provider,
 					$cr: req.session.user.created
 				});
-				gameDB.run("insert into game (id, lastX, lastY, score, color) values ($id, 0, 0, 0, $co)", { $id: req.session.user.id, $co: Math.random() });
+				YTDB.run("insert into game (id, lastX, lastY, score, color) values ($id, 0, 0, 0, $co)", { $id: req.session.user.id, $co: Math.random() });
 			//2回目以降、更新
 			} else if(rows.length === 1) {
-				usersDB.run("update users set username = $un, displayName = $dN, photos = $ph where id = $id and provider = $pr", {
+				YTDB.run("update users set username = $un, displayName = $dN, photos = $ph where id = $id and provider = $pr", {
 					$id: rows[0].id,
 					$un: req.session.user.username,
 					$dN: req.session.user.displayName,
