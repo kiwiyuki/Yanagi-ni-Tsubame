@@ -1,6 +1,9 @@
 extends layout 
 block head
   link(rel="stylesheet", href="/stylesheets/game.css")
+block gameMenu
+  li.navbar-text.gameHp HP 0 / 0
+  li.navbar-text.gameScore Score 0pt
 block content
   <div id="game"><span id="load_msg">now loading...</span></div>
   script(src="/socket.io/socket.io.js")
