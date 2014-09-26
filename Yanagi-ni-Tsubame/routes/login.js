@@ -56,8 +56,7 @@ function loginCallback (req, res) {
 					$un: req.session.user.username,
 					$dN: req.session.user.displayName,
 					$ph: req.session.user.photo,
-					$pr: rows[0].provider,
-					$cr: req.session.user.created
+					$pr: rows[0].provider
 				});
 			//エラー
 			} else {
