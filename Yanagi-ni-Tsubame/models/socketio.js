@@ -28,16 +28,18 @@ function socketio (server) {
 	io.sockets.on('connection', function (socket) {
 		sessionDB.all("select sess from sessions where sid = $sid", { $sid: socket.sessionId }, function (err, rows) {
 			if(!err) {
-				var user = {};
-				if(rows.sess !== undefined) {
-					var pC = JSON.parse(rows.sess);
+				var user;
+				if(rows[0].sess !== undefined) {
+					var pC = JSON.parse(rows[0].sess);
 					user =  pC.user;
 				}
 				var p = {};
 				if(user) {
+					console.log("hello " + user.displayName + " , id :" + user.id);
 					p = new go.Player(user.id, 0, 0, Math.random());
 					players.push(p);
 				} else {
+					console.log("no login user");
 					p = new go.Player(socket.id, 0, 0, Math.random());
 					players.push(p);
 				}
