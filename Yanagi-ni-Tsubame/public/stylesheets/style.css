@@ -13,12 +13,13 @@ html, body {
 header {
 	margin: 0 !important;
 }
+
 #userIcon {
 	width: 24px;
 	height: 24px;
 }
+
 #main {
 	margin-top: 50px;
 	padding: 10px;
 }
-

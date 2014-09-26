@@ -49,19 +49,17 @@ var Enemy = function(_id, _x, _y, _type) {
 			if(this.counter > 3600) {
 				this.hp = 0;
 			}
-		}
+		};
 		break;
 	}
 };
 
 var Item = function(_id, _x, _y, _type) {
-	return {
-		id: _id,
-		x: _x,
-		y: _y,
-		type: _type,
-		counter: 0
-	};
+	this.id = _id;
+	this.x = _x;
+	this.y = _y;
+	this.type = _type;
+	this.counter = 0;
 };
 
 module.exports = {

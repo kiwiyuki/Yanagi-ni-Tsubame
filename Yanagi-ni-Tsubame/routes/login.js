@@ -1,9 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var passport = require("../models/passport");
-var sqlite3 = require("../models/sqlite3");
-var usersDB = sqlite3.usersDB;
-var gameDB = sqlite3.gameDB;
+var YTDB = require("../models/sqlite3").YTDB;
 
 
 router.use(passport.initialize());
@@ -36,27 +34,37 @@ function loginCallback (req, res) {
 		provider:req.session.passport.user.provider,
 		created: Date()
 	};
-	usersDB.all("select id, provider from users where id = $id and provider = $pr", { $id: req.session.user.id, $pr: req.session.user.provider }, function (err, rows) {
+	delete req.session.passport;
+	YTDB.get("select id, provider from users where id = $id and provider = $pr", { $id: req.session.user.id, $pr: req.session.user.provider }, function (err, rows) {
 		if(!err) {
 			//新規
-			if(rows.length === 0) {
-				usersDB.run("insert into users (id, username, displayName, photos, provider, created) values ($id, $un, $dN, $ph, $pr, $cr)",{
-					$id: req.session.user.id,
-					$un: req.session.user.username,
-					$dN: req.session.user.displayName,
-					$ph: req.session.user.photo,
-					$pr: req.session.user.provider,
-					$cr: req.session.user.created
+			if(rows === undefined) {
+				var color = Math.random();
+				YTDB.parallelize(function () {
+					YTDB.run("insert into users (id, username, displayName, photos, provider, created) values ($id, $un, $dN, $ph, $pr, $cr)",{
+						$id: req.session.user.id,
+						$un: req.session.user.username,
+						$dN: req.session.user.displayName,
+						$ph: req.session.user.photo,
+						$pr: req.session.user.provider,
+						$cr: req.session.user.created
+					});
+					YTDB.run("insert into game (id, lastX, lastY, score, color) values ($id, 0, 0, 0, $co)", { $id: req.session.user.id, $co: color });
 				});
-				gameDB.run("insert into game (id, lastX, lastY, score, color) values ($id, 0, 0, 0, $co)", { $id: req.session.user.id, $co: Math.random() });
+				req.session.user.color = color;
 			//2回目以降、更新
-			} else if(rows.length === 1) {
-				usersDB.run("update users set username = $un, displayName = $dN, photos = $ph where id = $id and provider = $pr", {
-					$id: rows[0].id,
+			} else if(rows && !Array.isArray(rows)) {
+				YTDB.run("update users set username = $un, displayName = $dN, photos = $ph where id = $id and provider = $pr", {
+					$id: rows.id,
 					$un: req.session.user.username,
 					$dN: req.session.user.displayName,
 					$ph: req.session.user.photo,
-					$pr: rows[0].provider
+					$pr: rows.provider
+				});
+				YTDB.get("select color from game where id = $id", { $id: rows.id }, function (e, r){
+					if(!e) {
+						req.session.user.color = r.color;
+					}
 				});
 			//エラー
 			} else {

@@ -3,9 +3,8 @@ var sio = require("socket.io");
 var go = require("./gameObject");
 var session = require("express-session");
 var setting = require("../setting");
-var sqlite3 = require("./sqlite3");
-var gameDB = sqlite3.gameDB;
-var sessionDB = sqlite3.sessionDB;
+var YTDB = require("./sqlite3").YTDB;
+var sessionDB = require("./sqlite3").sessionDB;
 	
 var players = [];
 var enemys = [];
@@ -27,6 +26,25 @@ function socketio (server) {
 
 	// サーバー接続処理
 	io.sockets.on('connection', function (socket) {
+		sessionDB.all("select sess from sessions where sid = $sid", { $sid: socket.sessionId }, function (err, rows) {
+			if(!err) {
+				var user;
+				if(rows[0].sess !== undefined) {
+					var pC = JSON.parse(rows[0].sess);
+					user =  pC.user;
+				}
+				var p = {};
+				if(user) {
+					console.log("hello " + user.displayName + " , id :" + user.id);
+					p = new go.Player(user.id, 0, 0, Math.random());
+					players.push(p);
+				} else {
+					console.log("no login user");
+					p = new go.Player(socket.id, 0, 0, Math.random());
+					players.push(p);
+				}
+			} else { console.dir(err); }
+		});
 		var p = new go.Player(socket.id, 0, 0, Math.random());
 		players.push(p);
 		console.log('connection\nplayer num : ' + players.length);
@@ -63,7 +81,7 @@ function socketio (server) {
 		socket.on('disconnect', function() {
 			for(var i = 0; i < players.length; i++) {
 				if(players[i].id === socket.id) {
-					// gameDB.run("update game set lastX = $x, lastY = $y where id = $id", { $x: players[i].x, $y: players[i].y, $id: players[i].id} );
+					// YTDB.run("update game set lastX = $x, lastY = $y where id = $id", { $x: players[i].x, $y: players[i].y, $id: players[i].id} );
 					players.splice(i, 1);
 					console.log('disconnection\nplayer num : ' + players.length);
 					break;
