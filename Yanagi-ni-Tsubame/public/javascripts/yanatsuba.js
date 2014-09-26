@@ -56,7 +56,7 @@ $(document).ready(function() {
 		avatarManager.update(data.players);
 
 		// 敵
-		enemyManager = new EnemyManager(scene, player, localData.atkEnemys);
+		enemyManager = new EnemyManager(scene, player);
 		enemyManager.update(data.enemys);
 
 		// イベント追加
@@ -81,7 +81,7 @@ $(document).ready(function() {
 		background.update();
 		player.update();
 		avatarManager.animate();
-		enemyManager.localUpdate();
+		localData.atkEnemys = enemyManager.localUpdate();
 
 		// レンダリング
 		renderer.render(scene, camera);

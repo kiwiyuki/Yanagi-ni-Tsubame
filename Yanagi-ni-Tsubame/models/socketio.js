@@ -53,7 +53,6 @@ function socketio (server) {
 				for(var i = 0; i < enemys.length; i++) {
 					if(enemys[i].id == ae.id) {
 						enemys[i].hp -= ae.damage;
-						console.log(enemys[i].hp);
 						break;
 					}
 				}

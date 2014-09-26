@@ -1,4 +1,4 @@
-var EnemyManager = function(scene, player, atkEnemys) {
+var EnemyManager = function(scene, player) {
 	var enemysArray = [];
 
 	var Enemy = function(data) {
@@ -27,15 +27,17 @@ var EnemyManager = function(scene, player, atkEnemys) {
 		}
 	}
 
-	var isCollided = false;
+	var isCollidedCounter = 0;
 	this.localUpdate = function() {
+		var atkEnemys = [];
+
 		enemysArray.forEach(function(enemy) {
 			enemy.animate();
 		});
 
 		// 自弾と敵の当たり判定
-		if(isCollided) {
-			atkEnemys = [];
+		isCollidedCounter++;
+		if(isCollidedCounter > 0) {
 			player.bullets.children.forEach(function(bullet) {
 				var bulletHitBox = new THREE.Box2(new THREE.Vector2(bullet.position.x - bullet.halfSize, bullet.position.y - bullet.halfSize),
 					new THREE.Vector2(bullet.position.x + bullet.halfSize, bullet.position.y + bullet.halfSize));
@@ -50,9 +52,11 @@ var EnemyManager = function(scene, player, atkEnemys) {
 					}
 				});
 			});
-		} else {
-			isCollided = true;
+
+			isCollidedCounter = 0;
 		}
+
+		return atkEnemys;
 	};
 
 	this.update = function(allEnemys) {
