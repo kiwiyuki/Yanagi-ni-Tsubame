@@ -50,6 +50,22 @@ var EnemyManager = function(scene, player) {
 			});
 		});
 
+		// プレイヤーと敵の当たり判定
+		if(player.state == "NORMAL") {
+			var playerHitBox = new THREE.Box2(new THREE.Vector2(player.mesh.position.x - player.halfSize, player.mesh.position.y - player.halfSize),
+				new THREE.Vector2(player.mesh.position.x + player.halfSize, player.mesh.position.y + player.halfSize));
+
+			enemysArray.forEach(function(enemy) {
+				var enemyHitBox = new THREE.Box2(new THREE.Vector2(enemy.mesh.position.x - enemy.halfSize, enemy.mesh.position.y - enemy.halfSize),
+					new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
+
+				if(playerHitBox.isIntersectionBox(enemyHitBox)) {
+					console.log("player damage!");
+					player.state = "DAMAGE";
+				}
+			});
+		}
+
 		return atkEnemys;
 	};
 

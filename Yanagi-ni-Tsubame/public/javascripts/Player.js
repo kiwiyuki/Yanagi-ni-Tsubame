@@ -14,6 +14,7 @@ var Player = function(scene, camera, data) {
 	var canonRadius = 20;
 	var canonAngle = 0;
 	var shotCounter = 0; // ショット制御用
+	var damageCounter = 0 // ダメージ時、2秒間無敵
 
 	this.id = data.id;
 	this.hp = 0;
@@ -23,6 +24,7 @@ var Player = function(scene, camera, data) {
 	this.domElement = document;
 	
 	this.mesh = new THREE.Object3D();
+	this.halfSize = 5;
 
 	// 本体メッシュ
 	var core = new THREE.Object3D();
@@ -56,6 +58,16 @@ var Player = function(scene, camera, data) {
 
 	// 状態更新
 	this.update = function() {
+		console.log("player state : " + this.state);
+		// ステート毎の処理
+		if(this.state == "DAMAGE") {
+			damageCounter++;
+			if(damageCounter > 120) {
+				damageCounter = 0;
+				this.state = "NORMAL";
+			}
+		}
+
 		if(controls.moveLeft) this.mesh.position.x -= speed;
 		if(controls.moveUp) this.mesh.position.y += speed;
 		if(controls.moveRight) this.mesh.position.x += speed;
@@ -90,8 +102,8 @@ var Player = function(scene, camera, data) {
 				var m = new THREE.MeshBasicMaterial({color: color});
 				var bullet = new THREE.Mesh(g, m);
 				bullet.position.set(this.mesh.position.x, this.mesh.position.y, 0);
-				bullet.speedX = 6 * Math.cos(canonAngle);
-				bullet.speedY = 6 * Math.sin(canonAngle);
+				bullet.speedX = 8 * Math.cos(canonAngle);
+				bullet.speedY = 8 * Math.sin(canonAngle);
 				bullet.counter = 0;
 				bullet.atk = 20;
 				bullet.halfSize = 4
