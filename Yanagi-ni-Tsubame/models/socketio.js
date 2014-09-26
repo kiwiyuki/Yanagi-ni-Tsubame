@@ -14,7 +14,7 @@ function socketio (server) {
 	var io = sio.listen(server);
 
 	io.use(function (socket, next) {
-		var cookieParser = require('cookie-parser');
+		var cookieParser = require("cookie-parser");
 		var parseCookie = cookieParser(setting.cookie.secret);
 		parseCookie(socket.handshake, null, function (err) {
 			if (!err) {

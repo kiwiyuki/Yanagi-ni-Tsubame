@@ -35,7 +35,9 @@ app.use(session({
         maxAge: 60*60*24
     },
     secret: setting.cookie.secret, //TODO ランダムな文字列に変える必要あり？
-    store: new sessionStore(setting.session.options)
+    store: new sessionStore(setting.session.options),
+    resave: true,
+    saveUninitialized: true
 }));
 
 app.use("/", routes);
