@@ -47,6 +47,9 @@ function socketio (server) {
 				// 初回データ送信
 				socket.json.emit('first_message', { player: p, players: players, enemys: enemys, items: items });
 				console.log('connection\nplayer num : ' + players.length);
+				if(players.length == 1) {
+					setInterval(loop,17);
+				}
 			} else { console.dir(err); }
 		});
 		
@@ -102,7 +105,7 @@ function socketio (server) {
 
 	// 全プレイヤーデータ送信（毎秒60回）
 	var timeCounter = 0;
-	setInterval(function() {
+	var loop = function() {
 		timeCounter++;
 
 		//敵の更新、HPが0以下の敵を検索
@@ -130,7 +133,7 @@ function socketio (server) {
 		}
 
 		io.sockets.json.emit('server_update', { players : players , enemys : enemys });
-	}, 17);
+	};
 }
 
 module.exports = socketio;
