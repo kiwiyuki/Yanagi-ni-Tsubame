@@ -5,7 +5,7 @@ var session = require("express-session");
 var setting = require("../setting");
 var YTDB = require("./sqlite3").YTDB;
 var sessionDB = require("./sqlite3").sessionDB;
-	
+
 var players = [];
 var enemys = [];
 var items = [];
@@ -56,7 +56,7 @@ function socketio (server) {
 		socket.json.on('player_data', function (data) {
 			var dp = data.player;
 			for(var i = 0; i < players.length; i++) {
-				if(players[i].id === dp.id) {
+				if(players[i].id == dp.id) {
 					//playerデータの更新
 					players[i].x = dp.x;
 					players[i].y = dp.y;
@@ -71,6 +71,16 @@ function socketio (server) {
 				for(var i = 0; i < enemys.length; i++) {
 					if(enemys[i].id == ae.id) {
 						enemys[i].hp -= ae.damage;
+
+						// スコア追加
+						if (enemys[i].hp <= 0) {
+							for(var j = 0; j < players.length; j++) {
+								if(players[j].id == dp.id) {
+									players[j].score += enemys[i].point;
+									break;
+								}
+							}
+						}
 						break;
 					}
 				}

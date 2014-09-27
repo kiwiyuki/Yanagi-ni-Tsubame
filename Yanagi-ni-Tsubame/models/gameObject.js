@@ -4,7 +4,8 @@ var Player = function(_id, _x, _y, _color) {
 		x: _x,
 		y: _y,
 		shots: [],
-		hp: 0,
+		hp: 300,
+		score: 0,
 		state: "NORMAL",
 		color: _color
 	};
@@ -23,12 +24,16 @@ var Enemy = function(_id, _x, _y, _type) {
 	this.y = _y;
 	this.type = _type;
 	this.hp = 0;
+	this.atk = 0;
+	this.point;
 	this.counter = 0;
 
 	switch(_type) {
 		// ヤナギニツバメ零号機
 		case 'test':
 		this.hp = 40;
+		this.atk = 1;
+		this.point = 10;
 		var speed = 3;
 		var d = 360;
 

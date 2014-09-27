@@ -1,4 +1,4 @@
-var AvatarManager = function(scene, playerID) {
+var AvatarManager = function(scene, player) {
 	var avatarsArray = [];
 
 	var Avatar = function(data) {
@@ -61,7 +61,7 @@ var AvatarManager = function(scene, playerID) {
 
 		// 自分以外のプレイヤーが配列に登録してあるか検索
 		allPlayers.forEach(function(p) {
-			if(playerID != p.id) {
+			if(player.id != p.id) {
 				// 見つかれば位置の更新
 				// そうじゃなければ新規登録
 				var isFinded = false;
