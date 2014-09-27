@@ -74,8 +74,8 @@ $(document).ready(function() {
 		// プレイヤー情報更新
 		for (var i = 0; i < data.players.length; i++) {
 			if(data.players[i].id == player.id) {
-				// console.log(data.players[i].score);
 				player.score = data.players[i].score;
+				break;
 			}
 		}
 
