@@ -17,7 +17,8 @@ var Player = function(scene, camera, data) {
 	var damageCounter = 0 // ダメージ時、2秒間無敵
 
 	this.id = data.id;
-	this.hp = 0;
+	this.hp = data.hp;
+	this.score = data.score;
 	this.state = data.state;
 
 	// イベントリスナー用
@@ -58,6 +59,9 @@ var Player = function(scene, camera, data) {
 
 	// 状態更新
 	this.update = function() {
+		// ステータス情報の表示更新
+		$("#gameScore").html(this.score);
+
 		// ステート毎の処理
 		if(this.state == "DAMAGE") {
 			damageCounter++;

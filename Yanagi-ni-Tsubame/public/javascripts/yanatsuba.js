@@ -52,7 +52,7 @@ $(document).ready(function() {
 		player = new Player(scene, camera, data.player);
 
 		// 他プレイヤー（アバター）
-		avatarManager = new AvatarManager(scene, data.player.id);
+		avatarManager = new AvatarManager(scene, player);
 		avatarManager.update(data.players);
 
 		// 敵
@@ -71,6 +71,14 @@ $(document).ready(function() {
 
 	// 鯖データ受信
 	socket.on('server_update', function(data) {
+		// プレイヤー情報更新
+		for (var i = 0; i < data.players.length; i++) {
+			if(data.players[i].id == player.id) {
+				// console.log(data.players[i].score);
+				player.score = data.players[i].score;
+			}
+		}
+
 		avatarManager.update(data.players);
 		enemyManager.update(data.enemys);
 	});
