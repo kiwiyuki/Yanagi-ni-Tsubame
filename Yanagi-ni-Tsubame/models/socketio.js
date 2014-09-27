@@ -9,6 +9,7 @@ var sessionDB = require("./sqlite3").sessionDB;
 var players = [];
 var enemys = [];
 var items = [];
+var loopInterval;
 function socketio (server) {
 	var io = sio.listen(server);
 
@@ -43,12 +44,12 @@ function socketio (server) {
 				}
 				var p = new go.Player(id, 0, 0, Math.random());
 				players.push(p);
-				console.log(players);
 				// 初回データ送信
 				socket.json.emit('first_message', { player: p, players: players, enemys: enemys, items: items });
 				console.log('connection\nplayer num : ' + players.length);
 				if(players.length == 1) {
-					setInterval(loop,17);
+					console.log("start main loop");
+					loopInterval = setInterval(loop,17);
 				}
 			} else { console.dir(err); }
 		});
@@ -105,7 +106,12 @@ function socketio (server) {
 
 	// 全プレイヤーデータ送信（毎秒60回）
 	var timeCounter = 0;
+	//TODO プレイヤーが一人のとき、プレイできない問題を解決する (loopの開始位置を変更する)
 	var loop = function() {
+		if(players.length == 0) {
+			console.log("stop loop");
+			clearInterval(loopInterval);
+		}
 		timeCounter++;
 
 		//敵の更新、HPが0以下の敵を検索
