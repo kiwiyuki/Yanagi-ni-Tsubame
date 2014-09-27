@@ -10,9 +10,20 @@ html, body {
 	text-align: center;
 }
 
-header {
-	margin: 0 !important;
+header.navbar {
+	margin: 0;
+	border: 0;
+	opacity: 0.9;
 }
+.navbar-inverse .dropdown .dropdown-toggle, .navbar-inverse .navbar-brand, 
+.navbar-inverse .navbar-text {
+	color: #cccccc;
+}
+
+.navbar-inverse .dropdown .dropdown-toggle:hover,.navbar-inverse .navbar-brand:hover {
+	color: #a7236f	
+} 
+
 
 #userIcon {
 	width: 24px;
