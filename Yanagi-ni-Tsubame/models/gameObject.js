@@ -1,11 +1,11 @@
-var Player = function(_id, _x, _y, _color) {
+var Player = function(_id, _x, _y, _hp, _score, _color) {
 	return {
 		id: _id,
 		x: _x,
 		y: _y,
 		shots: [],
-		hp: 300,
-		score: 0,
+		hp: _hp,
+		score: _score,
 		state: "NORMAL",
 		color: _color
 	};

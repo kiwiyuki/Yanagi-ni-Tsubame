@@ -33,7 +33,6 @@ function loginCallback (req, res) {
 		photo: req.session.passport.user.photos[0].value,
 		provider:req.session.passport.user.provider,
 		created: Date(),
-		color: 0
 	};
 	delete req.session.passport;
 	YTDB.all("select id, provider from users where id = $id and provider = $pr", { $id: req.session.user.id, $pr: req.session.user.provider }, function (err, rows) {
@@ -42,6 +41,13 @@ function loginCallback (req, res) {
 			if(rows.length === 0) {
 				var co = Math.random();
 				console.log("account init");
+				req.session.user.game = {
+					lastX : 0,
+					lastY : 0,
+					lastHP: 300,
+					score : 0,
+					color : co
+				};
 				YTDB.parallelize(function () {
 					YTDB.run("insert into users (id, username, displayName, photos, provider, created) values ($id, $un, $dN, $ph, $pr, $cr)",{
 						$id: req.session.user.id,
@@ -51,9 +57,9 @@ function loginCallback (req, res) {
 						$pr: req.session.user.provider,
 						$cr: req.session.user.created,
 					});
-					YTDB.run("insert into game (id, lastX, lastY, lastHP, score, color) values ($id, 0, 0, 100, 0, $co)", { $id: req.session.user.id, $co: co });
+					YTDB.run("insert into game (id, lastX, lastY, lastHP, score, color) values ($id, 0, 0, 300, 0, $co)", { $id: req.session.user.id, $co: co });
 				});
-				req.session.user.color = co;
+				res.redirect("/");
 			//2回目以降、更新
 			} else if(rows.length === 1) {
 				console.log("login!");
@@ -65,20 +71,20 @@ function loginCallback (req, res) {
 						$ph: req.session.user.photo,
 						$pr: rows[0].provider
 					});
-					YTDB.all("select color from game where id = $id", { $id: rows[0].id }, function (e, r){
+					YTDB.all("select lastX, lastY, lastHP, score, color from game where id = $id", { $id: rows[0].id }, function (e, r){
 						if(!e) {
-							req.session.user.color = r.color;
+							req.session.user.game = r[0];
 						}
+						res.redirect("/");
 					});
 				});
 			//エラー
 			} else {
 
 			}
+		
 		}
 	});
-
-	res.redirect("/");
 }
 
 module.exports = router;

@@ -27,22 +27,31 @@ function socketio (server) {
 
 	// サーバー接続処理
 	io.sockets.on('connection', function (socket) {
+		var p;
 		sessionDB.all("select sess from sessions where sid = $sid", { $sid: socket.sessionId }, function (err, rows) {
 			if(!err) {
 				var user;
-				var id = "";
-				if(rows[0].sess !== undefined) {
+				
+				//cookieの検索
+				if(rows[0] !== undefined && rows[0].sess !== undefined) {
 					var pC = JSON.parse(rows[0].sess);
-					user =  pC.user;
+					user = pC.user;
 				}
 				if(user) {
 					console.log("hello " + user.displayName + " , id :" + user.id);
-					id = user.id;
 				} else {
+					user = {};
+					user.game = {};
 					console.log("no login user socketId :" + socket.id);
-					id = socket.id;
+					user.id = socket.id;
+					user.game.lastX = 0;
+					user.game.lastY = 0;
+					user.game.lastHP = 300;
+					user.game.score = 0;
+					user.game.color = Math.random();
 				}
-				var p = new go.Player(id, 0, 0, Math.random());
+				console.log(user);
+				p = new go.Player(user.id, user.game.lastX, user.game.lastY, user.game.lastHP, user.game.score,user.game.color);
 				players.push(p);
 				// 初回データ送信
 				socket.json.emit('first_message', { player: p, players: players, enemys: enemys, items: items });
@@ -94,8 +103,9 @@ function socketio (server) {
 		// 切断処理
 		socket.on('disconnect', function() {
 			for(var i = 0; i < players.length; i++) {
-				if(players[i].id === socket.id) {
-					// YTDB.run("update game set lastX = $x, lastY = $y where id = $id", { $x: players[i].x, $y: players[i].y, $id: players[i].id} );
+				if(players[i].id === p.id) {
+					console.log("saved!");
+					YTDB.run("update game set lastX = $x, lastY = $y, lastHP = $hp, score = $sc where id = $id", { $x: players[i].x, $y: players[i].y, $hp: players[i].hp, $sc : players[i].score, $id: players[i].id} );
 					players.splice(i, 1);
 					console.log('disconnection\nplayer num : ' + players.length);
 					break;
@@ -108,7 +118,7 @@ function socketio (server) {
 	var timeCounter = 0;
 	//TODO プレイヤーが一人のとき、プレイできない問題を解決する (loopの開始位置を変更する)
 	var loop = function() {
-		if(players.length == 0) {
+		if(players.length === 0) {
 			console.log("stop loop");
 			clearInterval(loopInterval);
 		}
