@@ -32,14 +32,16 @@ function loginCallback (req, res) {
 		displayName: req.session.passport.user.displayName,
 		photo: req.session.passport.user.photos[0].value,
 		provider:req.session.passport.user.provider,
-		created: Date()
+		created: Date(),
+		color: 0
 	};
 	delete req.session.passport;
-	YTDB.get("select id, provider from users where id = $id and provider = $pr", { $id: req.session.user.id, $pr: req.session.user.provider }, function (err, rows) {
+	YTDB.all("select id, provider from users where id = $id and provider = $pr", { $id: req.session.user.id, $pr: req.session.user.provider }, function (err, rows) {
 		if(!err) {
 			//新規
-			if(rows === undefined) {
-				var color = Math.random();
+			if(rows.length === 0) {
+				var co = Math.random();
+				console.log("account init");
 				YTDB.parallelize(function () {
 					YTDB.run("insert into users (id, username, displayName, photos, provider, created) values ($id, $un, $dN, $ph, $pr, $cr)",{
 						$id: req.session.user.id,
@@ -47,24 +49,27 @@ function loginCallback (req, res) {
 						$dN: req.session.user.displayName,
 						$ph: req.session.user.photo,
 						$pr: req.session.user.provider,
-						$cr: req.session.user.created
+						$cr: req.session.user.created,
 					});
-					YTDB.run("insert into game (id, lastX, lastY, score, color) values ($id, 0, 0, 0, $co)", { $id: req.session.user.id, $co: color });
+					YTDB.run("insert into game (id, lastX, lastY, lastHP, score, color) values ($id, 0, 0, 100, 0, $co)", { $id: req.session.user.id, $co: co });
 				});
-				req.session.user.color = color;
+				req.session.user.color = co;
 			//2回目以降、更新
-			} else if(rows && !Array.isArray(rows)) {
-				YTDB.run("update users set username = $un, displayName = $dN, photos = $ph where id = $id and provider = $pr", {
-					$id: rows.id,
-					$un: req.session.user.username,
-					$dN: req.session.user.displayName,
-					$ph: req.session.user.photo,
-					$pr: rows.provider
-				});
-				YTDB.get("select color from game where id = $id", { $id: rows.id }, function (e, r){
-					if(!e) {
-						req.session.user.color = r.color;
-					}
+			} else if(rows.length === 1) {
+				console.log("login!");
+				YTDB.parallelize(function () {
+					YTDB.run("update users set username = $un, displayName = $dN, photos = $ph where id = $id and provider = $pr", {
+						$id: rows[0].id,
+						$un: req.session.user.username,
+						$dN: req.session.user.displayName,
+						$ph: req.session.user.photo,
+						$pr: rows[0].provider
+					});
+					YTDB.all("select color from game where id = $id", { $id: rows[0].id }, function (e, r){
+						if(!e) {
+							req.session.user.color = r.color;
+						}
+					});
 				});
 			//エラー
 			} else {

@@ -29,28 +29,28 @@ function socketio (server) {
 		sessionDB.all("select sess from sessions where sid = $sid", { $sid: socket.sessionId }, function (err, rows) {
 			if(!err) {
 				var user;
+				var id = "";
 				if(rows[0].sess !== undefined) {
 					var pC = JSON.parse(rows[0].sess);
 					user =  pC.user;
 				}
-				var p = {};
 				if(user) {
 					console.log("hello " + user.displayName + " , id :" + user.id);
-					p = new go.Player(user.id, 0, 0, Math.random());
-					players.push(p);
+					id = user.id;
 				} else {
-					console.log("no login user");
-					p = new go.Player(socket.id, 0, 0, Math.random());
-					players.push(p);
+					console.log("no login user socketId :" + socket.id);
+					id = socket.id;
 				}
+				var p = new go.Player(id, 0, 0, Math.random());
+				players.push(p);
+				console.log(players);
+				// 初回データ送信
+				socket.json.emit('first_message', { player: p, players: players, enemys: enemys, items: items });
+				console.log('connection\nplayer num : ' + players.length);
 			} else { console.dir(err); }
 		});
-		var p = new go.Player(socket.id, 0, 0, Math.random());
-		players.push(p);
-		console.log('connection\nplayer num : ' + players.length);
+		
 
-		// 初回データ送信
-		socket.json.emit('first_message', { player: p, players: players, enemys: enemys, items: items });
 		
 		// 各クライアントのデータ受信
 		socket.json.on('player_data', function (data) {
