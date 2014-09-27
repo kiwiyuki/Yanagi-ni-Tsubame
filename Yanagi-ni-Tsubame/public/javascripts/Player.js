@@ -58,7 +58,6 @@ var Player = function(scene, camera, data) {
 
 	// 状態更新
 	this.update = function() {
-		console.log("player state : " + this.state);
 		// ステート毎の処理
 		if(this.state == "DAMAGE") {
 			damageCounter++;
