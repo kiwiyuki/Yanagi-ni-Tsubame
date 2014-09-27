@@ -60,7 +60,6 @@ var EnemyManager = function(scene, player) {
 					new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
 
 				if(playerHitBox.isIntersectionBox(enemyHitBox)) {
-					console.log("player damage!");
 					player.state = "DAMAGE";
 				}
 			});
