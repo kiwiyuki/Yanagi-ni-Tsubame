@@ -1,4 +1,15 @@
 extends layout
 
 block content
-  h1= title
+  div.clearfix
+    h1.pull-left= title
+  div.clearfix
+    h2.pull-left About
+  div.clearfix
+    div.pull-left.btn-group
+      button.btn.btn-default(type="button")
+        a(href="/login/twitter")
+          i.fa.fa-twitter-square  login Twitter
+      button.btn.btn-default(type="button")
+        a(href="/login/facebook")
+          i.fa.fa-facebook-square  login Facebook
