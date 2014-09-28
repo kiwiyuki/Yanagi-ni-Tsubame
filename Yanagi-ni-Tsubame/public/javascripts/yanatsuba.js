@@ -7,6 +7,12 @@ $(document).ready(function() {
 	var scene, camera, renderer, background, player, avatarManager;
 	var gameDomElement = document.getElementById("game");
 	var bgColor = 0x333333;
+	var state = {
+		LOAD : 1,
+		TITLE : 2,
+		PLAY : 3,
+	};
+	var gameState = state.LOAD;
 
 	// socket通信開始
 	socket = io.connect();
@@ -65,22 +71,28 @@ $(document).ready(function() {
 		// ロードメッセージ削除
 		gameDomElement.removeChild(document.getElementById("load_msg"));
 
+		// 状態遷移
+		gameState = state.TITLE;
+
 		// ループ開始
 		requestAnimationFrame(loop);
 	});
 
 	// 鯖データ受信
 	socket.on('server_update', function(data) {
-		// プレイヤー情報更新
-		for (var i = 0; i < data.players.length; i++) {
-			if(data.players[i].id == player.id) {
-				player.score = data.players[i].score;
-				break;
+		// ロード時は情報の更新をしない
+		if(gameState != state.LOAD) {
+			// プレイヤー情報更新
+			for (var i = 0; i < data.players.length; i++) {
+				if(data.players[i].id == player.id) {
+					player.score = data.players[i].score;
+					break;
+				}
 			}
-		}
 
-		avatarManager.update(data.players);
-		enemyManager.update(data.enemys);
+			avatarManager.update(data.players);
+			enemyManager.update(data.enemys);
+		}
 	});
 
 	// ループ
