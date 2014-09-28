@@ -68,8 +68,10 @@ function socketio (server) {
 		// 各クライアントのデータ受信
 		socket.json.on('player_data', function (data) {
 			var dp = data.player;
+			var pIndex = 0;
 			for(var i = 0; i < players.length; i++) {
 				if(players[i].id == dp.id) {
+					pIndex = i;
 					//playerデータの更新
 					players[i].x = dp.x;
 					players[i].y = dp.y;
@@ -87,12 +89,7 @@ function socketio (server) {
 
 						// スコア追加
 						if (enemys[i].hp <= 0) {
-							for(var j = 0; j < players.length; j++) {
-								if(players[j].id == dp.id) {
-									players[j].score += enemys[i].point;
-									break;
-								}
-							}
+							players[pIndex].score += enemys[i].point;
 						}
 						break;
 					}
