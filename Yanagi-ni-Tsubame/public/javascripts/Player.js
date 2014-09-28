@@ -50,6 +50,8 @@ var Player = function(scene, camera, data) {
 	canon.position.set(canonRadius, 0, 0);
 	this.mesh.add(canon);
 	this.mesh.position.set(data.x, data.y, 0);
+	camera.position.x = data.x;
+	camera.position.y = data.y;
 
 	// 弾の管理
 	this.bullets = new THREE.Object3D();
@@ -61,6 +63,7 @@ var Player = function(scene, camera, data) {
 	this.update = function() {
 		// ステータス情報の表示更新
 		$("#gameScore").html(this.score);
+		$("#gameHp").html(this.hp);
 
 		// ステート毎の処理
 		if(this.state == "DAMAGE") {
