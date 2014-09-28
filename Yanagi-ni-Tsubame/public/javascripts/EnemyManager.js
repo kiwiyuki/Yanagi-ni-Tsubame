@@ -4,6 +4,7 @@ var EnemyManager = function(scene, player) {
 	var Enemy = function(data) {
 		this.id = data.id;
 		this.hp = data.hp;
+		this.atk = data.atk;
 		this.mesh = new THREE.Object3D();
 		this.mesh.position.set(data.x, data.y, 0);
 		this.halfSize = 0;
@@ -61,6 +62,8 @@ var EnemyManager = function(scene, player) {
 
 				if(playerHitBox.isIntersectionBox(enemyHitBox)) {
 					player.state = "DAMAGE";
+					console.log(enemy.atk);
+					player.hp -= enemy.atk;
 				}
 			});
 		}
