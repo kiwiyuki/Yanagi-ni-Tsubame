@@ -113,7 +113,6 @@ function socketio (server) {
 
 	// 全プレイヤーデータ送信（毎秒60回）
 	var timeCounter = 0;
-	//TODO プレイヤーが一人のとき、プレイできない問題を解決する (loopの開始位置を変更する)
 	var loop = function() {
 		if(players.length === 0) {
 			console.log("stop loop");
@@ -132,7 +131,17 @@ function socketio (server) {
 
 		// 敵の削除
 		deadEnemys.forEach(function(de) {
-			enemys.splice(enemys.indexOf(de), 1);
+			var dEIndex = enemys.indexOf(de);
+			//アイテムの生成
+			var itemNum = 5;
+			for(var i = 0; i < itemNum; i++) {
+				var _id = "" + Math.random() + Date.now();
+				var _x = enemys[dEIndex].x;
+				var _y = enemys[dEIndex].y;
+				var item = new go.Item(_id, _x, _y, "test");
+				items.push(item);
+			}
+			enemys.splice(dEIndex, 1);
 		});
 
 		//敵の生成

@@ -25,7 +25,7 @@ var Enemy = function(_id, _x, _y, _type) {
 	this.type = _type;
 	this.hp = 0;
 	this.atk = 0;
-	this.point;
+	this.point = 0;
 	this.counter = 0;
 
 	switch(_type) {
@@ -65,6 +65,13 @@ var Item = function(_id, _x, _y, _type) {
 	this.y = _y;
 	this.type = _type;
 	this.counter = 0;
+	switch(_type) {
+		case "test":
+		this.update = function() {
+
+		}		
+	}
+	
 };
 
 module.exports = {
