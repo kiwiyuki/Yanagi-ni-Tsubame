@@ -64,11 +64,13 @@ var Item = function(_x, _y, _type) {
 	this.x = _x;
 	this.y = _y;
 	this.type = _type;
+	this.point = 0;
 	this.counter = 0;
 
 	switch(_type) {
 		case "test":
 		this.point = 100;
+		
 		this.update = function() {
 
 		};

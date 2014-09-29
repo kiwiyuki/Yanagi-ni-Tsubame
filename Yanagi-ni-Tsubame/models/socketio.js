@@ -98,6 +98,15 @@ function socketio (server) {
 						// スコア追加
 						if (enemys[i].hp <= 0) {
 							players[pIndex].score += enemys[i].point;
+							
+							// アイテムの生成
+							var itemNum = 1;
+							for(var j = 0; j < itemNum; j++) {
+								var _x = enemys[i].x;
+								var _y = enemys[i].y;
+								var item = new go.Item(_x, _y, "test");
+								items.push(item);
+							}
 						}
 						break;
 					}
@@ -140,7 +149,7 @@ function socketio (server) {
 
 		timeCounter++;
 
-		//敵の更新、HPが0以下の敵を検索
+		// 敵の更新、HPが0以下の敵を検索
 		var deadEnemys = [];
 		enemys.forEach(function(enemy) {
 			enemy.update();
@@ -152,20 +161,11 @@ function socketio (server) {
 
 		// 敵の削除
 		deadEnemys.forEach(function(de) {
-			//アイテムの生成
-			var itemNum = 1;
-			var dEIndex = enemys.indexOf(de);
-			for(var i = 0; i < itemNum; i++) {
-				var _x = enemys[dEIndex].x;
-				var _y = enemys[dEIndex].y;
-				var item = new go.Item(_x, _y, "test");
-				items.push(item);
-			}
-
-			enemys.splice(dEIndex, 1);
+			var deIndex = enemys.indexOf(de);
+			enemys.splice(deIndex, 1);
 		});
 
-		//敵の生成
+		// 敵の生成
 		if (timeCounter === 100　&& enemys.length < 50) {
 			var _x = Math.floor((Math.random() * 10) - 5) * 100;
 			var _y = Math.floor((Math.random() * 10) - 5) * 100;
