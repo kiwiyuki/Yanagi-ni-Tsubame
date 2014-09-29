@@ -1,4 +1,4 @@
-var EnemyManager = function(scene, player) {
+var EnemyManager = function(scene, player, atkEnemys) {
 	var enemysArray = [];
 
 	var Enemy = function(data) {
@@ -29,7 +29,6 @@ var EnemyManager = function(scene, player) {
 	}
 
 	this.localUpdate = function() {
-		var atkEnemys = [];
 
 		enemysArray.forEach(function(enemy) {
 			enemy.animate();
@@ -67,8 +66,6 @@ var EnemyManager = function(scene, player) {
 				}
 			});
 		}
-
-		return atkEnemys;
 	};
 
 	this.update = function(allEnemys) {

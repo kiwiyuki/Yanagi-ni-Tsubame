@@ -65,13 +65,14 @@ var Item = function(_id, _x, _y, _type) {
 	this.y = _y;
 	this.type = _type;
 	this.counter = 0;
+	
 	switch(_type) {
 		case "test":
 		this.update = function() {
 
-		}		
+		};
+		break;	
 	}
-	
 };
 
 module.exports = {

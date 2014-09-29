@@ -4,7 +4,7 @@ $(document).ready(function() {
 	var WIDTH = window.innerWidth;
 	var HEIGHT = window.innerHeight;
 	var socket, localData;
-	var scene, camera, renderer, background, player, avatarManager;
+	var scene, camera, renderer, background, player, avatarManager, enemyManager, itemManager;
 	var gameDomElement = document.getElementById("game");
 	var bgColor = 0x333333;
 	var state = {
@@ -62,8 +62,12 @@ $(document).ready(function() {
 		avatarManager.update(data.players);
 
 		// 敵
-		enemyManager = new EnemyManager(scene, player);
+		enemyManager = new EnemyManager(scene, player, localData.atkEnemys);
 		enemyManager.update(data.enemys);
+
+		// アイテム
+		itemManager = new ItemManager(scene, player);
+		itemManager.update(data.items);
 
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
@@ -101,7 +105,7 @@ $(document).ready(function() {
 		background.update();
 		player.update();
 		avatarManager.animate();
-		localData.atkEnemys = enemyManager.localUpdate();
+		enemyManager.localUpdate();
 
 		// レンダリング
 		renderer.render(scene, camera);

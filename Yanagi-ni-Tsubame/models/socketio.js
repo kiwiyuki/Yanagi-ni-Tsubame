@@ -10,9 +10,11 @@ var players = [];
 var enemys = [];
 var items = [];
 var loopInterval;
+
 function socketio (server) {
 	var io = sio.listen(server);
 
+	// クッキー処理
 	io.use(function (socket, next) {
 		var cookieParser = require("cookie-parser");
 		var parseCookie = cookieParser(setting.cookie.secret);
@@ -27,16 +29,18 @@ function socketio (server) {
 
 	// サーバー接続処理
 	io.sockets.on('connection', function (socket) {
+		// データーベース処理
 		var p;
 		sessionDB.all("select sess from sessions where sid = $sid", { $sid: socket.sessionId }, function (err, rows) {
 			if(!err) {
 				var user;
 				
-				//cookieの検索
+				// クッキーの検索
 				if(rows[0] !== undefined && rows[0].sess !== undefined) {
 					var pC = JSON.parse(rows[0].sess);
 					user = pC.user;
 				}
+
 				if(user) {
 					console.log("hello " + user.displayName + " , id :" + user.id);
 				} else {
@@ -50,21 +54,25 @@ function socketio (server) {
 					user.game.score = 0;
 					user.game.color = Math.random();
 				}
+
 				console.log(user);
 				p = new go.Player(user.id, user.game.lastX, user.game.lastY, user.game.lastHP, user.game.score,user.game.color);
 				players.push(p);
+
 				// 初回データ送信
 				socket.json.emit('first_message', { player: p, players: players, enemys: enemys, items: items });
 				console.log('connection\nplayer num : ' + players.length);
+				
 				if(players.length == 1) {
 					console.log("start main loop");
-					loopInterval = setInterval(loop,17);
+					loopInterval = setInterval(loop,　17);
 				}
-			} else { console.dir(err); }
-		});
-		
 
-		
+			} else {
+				console.dir(err);
+			}
+		});
+
 		// 各クライアントのデータ受信
 		socket.json.on('player_data', function (data) {
 			var dp = data.player;
@@ -118,12 +126,14 @@ function socketio (server) {
 			console.log("stop loop");
 			clearInterval(loopInterval);
 		}
+
 		timeCounter++;
 
 		//敵の更新、HPが0以下の敵を検索
 		var deadEnemys = [];
 		enemys.forEach(function(enemy) {
 			enemy.update();
+			
 			if (enemy.hp <= 0) {
 				deadEnemys.push(enemy);
 			}
