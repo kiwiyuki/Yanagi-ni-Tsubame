@@ -101,7 +101,6 @@ function socketio (server) {
 		socket.on('disconnect', function() {
 			for(var i = 0; i < players.length; i++) {
 				if(players[i].id === p.id) {
-					console.log("saved!");
 					YTDB.run("update game set lastX = $x, lastY = $y, lastHP = $hp, score = $sc where id = $id", { $x: players[i].x, $y: players[i].y, $hp: players[i].hp, $sc : players[i].score, $id: players[i].id} );
 					players.splice(i, 1);
 					console.log('disconnection\nplayer num : ' + players.length);

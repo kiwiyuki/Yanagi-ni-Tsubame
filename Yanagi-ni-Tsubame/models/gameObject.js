@@ -59,17 +59,32 @@ var Enemy = function(_id, _x, _y, _type) {
 	}
 };
 
-var Item = function(_id, _x, _y, _type) {
+var Item = function(_id, _x, _y, _vx, _vy, _type) {
 	this.id = _id;
 	this.x = _x;
 	this.y = _y;
+	this.vx = _vx;
+	this.vy = _vy;
 	this.type = _type;
 	this.counter = 0;
 	switch(_type) {
 		case "test":
+		var d = 0.1;
 		this.update = function() {
+			this.x += this.vx;
+			this.y += this.vy;
+			this.vx -= d;
+			this.vy -= d;
+			if(this.vx < 0 || this.vy < 0) {
+				this.vx = 0;
+				this.vy = 0;
+			}
+			this.counter++;
 
-		}		
+			if(this.counter > 3600) {
+				//TODO アイテムの消える処理
+			}
+		};
 	}
 	
 };
