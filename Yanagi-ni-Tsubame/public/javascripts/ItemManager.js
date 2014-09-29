@@ -1,4 +1,4 @@
-var ItemManager = function(scene, player) {
+var ItemManager = function(scene, player, getItems) {
 	var itemsArray = [];
 
 	var Item = function(data) {
@@ -27,28 +27,22 @@ var ItemManager = function(scene, player) {
 	}
 
 	this.localUpdate = function() {
-		var getItems = [];
-
 		itemsArray.forEach(function(item) {
 			item.animate();
 		});
 
 		// プレイヤーとアイテムの当たり判定
-		if(player.state == "NORMAL") {
-			var playerHitBox = new THREE.Box2(new THREE.Vector2(player.mesh.position.x - player.halfSize, player.mesh.position.y - player.halfSize),
-				new THREE.Vector2(player.mesh.position.x + player.halfSize, player.mesh.position.y + player.halfSize));
+		var playerHitBox = new THREE.Box2(new THREE.Vector2(player.mesh.position.x - player.halfSize, player.mesh.position.y - player.halfSize),
+			new THREE.Vector2(player.mesh.position.x + player.halfSize, player.mesh.position.y + player.halfSize));
 
-			itemsArray.forEach(function(item) {
-				var itemHitBox = new THREE.Box2(new THREE.Vector2(item.mesh.position.x - item.halfSize, item.mesh.position.y - item.halfSize),
-					new THREE.Vector2(item.mesh.position.x + item.halfSize, item.mesh.position.y + item.halfSize));
+		itemsArray.forEach(function(item) {
+			var itemHitBox = new THREE.Box2(new THREE.Vector2(item.mesh.position.x - item.halfSize, item.mesh.position.y - item.halfSize),
+				new THREE.Vector2(item.mesh.position.x + item.halfSize, item.mesh.position.y + item.halfSize));
 
-				if(playerHitBox.isIntersectionBox(itemHitBox)) {
-					
-				}
-			});
-		}
-
-		return getItems;
+			if(playerHitBox.isIntersectionBox(itemHitBox)) {
+				getItems.push({ id : item.id });
+			}
+		});
 	};
 
 	this.update = function(allItems) {
@@ -81,20 +75,20 @@ var ItemManager = function(scene, player) {
 		});
 
 		// アイテムが自前の配列に登録してあるか検索
-		allItems.forEach(function(ae) {
+		allItems.forEach(function(ai) {
 				// 見つかれば位置の更新
 				// そうじゃなければ新規登録
 				var isFinded = false;
 
 				itemsArray.forEach(function(item) {
-					if(item.id == ae.id) {
-						item.mesh.position.set(ae.x, ae.y, 0);
+					if(item.id == ai.id) {
+						item.mesh.position.set(ai.x, ai.y, 0);
 						isFinded = true;
 					};
 				});
 
 				if(!isFinded) {
-					var newItem = new Item(ae);
+					var newItem = new Item(ai);
 					itemsArray.push(newItem);
 					scene.add(newItem.mesh);
 				}

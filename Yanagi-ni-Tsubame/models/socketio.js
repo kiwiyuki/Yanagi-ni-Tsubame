@@ -103,6 +103,17 @@ function socketio (server) {
 					}
 				}
 			});
+
+			// アイテム取得処理
+			data.getItems.forEach(function(gi) {
+				for(var i = 0; i < items.length; i++) {
+					if(items[i].id == gi.id) {
+						players[pIndex].score += items[i].point;
+						items.splice(i, 1);
+						break;
+					}
+				}
+			});
 		});
 
 		// 切断処理
@@ -133,7 +144,7 @@ function socketio (server) {
 		var deadEnemys = [];
 		enemys.forEach(function(enemy) {
 			enemy.update();
-			
+
 			if (enemy.hp <= 0) {
 				deadEnemys.push(enemy);
 			}
@@ -141,30 +152,29 @@ function socketio (server) {
 
 		// 敵の削除
 		deadEnemys.forEach(function(de) {
-			var dEIndex = enemys.indexOf(de);
 			//アイテムの生成
-			var itemNum = 5;
+			var itemNum = 1;
+			var dEIndex = enemys.indexOf(de);
 			for(var i = 0; i < itemNum; i++) {
-				var _id = "" + Math.random() + Date.now();
 				var _x = enemys[dEIndex].x;
 				var _y = enemys[dEIndex].y;
-				var item = new go.Item(_id, _x, _y, "test");
+				var item = new go.Item(_x, _y, "test");
 				items.push(item);
 			}
+
 			enemys.splice(dEIndex, 1);
 		});
 
 		//敵の生成
 		if (timeCounter === 100　&& enemys.length < 50) {
-			var _id = "" + Date.now() + Math.random();
 			var _x = Math.floor((Math.random() * 10) - 5) * 100;
 			var _y = Math.floor((Math.random() * 10) - 5) * 100;
-			var enemy = new go.Enemy(_id, _x, _y, "test");
+			var enemy = new go.Enemy(_x, _y, "test");
 			enemys.push(enemy);
 			timeCounter = 0;
 		}
 
-		io.sockets.json.emit('server_update', { players : players , enemys : enemys });
+		io.sockets.json.emit('server_update', { players : players , enemys : enemys , items : items});
 	};
 }
 

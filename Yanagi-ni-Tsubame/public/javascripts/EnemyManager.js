@@ -29,7 +29,6 @@ var EnemyManager = function(scene, player, atkEnemys) {
 	}
 
 	this.localUpdate = function() {
-
 		enemysArray.forEach(function(enemy) {
 			enemy.animate();
 		});
@@ -61,7 +60,6 @@ var EnemyManager = function(scene, player, atkEnemys) {
 
 				if(playerHitBox.isIntersectionBox(enemyHitBox)) {
 					player.state = "DAMAGE";
-					console.log(enemy.atk);
 					player.hp -= enemy.atk;
 				}
 			});

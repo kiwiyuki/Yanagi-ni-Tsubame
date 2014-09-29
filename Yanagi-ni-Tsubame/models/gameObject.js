@@ -18,8 +18,8 @@ var Shots = function() {
 };
 
 
-var Enemy = function(_id, _x, _y, _type) {
-	this.id = _id;
+var Enemy = function(_x, _y, _type) {
+	this.id = "" + Date.now() + Math.random();;
 	this.x = _x;
 	this.y = _y;
 	this.type = _type;
@@ -59,15 +59,16 @@ var Enemy = function(_id, _x, _y, _type) {
 	}
 };
 
-var Item = function(_id, _x, _y, _type) {
-	this.id = _id;
+var Item = function(_x, _y, _type) {
+	this.id = "" + Math.random() + Date.now();
 	this.x = _x;
 	this.y = _y;
 	this.type = _type;
 	this.counter = 0;
-	
+
 	switch(_type) {
 		case "test":
+		this.point = 100;
 		this.update = function() {
 
 		};
