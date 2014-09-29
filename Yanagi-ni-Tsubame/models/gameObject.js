@@ -18,8 +18,8 @@ var Shots = function() {
 };
 
 
-var Enemy = function(_id, _x, _y, _type) {
-	this.id = _id;
+var Enemy = function(_x, _y, _type) {
+	this.id = "" + Date.now() + Math.random();
 	this.x = _x;
 	this.y = _y;
 	this.type = _type;
@@ -66,10 +66,14 @@ var Item = function(_id, _x, _y, _vx, _vy, _type) {
 	this.vx = _vx;
 	this.vy = _vy;
 	this.type = _type;
+	this.point = 0;
 	this.counter = 0;
+
 	switch(_type) {
 		case "test":
 		var d = 0.1;
+		this.point = 100;
+
 		this.update = function() {
 			this.x += this.vx;
 			this.y += this.vy;
@@ -80,13 +84,12 @@ var Item = function(_id, _x, _y, _vx, _vy, _type) {
 				this.vy = 0;
 			}
 			this.counter++;
-
 			if(this.counter > 3600) {
 				//TODO アイテムの消える処理
 			}
 		};
+		break;	
 	}
-	
 };
 
 module.exports = {
