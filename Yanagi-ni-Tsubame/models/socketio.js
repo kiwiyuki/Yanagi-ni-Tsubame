@@ -104,7 +104,9 @@ function socketio (server) {
 							for(var j = 0; j < itemNum; j++) {
 								var _x = enemys[i].x;
 								var _y = enemys[i].y;
-								var item = new go.Item(_x, _y, "test");
+								var _vx = Math.random() * 5; 
+								var _vy = Math.random() * 5;
+								var item = new go.Item(_x, _y, _vx, _vy, "test");
 								items.push(item);
 							}
 						}
