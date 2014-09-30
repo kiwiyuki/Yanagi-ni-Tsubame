@@ -74,6 +74,7 @@ var AvatarManager = function(scene, player) {
 
 				avatarsArray.forEach(function(avatar) {
 					if(avatar.id == p.id) {
+						avatar.state = p.state;
 						avatar.mesh.position.set(p.x, p.y, 0);
 						isFinded = true;
 					};

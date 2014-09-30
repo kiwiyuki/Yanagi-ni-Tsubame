@@ -66,7 +66,10 @@ var Player = function(scene, camera, data) {
 		$("#gameScore").html(this.score);
 		$("#gameHp").html(this.hp);
 
+		// 待機状態のときは状態更新なし
 		if(this.state != "WAIT") {
+			this.mesh.visible = true;
+
 			// ステート毎の処理
 			if(this.state == "DAMAGE") {
 				damageCounter++;

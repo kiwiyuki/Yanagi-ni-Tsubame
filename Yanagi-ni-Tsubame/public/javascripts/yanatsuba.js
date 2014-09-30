@@ -84,6 +84,9 @@ $(document).ready(function() {
 		// 状態遷移
 		GAME.state = GAME.utils.state.TITLE;
 
+		// TODO
+		player.state = "NORMAL";
+
 		// ループ開始
 		requestAnimationFrame(loop);
 	});
