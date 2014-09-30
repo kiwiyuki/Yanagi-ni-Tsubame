@@ -28,12 +28,14 @@ var Enemy = function(_x, _y, _type) {
 	this.point = 0;
 	this.counter = 0;
 
-	switch(_type) {
+	switch(this.type) {
 		// ヤナギニツバメ零号機
 		case 'test':
 		this.hp = 40;
 		this.atk = 1;
 		this.point = 10;
+		this.itemNum = 1;
+		this.itemType = "test";
 		var speed = 3;
 		var d = 360;
 
@@ -67,14 +69,17 @@ var Item = function(_x, _y, _type) {
 	this.point = 0;
 	this.counter = 0;
 
-	switch(_type) {
+	switch(this.type) {
 		case "test":
 		this.point = 100;
-		
-		this.update = function() {
-
-		};
 		break;	
+	}
+};
+
+Item.prototype.update = function() {
+	switch(this.type) {
+		case "test":
+		break;
 	}
 };
 
