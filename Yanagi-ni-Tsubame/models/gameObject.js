@@ -6,7 +6,7 @@ var Player = function(_id, _x, _y, _hp, _score, _color) {
 		shots: [],
 		hp: _hp,
 		score: _score,
-		state: "NORMAL",
+		state: "WAIT",
 		color: _color
 	};
 };
