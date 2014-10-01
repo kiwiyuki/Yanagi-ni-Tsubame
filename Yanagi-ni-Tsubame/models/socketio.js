@@ -100,14 +100,17 @@ function socketio (server) {
 							players[pIndex].score += enemys[i].point;
 							
 							// アイテムの生成
-							var itemNum = 1;
-							for(var j = 0; j < itemNum; j++) {
+							var itemNum = enemys[i].itemNum ? enemys[i].itemNum : 0;
+							var j = 0;
+							while(j < itemNum) {
 								var _x = enemys[i].x;
 								var _y = enemys[i].y;
-								var _vx = Math.random() * 5; 
-								var _vy = Math.random() * 5;
-								var item = new go.Item(_x, _y, _vx, _vy, "test");
+								var _vx = (Math.random() - 0.5) * 10;
+								var _vy = (Math.random() - 0.5) * 10;
+								var item = new go.Item(_x, _y, _vx, _vy, enemys[i].itemType);
+								// var item = new go.Item(_x, _y, enemys[i].itemType);
 								items.push(item);
+								j++;
 							}
 						}
 						break;
@@ -167,7 +170,7 @@ function socketio (server) {
 		});
 
 		// 敵の生成
-		if (timeCounter === 100　&& enemys.length < 50) {
+		if (timeCounter == 100　&& enemys.length < 50) {
 			var _x = Math.floor((Math.random() * 10) - 5) * 100;
 			var _y = Math.floor((Math.random() * 10) - 5) * 100;
 			var enemy = new go.Enemy(_x, _y, "test");

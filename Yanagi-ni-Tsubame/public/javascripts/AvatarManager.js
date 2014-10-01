@@ -3,6 +3,7 @@ var AvatarManager = function(scene, player) {
 
 	var Avatar = function(data) {
 		this.id = data.id;
+		this.state = data.state;
 
 		this.mesh = new THREE.Object3D();
 
@@ -25,8 +26,13 @@ var AvatarManager = function(scene, player) {
 
 	this.animate = function() {
 		avatarsArray.forEach(function(avatar) {
-			avatar.mesh.rotation.x += 0.05;
-			avatar.mesh.rotation.y += 0.05;
+			if(avatar.state == "WAIT") {
+				avatar.mesh.visible = false;
+			} else {
+				avatar.mesh.visible = true;
+				avatar.mesh.rotation.x += 0.05;
+				avatar.mesh.rotation.y += 0.05;
+			}
 		});
 	};
 
@@ -68,6 +74,7 @@ var AvatarManager = function(scene, player) {
 
 				avatarsArray.forEach(function(avatar) {
 					if(avatar.id == p.id) {
+						avatar.state = p.state;
 						avatar.mesh.position.set(p.x, p.y, 0);
 						isFinded = true;
 					};

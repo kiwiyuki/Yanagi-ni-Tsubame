@@ -6,7 +6,7 @@ var Player = function(_id, _x, _y, _hp, _score, _color) {
 		shots: [],
 		hp: _hp,
 		score: _score,
-		state: "NORMAL",
+		state: "WAIT",
 		color: _color
 	};
 };
@@ -28,12 +28,14 @@ var Enemy = function(_x, _y, _type) {
 	this.point = 0;
 	this.counter = 0;
 
-	switch(_type) {
+	switch(this.type) {
 		// ヤナギニツバメ零号機
 		case 'test':
 		this.hp = 40;
 		this.atk = 1;
 		this.point = 10;
+		this.itemNum = 1;
+		this.itemType = "test";
 		var speed = 3;
 		var d = 360;
 
@@ -69,26 +71,33 @@ var Item = function(_x, _y, _vx, _vy, _type) {
 	this.point = 0;
 	this.counter = 0;
 
-	switch(_type) {
+	switch(this.type) {
 		case "test":
 		var d = 0.1;
 		this.point = 100;
-
+		var speed = 3;
 		this.update = function() {
-			this.x += this.vx;
-			this.y += this.vy;
-			this.vx -= d;
-			this.vy -= d;
-			if(this.vx < 0 || this.vy < 0) {
-				this.vx = 0;
-				this.vy = 0;
-			}
+			this.x += speed;
+			this.y += speed;
+			// this.vx -= d;
+			// this.vy -= d;
+			// if(this.vx < 0 || this.vy < 0) {
+			// 	this.vx = 0;
+			// 	this.vy = 0;
+			// }
 			this.counter++;
 			if(this.counter > 3600) {
 				//TODO アイテムの消える処理
 			}
 		};
 		break;	
+	}
+};
+
+Item.prototype.update = function() {
+	switch(this.type) {
+		case "test":
+		break;
 	}
 };
 
