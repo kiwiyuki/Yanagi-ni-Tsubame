@@ -163,6 +163,11 @@ function socketio (server) {
 			}
 		});
 
+		// アイテムの状態更新
+		items.forEach(function(item) {
+			item.update();
+		});
+
 		// 敵の削除
 		deadEnemys.forEach(function(de) {
 			var deIndex = enemys.indexOf(de);
