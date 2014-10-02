@@ -77,15 +77,13 @@ $(document).ready(function() {
 
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
+		window.addEventListener('keydown', onKeyDown, false);
 
 		// ロードメッセージ削除
 		gameDomElement.removeChild(document.getElementById("load_msg"));
 
 		// 状態遷移
 		GAME.state = GAME.utils.state.TITLE;
-
-		// TODO
-		player.state = "NORMAL";
 
 		// ループ開始
 		requestAnimationFrame(loop);
@@ -142,5 +140,15 @@ $(document).ready(function() {
 		renderer.setSize(WIDTH, HEIGHT);
 		camera.aspect = WIDTH / HEIGHT;
 		camera.updateProjectionMatrix();
+	}
+
+	function onKeyDown(e) {
+		// console.log(e.keyCode);
+		// ゲーム開始
+		if(e.keyCode == 13 && GAME.state == GAME.utils.state.TITLE) {
+			GAME.state = GAME.utils.state.PLAY;
+			$('#gameTitle').css('visibility', 'hidden');
+			player.state = "NORMAL";
+		}
 	}
 });
