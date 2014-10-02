@@ -73,24 +73,20 @@ var Item = function(_x, _y, _vx, _vy, _type) {
 
 	switch(this.type) {
 		case "test":
-		var d = 0.1;
+		var dx = (_vx < 0) ? 0.01 : -0.01;
+		var dy = (_vy < 0) ? 0.01 : -0.01;
 		this.point = 100;
-		var speed = 3;
 		this.update = function() {
-			this.x += speed;
-			this.y += speed;
-			// this.vx -= d;
-			// this.vy -= d;
-			// if(this.vx < 0 || this.vy < 0) {
-			// 	this.vx = 0;
-			// 	this.vy = 0;
-			// }
+			this.vx = (Math.round(this.vx) === 0) ? 0 : (this.vx + dx);
+			this.vy = (Math.round(this.vy) === 0) ? 0 : (this.vy + dy);
+			this.x +=　this.vx;
+			this.y += this.vy;
 			this.counter++;
 			if(this.counter > 3600) {
 				//TODO アイテムの消える処理
 			}
 		};
-		break;	
+		break;
 	}
 };
 
