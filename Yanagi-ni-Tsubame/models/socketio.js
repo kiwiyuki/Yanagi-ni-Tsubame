@@ -164,8 +164,13 @@ function socketio (server) {
 		});
 
 		// アイテムの状態更新
+		var deadItems = [];
 		items.forEach(function(item) {
 			item.update();
+
+			if (item.counter > 3600) {
+				deadItems.push(item);
+			}
 		});
 
 		// 敵の削除
@@ -174,6 +179,12 @@ function socketio (server) {
 			enemys.splice(deIndex, 1);
 		});
 
+		// アイテムの削除
+		deadItems.forEach(function(di) {
+			var diIndex = items.indexOf(di);
+			items.splice(di, 1);
+		});
+		
 		// 敵の生成
 		if (timeCounter == 100　&& enemys.length < 50) {
 			var _x = Math.floor((Math.random() * 10) - 5) * 100;
