@@ -19,3 +19,7 @@ div#gameTitle {
     transform: translateX(-50%);
 	color: #fff;
 }
+
+div#gameOver {
+	visibility: hidden;
+}
