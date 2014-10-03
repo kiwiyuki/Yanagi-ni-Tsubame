@@ -22,4 +22,9 @@ div#gameTitle {
 
 div#gameOver {
 	visibility: hidden;
+	position: absolute;
+	width: 0;
+	height: 0;
+	opacity: 0.8;
+	background-color: #222;
 }
