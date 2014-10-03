@@ -28,3 +28,12 @@ div#gameOver {
 	opacity: 0.8;
 	background-color: #222;
 }
+
+#gameOverText {
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translateY(-50%);
+    transform: translateX(-50%);
+	color: #fff;
+}
