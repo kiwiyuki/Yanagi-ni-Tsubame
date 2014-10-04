@@ -55,7 +55,6 @@ function socketio (server) {
 					user.game.color = Math.random();
 				}
 
-				console.log(user);
 				p = new go.Player(user.id, user.game.lastX, user.game.lastY, user.game.lastHP, user.game.score,user.game.color);
 				players.push(p);
 
@@ -105,9 +104,9 @@ function socketio (server) {
 							while(j < itemNum) {
 								var _x = enemys[i].x;
 								var _y = enemys[i].y;
-								var angle = 2 * Math.PI * (j + Math.round(Math.random() * 10)) / itemNum + Math.random();
-								var _vx = Math.sin(angle);
-								var _vy = Math.cos(angle);
+								var angle = 2 * Math.PI *  (j + Math.floor(Math.random() * 10)) / ( 2 * itemNum ) ;
+								var _vx = Math.sin(angle) * 2;
+								var _vy = Math.cos(angle) * 2;
 								var item = new go.Item(_x, _y, _vx, _vy, enemys[i].itemType);
 								items.push(item);
 								j++;
