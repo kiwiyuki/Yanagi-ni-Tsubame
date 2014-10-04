@@ -108,7 +108,7 @@ var Player = function(scene, camera, data) {
 				canon.position.set(canonRadius * Math.cos(canonAngle), canonRadius * Math.sin(canonAngle), 0);
 
 				// ショット
-				if(shotCounter > 5) {
+				if(shotCounter > 6) {
 					var g = new THREE.SphereGeometry(8, 6, 6);
 					var m = new THREE.MeshBasicMaterial({color: color});
 					var bullet = new THREE.Mesh(g, m);

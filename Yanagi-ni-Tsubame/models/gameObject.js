@@ -56,6 +56,64 @@ var Enemy = function(_x, _y, _type) {
 			}
 		};
 		break;
+
+		case 'akatan':
+		this.hp = 60;
+		this.atk = 30;
+		this.point = 10;
+		this.itemNum = 3;
+		this.itemType = "exp";
+		var speed = 2;
+		var d = 360;
+
+		this.update = function() {
+			// 移動
+			this.x += speed;
+
+			if(this.x > _x + d) {
+				this.x = _x + d;
+				speed = -speed;
+			} else if (this.x < _x - d) {
+				this.x = _x - d;
+				speed = -speed;
+			}
+
+			// 発生から1分で自動的に死ぬ
+			this.counter++;
+			if(this.counter > 3600) {
+				this.hp = 0;
+			}
+		};
+		break;
+
+		case 'aotan':
+		this.hp = 80;
+		this.atk = 30;
+		this.point = 10;
+		this.itemNum = 3;
+		this.itemType = "exp";
+		var speed = 2;
+		var d = 360;
+
+		this.update = function() {
+			// 移動
+			this.x += speed;
+
+			if(this.x > _x + d) {
+				this.x = _x + d;
+				speed = -speed;
+			} else if (this.x < _x - d) {
+				this.x = _x - d;
+				speed = -speed;
+			}
+
+			// 発生から1分で自動的に死ぬ
+			this.counter++;
+			if(this.counter > 3600) {
+				this.hp = 0;
+			}
+		};
+		break;
 	}
 };
 
@@ -71,16 +129,11 @@ var Item = function(_x, _y, _vx, _vy, _type) {
 
 	switch(this.type) {
 		case "test":
-		var dx = (this.vx < 0) ? 0.01 : -0.01;
-		var dy = (this.vy < 0) ? 0.01 : -0.01;
 		this.point = 100;
-		this.update = function() {
-			this.vx = (Math.round(this.vx) === 0) ? 0 : (this.vx + dx);
-			this.vy = (Math.round(this.vy) === 0) ? 0 : (this.vy + dy);
-			this.x +=　this.vx;
-			this.y += this.vy;
-			this.counter++;
-		};
+		break;
+
+		case "exp":
+		this.point = 10;
 		break;
 	}
 };
@@ -88,6 +141,16 @@ var Item = function(_x, _y, _vx, _vy, _type) {
 Item.prototype.update = function() {
 	switch(this.type) {
 		case "test":
+		var dx = (this.vx < 0) ? 0.01 : -0.01;
+		var dy = (this.vy < 0) ? 0.01 : -0.01;
+		this.vx = (Math.round(this.vx) === 0) ? 0 : (this.vx + dx);
+		this.vy = (Math.round(this.vy) === 0) ? 0 : (this.vy + dy);
+		this.x +=　this.vx;
+		this.y += this.vy;
+		this.counter++;
+		break;
+
+		case "exp":
 		var dx = (this.vx < 0) ? 0.01 : -0.01;
 		var dy = (this.vy < 0) ? 0.01 : -0.01;
 		this.vx = (Math.round(this.vx) === 0) ? 0 : (this.vx + dx);

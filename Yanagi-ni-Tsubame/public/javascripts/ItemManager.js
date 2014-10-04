@@ -21,7 +21,24 @@ var ItemManager = function(scene, player, getItems) {
 			};
 			break;
 
-			case "":
+			case "exp":
+			this.halfSize = 4;
+
+			for (var i = 0; i < 8; i++) {
+				var ix = i & 1;
+				var iy = (i >> 1) & 1;
+				var iz = (i >> 2) & 1;
+				var g = new THREE.BoxGeometry(3, 3, 3);
+				var m = new THREE.MeshLambertMaterial({color : 0xeeeeee});
+				var box = new THREE.Mesh(g, m);
+				box.position.set(2 - 4 * ix, 2 - 4 * iy, 2 - 4 * iz);
+				this.mesh.add(box);
+			}
+
+			this.animate = function() {
+				this.mesh.rotation.x += 0.05;
+				this.mesh.rotation.y += 0.05;
+			};
 			break;
 		}
 	}

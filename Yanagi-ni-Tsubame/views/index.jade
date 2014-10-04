@@ -6,16 +6,13 @@ block content
     div.container
       div.row
         div.col-md-6.col-md-offset-3
-          div.btn-group
-            button.btn.btn-lg.btn-default(type="button")
-              a(href="/login/twitter")
-                i.fa.fa-twitter-square  login Twitter
-            button.btn.btn-lg.btn-default(type="button")
-              a(href="/login/facebook")
-                i.fa.fa-facebook-square  login Facebook
-    div.container
-      button.btn.btn-lg.btn-default(type="button")
-        a(href="/game") Play!
+          div.row
+            a.btn.btn-lg.btn-primary(href="/login/twitter", role="button")
+              i.fa.fa-twitter-square  login Twitter  
+            a.btn.btn-lg.btn-primary(href="/login/facebook", role="button")
+              i.fa.fa-facebook-square  login Facebook
+      div
+        a.btn.btn-lg.btn-info(href="/game", role="button") Play!
     div.container
       h3 About
     div

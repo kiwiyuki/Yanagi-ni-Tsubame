@@ -23,7 +23,60 @@ var EnemyManager = function(scene, player, atkEnemys) {
 			};
 			break;
 
-			case "":
+			case "akatan":
+			this.halfSize = 12;
+
+			var g = new THREE.BoxGeometry(6, 10, 1);
+			var m = new THREE.MeshLambertMaterial({color : 0xff1111});
+			var box = new THREE.Mesh(g, m);
+			box.position.y = 9;
+			this.mesh.add(box);
+
+			box = new THREE.Mesh(g, m);
+			box.position.x = -9;
+			box.rotation.z = Math.PI / 2;
+			this.mesh.add(box);
+
+			box = new THREE.Mesh(g, m);
+			box.position.x = 9;
+			box.rotation.z = Math.PI / 2;
+			this.mesh.add(box);
+
+			box = new THREE.Mesh(g, m);
+			box.position.y = -9;
+			this.mesh.add(box);
+
+			this.animate = function() {
+				this.mesh.rotation.z -= 0.05;
+			};
+			break;
+
+			case "aotan":
+			this.halfSize = 12;
+
+			var g = new THREE.BoxGeometry(6, 10, 2);
+			var m = new THREE.MeshLambertMaterial({color : 0x5522ff});
+			var box = new THREE.Mesh(g, m);
+			box.position.y = 9;
+			this.mesh.add(box);
+
+			box = new THREE.Mesh(g, m);
+			box.position.x = -9;
+			box.rotation.z = Math.PI / 2;
+			this.mesh.add(box);
+
+			box = new THREE.Mesh(g, m);
+			box.position.x = 9;
+			box.rotation.z = Math.PI / 2;
+			this.mesh.add(box);
+
+			box = new THREE.Mesh(g, m);
+			box.position.y = -9;
+			this.mesh.add(box);
+
+			this.animate = function() {
+				this.mesh.rotation.z += 0.05;
+			};
 			break;
 		}
 	}
