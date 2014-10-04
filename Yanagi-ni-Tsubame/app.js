@@ -11,7 +11,7 @@ var setting = require("./setting");
 var passport = require("./models/passport");
 
 var routes = require("./routes/index");
-// var users = require("./routes/users");
+var user = require("./routes/user");
 var login = require("./routes/login");
 var logout = require("./routes/logout");
 var game = require("./routes/game");
@@ -41,7 +41,7 @@ app.use(session({
 }));
 
 app.use("/", routes);
-// app.use("/users", users);
+app.use("/user", user);
 app.use("/login", login);
 app.use("/logout", logout);
 app.use("/game", game);
