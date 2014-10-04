@@ -189,7 +189,7 @@ function socketio (server) {
 		if (timeCounter == 100　&& enemys.length < 50) {
 			var _x = Math.floor((Math.random() * 10) - 5) * 100;
 			var _y = Math.floor((Math.random() * 10) - 5) * 100;
-			var enemy = new go.Enemy(_x, _y, "test");
+			var enemy = new go.Enemy(_x, _y, "akatan");
 			enemys.push(enemy);
 			timeCounter = 0;
 		}
