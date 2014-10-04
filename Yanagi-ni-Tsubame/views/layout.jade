@@ -22,9 +22,6 @@ html
         div.navbar-header
           a.navbar-brand(href="/") ヤナギニツバメ
         div.collapse.navbar-collapse
-          ul.nav.navbar-nav.navbar-left
-            li.navbar-text
-              i.fa.fa-volume-down.fa-lg
           ul.nav.navbar-nav.navbar-right
             block gameMenu  
             if isLogin
@@ -40,7 +37,7 @@ html
                   li
                     a(href="/logout")
                       div.center-block
-                        i.fa.fa-sign-out      logout
+                        i.fa.fa-sign-out  logout
             else
               li.dropdown
                 a.dropdown-toggle(href="#",data-toggle="dropdown") login
