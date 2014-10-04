@@ -17,8 +17,6 @@ $(document).ready(function() {
 	};
 	GAME.state = GAME.utils.state.LOAD;
 	
-
-
 	// socket通信開始
 	socket = io.connect();
 
@@ -79,11 +77,14 @@ $(document).ready(function() {
 		window.addEventListener('resize', onWindowResize, false);
 		window.addEventListener('keydown', onKeyDown, false);
 
-		// ロードメッセージ削除
-		gameDomElement.removeChild(document.getElementById("load_msg"));
+		// 再接続時のエラー防止
+		if(GAME.state == GAME.utils.state.LOAD) {
+			// ロードメッセージ削除
+			gameDomElement.removeChild(document.getElementById("load_msg"));
 
-		// 状態遷移
-		GAME.state = GAME.utils.state.TITLE;
+			// 状態遷移
+			GAME.state = GAME.utils.state.TITLE;
+		}
 
 		// ループ開始
 		requestAnimationFrame(loop);
