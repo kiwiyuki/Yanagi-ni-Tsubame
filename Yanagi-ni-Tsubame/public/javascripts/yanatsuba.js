@@ -148,7 +148,7 @@ $(document).ready(function() {
 		// ゲーム開始
 		if(e.keyCode == 13 && GAME.state == GAME.utils.state.TITLE) {
 			GAME.state = GAME.utils.state.PLAY;
-			$('#gameTitle').css('visibility', 'hidden');
+			$(".gameTitle").addClass("gameTitleHidden");
 			player.state = "NORMAL";
 		}
 	}
