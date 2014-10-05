@@ -43,3 +43,8 @@
     transform: translateX(-50%);
 	color: #fff;
 }
+
+#gameVolume:hover {
+	cursor: pointer;
+	color: #a7236f;
+}
