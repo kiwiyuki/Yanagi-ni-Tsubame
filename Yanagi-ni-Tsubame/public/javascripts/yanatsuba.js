@@ -170,19 +170,17 @@ $(document).ready(function() {
 	function onClickVolumeIcon() {
 		if(GAME.volume <= 0) {
 			GAME.volume = 0.5;
-			soundManager.changeVolume(GAME.volume);
 			$('#gameVolume i').removeClass("fa-volume-off");
 			$('#gameVolume i').addClass("fa-volume-down");
 		} else if (GAME.volume < 1.0) {
 			GAME.volume = 1.0;
-			soundManager.changeVolume(GAME.volume);
 			$('#gameVolume i').removeClass("fa-volume-down");
 			$('#gameVolume i').addClass("fa-volume-up");
 		} else if (GAME.volume >= 1.0) {
 			GAME.volume = 0;
-			soundManager.changeVolume(GAME.volume);
 			$('#gameVolume i').removeClass("fa-volume-up");
 			$('#gameVolume i').addClass("fa-volume-off");
 		}
+		soundManager.changeVolume(GAME.volume);
 	};
 });
