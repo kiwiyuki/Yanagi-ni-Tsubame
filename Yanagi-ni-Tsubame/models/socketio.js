@@ -88,6 +88,7 @@ function socketio (server) {
 				}
 			}
 
+
 			// ダメージ処理
 			data.atkEnemys.forEach(function(ae) {
 				for(var i = 0; i < enemys.length; i++) {
@@ -127,6 +128,13 @@ function socketio (server) {
 					}
 				}
 			});
+
+			// プレイヤー死亡処理
+			if(dp.hp <= 0) {
+				players.splice(pIndex, 1);
+				p = new go.Player(dp.id, dp.x, dp.y, 300, Math.floor(dp.score /2), dp.color);
+				players.push(p);
+			}
 		});
 
 		// 切断処理
