@@ -73,6 +73,12 @@ var Player = function(scene, camera, data) {
 			// ステート毎の処理
 			if(this.state == "DAMAGE") {
 				damageCounter++;
+
+				// 点滅エフェクト
+				if(damageCounter % 8 <= 3) {
+					this.mesh.visible = false;
+				}
+
 				if(damageCounter > 120) {
 					damageCounter = 0;
 					this.state = "NORMAL";
