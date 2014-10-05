@@ -35,8 +35,11 @@ html
                   span.caret
                 ul.dropdown-menu
                   li
+                    a(href="/user")
+                      i.fa.fa-user  user page
+                  li.divider
+                  li
                     a(href="/logout")
-                      div.center-block
                         i.fa.fa-sign-out  logout
             else
               li.dropdown
@@ -52,4 +55,5 @@ html
                       i.fa.fa-facebook-square  with Facebook
     div#main.container
       block content
+    block insertScript
     footer
