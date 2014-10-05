@@ -50,7 +50,7 @@ function socketio (server) {
 					user.id = socket.id;
 					user.game.lastX = 0;
 					user.game.lastY = 0;
-					user.game.lastHP = 300;
+					user.game.lastHP = 30;
 					user.game.score = 0;
 					user.game.color = Math.random();
 				}

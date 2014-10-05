@@ -19,7 +19,7 @@ var Player = function(scene, camera, data) {
 	this.id = data.id;
 	this.hp = data.hp;
 	this.score = data.score;
-	this.state = "WAIT";
+	this.state = "WAIT"; // "WAIT" "NORMAL" "DAMAGE" "DEAD"
 
 	// イベントリスナー用
 	this.domElement = document;
@@ -73,6 +73,12 @@ var Player = function(scene, camera, data) {
 			// ステート毎の処理
 			if(this.state == "DAMAGE") {
 				damageCounter++;
+
+				// 点滅エフェクト
+				if(damageCounter % 8 <= 3) {
+					this.mesh.visible = false;
+				}
+
 				if(damageCounter > 120) {
 					damageCounter = 0;
 					this.state = "NORMAL";
