@@ -19,7 +19,7 @@ var Player = function(scene, camera, data) {
 	this.id = data.id;
 	this.hp = data.hp;
 	this.score = data.score;
-	this.state = "WAIT";
+	this.state = "WAIT"; // "WAIT" "NORMAL" "DAMAGE" "DEAD"
 
 	// イベントリスナー用
 	this.domElement = document;

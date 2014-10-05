@@ -14,6 +14,7 @@ $(document).ready(function() {
 		LOAD : 1,
 		TITLE : 2,
 		PLAY : 3,
+		GAMEOVER : 4
 	};
 	GAME.state = GAME.utils.state.LOAD;
 	
@@ -117,6 +118,14 @@ $(document).ready(function() {
 		enemyManager.localUpdate();
 		itemManager.localUpdate();
 
+		// プレイヤー死亡判定
+		if(player.hp <= 0) {
+			player.state = "WAIT";
+			player.mesh.visible = false;
+			GAME.state = GAME.utils.state.GAMEOVER;
+			$(".gameOver").removeClass("gameUIHidden");
+		}
+
 		// 鯖へデータ送信
 		localData.player = {
 			id : player.id,
@@ -148,7 +157,7 @@ $(document).ready(function() {
 		// ゲーム開始
 		if(e.keyCode == 13 && GAME.state == GAME.utils.state.TITLE) {
 			GAME.state = GAME.utils.state.PLAY;
-			$(".gameTitle").addClass("gameTitleHidden");
+			$(".gameTitle").addClass("gameUIHidden");
 			player.state = "NORMAL";
 		}
 	}
