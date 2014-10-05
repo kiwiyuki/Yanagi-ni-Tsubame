@@ -4,7 +4,7 @@ $(document).ready(function() {
 	var WIDTH = window.innerWidth;
 	var HEIGHT = window.innerHeight;
 	var socket, localData;
-	var scene, camera, renderer, background, player, avatarManager, enemyManager, itemManager;
+	var scene, camera, renderer, background, player, avatarManager, enemyManager, itemManager, soundManager;
 	var gameDomElement = document.getElementById("game");
 	var bgColor = 0x333333;
 	
@@ -17,6 +17,7 @@ $(document).ready(function() {
 		GAMEOVER : 4
 	};
 	GAME.state = GAME.utils.state.LOAD;
+	GAME.volume = 0;
 	
 	// socket通信開始
 	socket = io.connect();
@@ -77,6 +78,10 @@ $(document).ready(function() {
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
 		window.addEventListener('keydown', onKeyDown, false);
+		$('#gameVolume').click(onClickVolumeIcon);
+
+		// BGM
+
 
 		// 再接続時のエラー防止
 		if(GAME.state == GAME.utils.state.LOAD) {
@@ -161,4 +166,10 @@ $(document).ready(function() {
 			player.state = "NORMAL";
 		}
 	}
+
+	function onClickVolumeIcon() {
+		if(GAME.volume <= 0) {
+			GAME.volume = 0.5;
+		}
+	};
 });
