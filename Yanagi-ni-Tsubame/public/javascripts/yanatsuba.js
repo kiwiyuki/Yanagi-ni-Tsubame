@@ -25,9 +25,8 @@ $(document).ready(function() {
 	// 初回データ受信
 	socket.on("first_message", function(data) {
 		console.log(data);
-
+		
 		// 初期化
-		// TODO タイトルへ遷移
 		// シーン
 		scene = new THREE.Scene();
 
@@ -158,7 +157,6 @@ $(document).ready(function() {
 	}
 
 	function onKeyDown(e) {
-		// console.log(e.keyCode);
 		// ゲーム開始
 		if(e.keyCode == 13 && GAME.state == GAME.utils.state.TITLE) {
 			GAME.state = GAME.utils.state.PLAY;

@@ -6,6 +6,7 @@ var AvatarManager = function(scene, player) {
 		this.state = data.state;
 
 		this.mesh = new THREE.Object3D();
+		this.shots = [];
 
 		// 本体メッシュ
 		var core = new THREE.Object3D();
