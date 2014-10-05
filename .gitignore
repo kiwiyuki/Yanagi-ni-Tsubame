@@ -28,3 +28,6 @@ setting.js
 
 # ignore database
 *.db
+
+# ignore resources
+resources
