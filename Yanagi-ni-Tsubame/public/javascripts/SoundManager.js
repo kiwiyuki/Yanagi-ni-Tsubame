@@ -1,5 +1,5 @@
 var SoundManager = function(volume) {
-	var bgm = new Audio("javascripts/Cyber_World.mp3");
+	var bgm = new Audio("resources/Cyber_World.mp3");
 	bgm.loop = true;
 	bgm.volume = volume;
 	bgm.play();
