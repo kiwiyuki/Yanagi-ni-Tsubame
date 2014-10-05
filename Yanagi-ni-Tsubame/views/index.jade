@@ -11,19 +11,25 @@ block content
               i.fa.fa-twitter-square.   login Twitter   
             a.btn.btn-lg.btn-primary(href="/login/facebook", role="button")
               i.fa.fa-facebook-square  login Facebook
+      else
+        div
+          a.btn.btn-lg.btn-primary(href="/user", role="button")
+            i.fa.fa-user  user page
       div
         a.btn.btn-lg.btn-info(href="/game", role="button") 　　　　Play!　　　　
     div.container
       h3 About
+      div
+        p 
+        |ヤナギニツバメはnode.js製の多人数参加型全方位シューティングです。
     div
       h3 How to play
-      div
-        div.row
-          div.col-md-6.col-md-offset-3
-            table.table.table-bordered.table-condensed
-              tr
-                td W A S D
-                td 移動
-              tr
-                td 方向キー ↑ ← ↓ →
-                td 攻撃
+      div.row
+        div.col-md-6.col-md-offset-3
+          table.table.table-bordered.table-condensed
+            tr
+              td W A S D
+              td 移動
+            tr
+              td 方向キー ↑ ← ↓ →
+              td 攻撃

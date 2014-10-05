@@ -1,7 +1,10 @@
 extends layout 
 
 block content
-	p
-		a(href="/login/twitter") login with twitter
-	p
-		a(href="/login/facebook") login with facebook
+  h1 ログイン
+  div.row
+    div.col-md-6.col-md-offset-3
+      a.btn.btn-lg.btn-primary(href="/login/twitter", role="button")
+        i.fa.fa-twitter-square.   login Twitter   
+      a.btn.btn-lg.btn-primary(href="/login/facebook", role="button")
+        i.fa.fa-facebook-square  login Facebook

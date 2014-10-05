@@ -16,12 +16,12 @@ router.get("/", function (req, res) {
 });
 router.get("/twitter", passport.authenticate("twitter"));
 router.get("/twitter/callback", passport.authenticate("twitter", {
-	failuerRedirect: "/login"
+	failuerRedirect: "/"
 }), loginCallback);
 
 router.get("/facebook", passport.authenticate("facebook"));
 router.get("/facebook/callback", passport.authenticate("facebook", {
-	failuerRedirect: "/login"
+	failuerRedirect: "/"
 }), loginCallback);
 
 function loginCallback (req, res) {

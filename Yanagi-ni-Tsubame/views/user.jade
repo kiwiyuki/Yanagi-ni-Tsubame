@@ -1,3 +1,20 @@
 extends layout
 
 block content
+  div.container
+    h1 プレイヤーデータ
+    div.row
+      div.col-md-6.col-md-offset-3
+        table.table.table-bordered.table-condensed
+          tr
+            td
+              img(src= user.photo)
+            if user.provider === "twitter"
+              td= user.username
+            else
+              td= user.displayName
+          tr
+            td color
+            td= user.game.color
+     div
+        a.btn.btn-lg.btn-info(href="/game", role="button") 　　　　Play!　　　　
