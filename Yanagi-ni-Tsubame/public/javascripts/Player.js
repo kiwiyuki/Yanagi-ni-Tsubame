@@ -144,7 +144,7 @@ var Player = function(scene, camera, data) {
 				b.position.y += b.speedY;
 				b.counter++;
 
-				if(b.counter > 60 || !b.visible) {
+				if(b.counter > 40 || !b.visible) {
 					removeBullets.push(b);
 				}
 			});

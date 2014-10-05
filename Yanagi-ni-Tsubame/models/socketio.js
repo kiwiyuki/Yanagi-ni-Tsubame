@@ -162,6 +162,21 @@ function socketio (server) {
 			}
 		});
 
+		// 敵の削除
+		deadEnemys.forEach(function(de) {
+			var deIndex = enemys.indexOf(de);
+			enemys.splice(deIndex, 1);
+		});
+
+		// 敵の生成
+		if (timeCounter == 100　&& enemys.length < 50) {
+			var _x = Math.floor((Math.random() * 10) - 5) * 100;
+			var _y = Math.floor((Math.random() * 10) - 5) * 100;
+			var enemy = new go.Enemy(_x, _y, "akatan");
+			enemys.push(enemy);
+			timeCounter = 0;
+		}
+
 		// アイテムの状態更新
 		var deadItems = [];
 		items.forEach(function(item) {
@@ -172,27 +187,12 @@ function socketio (server) {
 			}
 		});
 
-		// 敵の削除
-		deadEnemys.forEach(function(de) {
-			var deIndex = enemys.indexOf(de);
-			enemys.splice(deIndex, 1);
-		});
-
 		// アイテムの削除
 		deadItems.forEach(function(di) {
 			var diIndex = items.indexOf(di);
 			items.splice(di, 1);
 		});
 		
-		// 敵の生成
-		if (timeCounter == 100　&& enemys.length < 50) {
-			var _x = Math.floor((Math.random() * 10) - 5) * 100;
-			var _y = Math.floor((Math.random() * 10) - 5) * 100;
-			var enemy = new go.Enemy(_x, _y, "akatan");
-			enemys.push(enemy);
-			timeCounter = 0;
-		}
-
 		io.sockets.json.emit('server_update', { players : players , enemys : enemys , items : items});
 	};
 }
