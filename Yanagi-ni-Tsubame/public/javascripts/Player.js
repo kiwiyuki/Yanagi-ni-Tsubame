@@ -90,6 +90,14 @@ var Player = function(scene, camera, data) {
 			if(controls.moveRight) this.mesh.position.x += speed;
 			if(controls.moveDown) this.mesh.position.y -= speed;
 
+			// 行動範囲の限定
+			var maxX = 1200;
+			if(this.mesh.position.x > maxX) this.mesh.position.x = maxX;
+			if(this.mesh.position.x < -maxX) this.mesh.position.x = -maxX;
+			if(this.mesh.position.y > maxX) this.mesh.position.y = maxX;
+			if(this.mesh.position.y < -maxX) this.mesh.position.y = -maxX;
+
+
 			core.rotation.x += 0.05;
 			core.rotation.y += 0.05;
 
