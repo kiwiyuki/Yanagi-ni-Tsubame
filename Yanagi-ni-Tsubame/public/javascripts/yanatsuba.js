@@ -75,13 +75,13 @@ $(document).ready(function() {
 		itemManager = new ItemManager(scene, player, localData.getItems);
 		itemManager.update(data.items);
 
+		// 音
+		soundManager = new SoundManager(GAME.volume);
+
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
 		window.addEventListener('keydown', onKeyDown, false);
 		$('#gameVolume').click(onClickVolumeIcon);
-
-		// BGM
-
 
 		// 再接続時のエラー防止
 		if(GAME.state == GAME.utils.state.LOAD) {
@@ -170,6 +170,19 @@ $(document).ready(function() {
 	function onClickVolumeIcon() {
 		if(GAME.volume <= 0) {
 			GAME.volume = 0.5;
+			soundManager.changeVolume(GAME.volume);
+			$('#gameVolume i').removeClass("fa-volume-off");
+			$('#gameVolume i').addClass("fa-volume-down");
+		} else if (GAME.volume < 1.0) {
+			GAME.volume = 1.0;
+			soundManager.changeVolume(GAME.volume);
+			$('#gameVolume i').removeClass("fa-volume-down");
+			$('#gameVolume i').addClass("fa-volume-up");
+		} else if (GAME.volume >= 1.0) {
+			GAME.volume = 0;
+			soundManager.changeVolume(GAME.volume);
+			$('#gameVolume i').removeClass("fa-volume-up");
+			$('#gameVolume i').addClass("fa-volume-off");
 		}
 	};
 });
