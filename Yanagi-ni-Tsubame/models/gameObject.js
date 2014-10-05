@@ -117,6 +117,10 @@ var Enemy = function(_x, _y, _type) {
 	}
 };
 
+Enemy.prototype.update = function() {
+
+};
+
 var Item = function(_x, _y, _vx, _vy, _type) {
 	this.id = "" + Math.random()　+ Date.now();
 	this.x = _x;

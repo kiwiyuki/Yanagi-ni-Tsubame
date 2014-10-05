@@ -4,15 +4,15 @@ block content
   div.container
       h1= title
     div.container
-      div.row
-        div.col-md-6.col-md-offset-3
-          div.row
+      if !isLogin
+        div.row
+          div.col-md-6.col-md-offset-3
             a.btn.btn-lg.btn-primary(href="/login/twitter", role="button")
-              i.fa.fa-twitter-square  login Twitter  
+              i.fa.fa-twitter-square.   login Twitter   
             a.btn.btn-lg.btn-primary(href="/login/facebook", role="button")
               i.fa.fa-facebook-square  login Facebook
       div
-        a.btn.btn-lg.btn-info(href="/game", role="button") Play!
+        a.btn.btn-lg.btn-info(href="/game", role="button") 　　　　Play!　　　　
     div.container
       h3 About
     div

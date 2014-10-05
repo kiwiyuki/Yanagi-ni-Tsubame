@@ -24,6 +24,9 @@ header.navbar {
 	color: #a7236f	
 } 
 
+a.btn {
+	margin: 10px;
+}
 
 #userIcon {
 	width: 24px;

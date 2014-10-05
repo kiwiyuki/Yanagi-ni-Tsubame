@@ -104,7 +104,7 @@ function socketio (server) {
 							while(j < itemNum) {
 								var _x = enemys[i].x;
 								var _y = enemys[i].y;
-								var angle = 2 * Math.PI *  (j + Math.floor(Math.random() * 10)) / ( 2 * itemNum ) ;
+								var angle = 2 * Math.PI *  (j + Math.round(Math.random() * 10)) / ( 2 * itemNum );
 								var _vx = Math.sin(angle) * 2;
 								var _vy = Math.cos(angle) * 2;
 								var item = new go.Item(_x, _y, _vx, _vy, enemys[i].itemType);
