@@ -130,11 +130,12 @@ function socketio (server) {
 			});
 
 			// プレイヤー死亡処理
-			if(dp.hp <= 0) {
+			if(dp.hp <= 0 && dp.state !== "WAIT") {
+				var _p = players[pIndex];
+				p = new go.Player(_p.id, _p.x, _p.y, 300, (_p.score / 2 + 0.5) | 0, _p.color);
 				players.splice(pIndex, 1);
-				p = new go.Player(dp.id, dp.x, dp.y, 300, Math.floor(dp.score /2), dp.color);
 				players.push(p);
-
+				console.log(p);
 				socket.json.emit("dead_message", p);
 			}
 		});
