@@ -17,7 +17,7 @@ var Shots = function() {
 
 
 var Enemy = function(_x, _y, _type) {
-	this.id = "" + Date.now() + Math.random();
+	this.id = generateID();
 	this.x = _x;
 	this.y = _y;
 	this.type = _type;
@@ -122,7 +122,7 @@ Enemy.prototype.update = function() {
 };
 
 var Item = function(_x, _y, _vx, _vy, _type) {
-	this.id = "" + Math.random()　+ Date.now();
+	this.id = generateID();
 	this.x = _x;
 	this.y = _y;
 	this.vx = _vx;
@@ -165,6 +165,12 @@ Item.prototype.update = function() {
 		break;
 	}
 };
+
+function generateID() {
+	var dateNow = Date.now().toString();
+	var id = (dateNow.substring(dateNow.length - 7) + (Math.random() * 10000)) | 0;
+	return id.toString(16);
+}
 
 module.exports = {
 	Player: Player,
