@@ -9,7 +9,6 @@
 	height: 100%;
 	opacity: 0.8;
 	background-color: #111;
-	transition: all 0.5s ease-in-out;
 }
 
 #gameOver {
@@ -18,7 +17,6 @@
 	height: 100%;
 	opacity: 0.8;
 	background-color: #422;
-	transition: all 0.5s ease-in-out;
 }
 
 #gameVolume:hover {
