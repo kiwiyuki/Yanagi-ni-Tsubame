@@ -97,7 +97,6 @@ var Player = function(scene, camera, data) {
 			if(this.mesh.position.y > maxX) this.mesh.position.y = maxX;
 			if(this.mesh.position.y < -maxX) this.mesh.position.y = -maxX;
 
-
 			core.rotation.x += 0.05;
 			core.rotation.y += 0.05;
 
@@ -136,23 +135,23 @@ var Player = function(scene, camera, data) {
 					shotCounter = 0;
 				}
 			}
+		}
 
-			// 自弾処理
-			var removeBullets = [];
-			this.bullets.children.forEach(function(b) {
-				b.position.x += b.speedX;
-				b.position.y += b.speedY;
-				b.counter++;
+		// 自弾処理
+		var removeBullets = [];
+		this.bullets.children.forEach(function(b) {
+			b.position.x += b.speedX;
+			b.position.y += b.speedY;
+			b.counter++;
 
-				if(b.counter > 40 || !b.visible) {
-					removeBullets.push(b);
-				}
-			});
-
-			// 自弾削除
-			for (var i = 0; i < removeBullets.length; i++) {
-				this.bullets.remove(removeBullets[i]);
+			if(b.counter > 40 || !b.visible) {
+				removeBullets.push(b);
 			}
+		});
+
+		// 自弾削除
+		for (var i = 0; i < removeBullets.length; i++) {
+			this.bullets.remove(removeBullets[i]);
 		}
 	};
 
