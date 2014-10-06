@@ -135,7 +135,6 @@ function socketio (server) {
 				p = new go.Player(_p.id, _p.x, _p.y, 300, (_p.score / 2 + 0.5) | 0, _p.color);
 				players.splice(pIndex, 1);
 				players.push(p);
-				console.log(p);
 				socket.json.emit("dead_message", p);
 			}
 		});
