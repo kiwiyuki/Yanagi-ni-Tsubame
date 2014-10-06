@@ -115,7 +115,6 @@ $(document).ready(function() {
 
 	// 死亡時メッセージ受信
 	socket.json.on("dead_message", function(data) {
-		player.state = "WAIT";
 		player.mesh.visible = false;
 		player.hp = data.hp;
 		player.score = data.score;
@@ -141,7 +140,13 @@ $(document).ready(function() {
 			state : player.state
 		};
 
-		socket.json.emit("player_data", localData);
+		if(player.state != "WAIT") {
+			socket.json.emit("player_data", localData);
+
+			if(player.hp <= 0) {
+				player.state = "WAIT";
+			}
+		}
 
 		// レンダリング
 		renderer.render(scene, camera);
