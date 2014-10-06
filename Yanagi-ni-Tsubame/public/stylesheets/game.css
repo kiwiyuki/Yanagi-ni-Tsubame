@@ -3,7 +3,7 @@
 	padding: 0;
 }
 
-.gameTitle {
+#gameTitle {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -12,21 +12,7 @@
 	transition: all 0.5s ease-in-out;
 }
 
-.gameUIHidden {
-	opacity: 0;
-	visibility: hidden;
-}
-
-.gameTitleText, .gameOverText{
-	position: relative;
-	top: 50%;
-	left: 50%;
-	transform: translateY(-50%);
-    transform: translateX(-50%);
-	color: #fff;
-}
-
-.gameOver {
+#gameOver {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -38,4 +24,18 @@
 #gameVolume:hover {
 	cursor: pointer;
 	color: #a7236f;
+}
+
+.gameTitleText, .gameOverText{
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translateY(-50%);
+	transform: translateX(-50%);
+	color: #fff;
+}
+
+.gameUIHidden {
+	opacity: 0;
+	visibility: hidden;
 }

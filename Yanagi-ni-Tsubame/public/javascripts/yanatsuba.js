@@ -113,6 +113,16 @@ $(document).ready(function() {
 		}
 	});
 
+	// 死亡時メッセージ受信
+	socket.json.on("dead_message", function(data) {
+		player.state = "WAIT";
+		player.mesh.visible = false;
+		player.hp = data.hp;
+		player.score = data.score;
+		GAME.state = GAME.utils.state.GAMEOVER;
+		$("#gameOver").removeClass("gameUIHidden");
+	});
+
 	// ループ
 	function loop() {
 		// 状態更新
@@ -121,14 +131,6 @@ $(document).ready(function() {
 		avatarManager.animate();
 		enemyManager.localUpdate();
 		itemManager.localUpdate();
-
-		// プレイヤー死亡判定
-		if(player.hp <= 0) {
-			player.state = "WAIT";
-			player.mesh.visible = false;
-			GAME.state = GAME.utils.state.GAMEOVER;
-			$(".gameOver").removeClass("gameUIHidden");
-		}
 
 		// 鯖へデータ送信
 		localData.player = {
@@ -157,11 +159,18 @@ $(document).ready(function() {
 	}
 
 	function onKeyDown(e) {
-		// ゲーム開始
-		if(e.keyCode == 13 && GAME.state == GAME.utils.state.TITLE) {
-			GAME.state = GAME.utils.state.PLAY;
-			$(".gameTitle").addClass("gameUIHidden");
-			player.state = "NORMAL";
+		// エンターキー
+		if(e.keyCode == 13) {
+			// ゲーム開始時
+			if(GAME.state == GAME.utils.state.TITLE) {
+				GAME.state = GAME.utils.state.PLAY;
+				$("#gameTitle").addClass("gameUIHidden");
+				player.state = "NORMAL";
+			} else if(GAME.state == GAME.utils.state.GAMEOVER) {
+				GAME.state = GAME.utils.state.TITLE;
+				$("#gameOver").addClass("gameUIHidden");
+				$("#gameTitle").removeClass("gameUIHidden");
+			}
 		}
 	}
 
