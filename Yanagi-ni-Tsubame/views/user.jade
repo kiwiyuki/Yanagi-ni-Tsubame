@@ -1,5 +1,5 @@
 extends layout
-
+ 
 block content
   div.container
     h1 プレイヤーデータ
@@ -14,7 +14,11 @@ block content
             else
               td= user.displayName
           tr
-            td color
+            td(style="color:hsl("+user.game.color*360+",100%,50%);") color
             td= user.game.color
-     div
+      div.col-md-6.col-md-offset-3
+        form(method="post", target="/")
+          input(type="range",name="color",min="0",max="1",step="0.01",value= user.game.color)
+          input.btn.btn-lg(type="submit",value="送信")
+      div.col-md-6.col-md-offset-3
         a.btn.btn-lg.btn-info(href="/game", role="button") 　　　　Play!　　　　

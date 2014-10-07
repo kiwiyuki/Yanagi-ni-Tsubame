@@ -15,6 +15,7 @@ var Player = function(scene, camera, data, soundManager) {
 	var canonAngle = 0;
 	var shotCounter = 0; // ショット制御用
 	var damageCounter = 0 // ダメージ時、2秒間無敵
+	var blinkCounter = 0; // 点滅エフェクト用
 
 	this.id = data.id;
 	this.hp = data.hp;
@@ -72,12 +73,15 @@ var Player = function(scene, camera, data, soundManager) {
 
 			// ステート毎の処理
 			if(this.state == "DAMAGE") {
-				damageCounter++;
-
 				// 点滅エフェクト
-				if(damageCounter % 8 <= 3) {
+				if(blinkCounter <= 3) {
 					this.mesh.visible = false;
+				} else if(blinkCounter > 7) {
+					blinkCounter = 0;
 				}
+
+				damageCounter++;
+				blinkCounter++;
 
 				if(damageCounter > 120) {
 					damageCounter = 0;

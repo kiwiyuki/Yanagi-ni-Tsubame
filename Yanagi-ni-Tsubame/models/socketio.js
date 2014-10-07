@@ -11,6 +11,8 @@ var enemys = [];
 var items = [];
 var loopInterval;
 
+var enemyGenerator = new EnemyGenerator(players, enemys);
+
 function socketio (server) {
 	var io = sio.listen(server);
 
@@ -154,14 +156,11 @@ function socketio (server) {
 	});
 
 	// 全プレイヤーデータ送信（毎秒60回）
-	var timeCounter = 0;
 	var loop = function() {
 		if(players.length === 0) {
 			console.log("stop loop");
 			clearInterval(loopInterval);
 		}
-
-		timeCounter++;
 
 		// 敵の更新、HPが0以下の敵を検索
 		var deadEnemys = [];
@@ -180,21 +179,14 @@ function socketio (server) {
 		});
 
 		// 敵の生成
-		generateEnemy(players,enemys);
-		if (timeCounter == 100　&& enemys.length < 50) {
-			var _x = Math.floor((Math.random() * 10) - 5) * 100;
-			var _y = Math.floor((Math.random() * 10) - 5) * 100;
-			var enemy = new go.Enemy(_x, _y, "akatan");
-			enemys.push(enemy);
-			timeCounter = 0;
-		}
+		enemyGenerator.update();
 
 		// アイテムの状態更新
 		var deadItems = [];
 		items.forEach(function(item) {
 			item.update();
 
-			if (item.counter > 3600) {
+			if (item.counter > 1200) {
 				deadItems.push(item);
 			}
 		});
@@ -209,8 +201,39 @@ function socketio (server) {
 	};
 }
 
-function generateEnemy(players, enemys) {
 
+function EnemyGenerator(players, enemys) {
+	var counter = 0;
+	
+	this.update = function() {
+		if(counter == 100){
+			generateTest();
+		}
+
+		counter++;
+
+		// 1分で生成タイミングをループ
+		if(counter > 360) {
+			counter = 0;
+		}
+	};
+
+	function generateTest() {
+		var test = new go.Enemy(0, 50, "akatan");
+		
+		test.individualUpdate = function(self) {
+			self.y += 3;
+		};
+
+		enemys.push(test);
+	}
+
+	function fireworks() {
+		var playerLength = players.length;
+		if(playerLength > 0) {
+			
+		}
+	}
 }
 
 module.exports = socketio;
