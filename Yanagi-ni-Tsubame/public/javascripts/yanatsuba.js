@@ -131,6 +131,12 @@ $(document).ready(function() {
 		enemyManager.localUpdate();
 		itemManager.localUpdate();
 
+		// 弾幕情報の取得
+		var bullets = [];
+		player.bullets.forEach(function(b) {
+			bullets.push(b.getData());
+		});
+
 		// 鯖へデータ送信
 		localData.player = {
 			id : player.id,
@@ -138,7 +144,7 @@ $(document).ready(function() {
 			y : player.mesh.position.y,
 			hp : player.hp,
 			state : player.state,
-			bullets : player.bullets
+			bullets : player.bulletsData
 		};
 
 		if(player.state != "WAIT") {

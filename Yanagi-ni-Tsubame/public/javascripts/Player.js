@@ -56,10 +56,35 @@ var Player = function(scene, camera, data, soundManager) {
 	camera.position.y = data.y;
 
 	// 弾の管理
-	this.bullets = new THREE.Object3D();
+	this.bullets = [];
+	this.bulletsData = [];
 
 	scene.add(this.mesh);
-	scene.add(this.bullets);
+
+	// 弾定義
+	function Bullet(x, y, angle, color) {
+		this.speedX = 8 * Math.cos(angle);
+		this.speedY = 8 * Math.sin(angle);
+		this.counter = 0;
+		this.atk = 20;
+		this.halfSize = 4;
+
+		var dateNow = Date.now().toString();
+		this.id = (dateNow.substring(dateNow.length - 7) + (Math.random() * 100)) | 0;
+
+		var g = new THREE.SphereGeometry(8, 6, 6);
+		var m = new THREE.MeshBasicMaterial({color: color});
+		this.mesh = new THREE.Mesh(g, m);
+		this.mesh.position.set(x, y, 0);
+	}
+
+	Bullet.prototype.getData = function() {
+		return {
+			id : this.id,
+			x : this.mesh.position.x,
+			y : this.mesh.position.y
+		};
+	};
 
 	// 状態更新
 	this.update = function() {
@@ -126,38 +151,38 @@ var Player = function(scene, camera, data, soundManager) {
 
 				// ショット
 				if(shotCounter > 6) {
-					var g = new THREE.SphereGeometry(8, 6, 6);
-					var m = new THREE.MeshBasicMaterial({color: color});
-					var bullet = new THREE.Mesh(g, m);
-					bullet.position.set(this.mesh.position.x, this.mesh.position.y, 0);
-					bullet.speedX = 8 * Math.cos(canonAngle);
-					bullet.speedY = 8 * Math.sin(canonAngle);
-					bullet.counter = 0;
-					bullet.atk = 20;
-					bullet.halfSize = 4
-					this.bullets.add(bullet);
-					shotCounter = 0;
+					var bullet = new Bullet(this.mesh.position.x, this.mesh.position.y, canonAngle, color);
+					
+					this.bullets.push(bullet);
+					scene.add(bullet.mesh);
 					
 					soundManager.seShot();
+
+					shotCounter = 0;
 				}
 			}
 		}
 
 		// 自弾処理
+		var bulletsData = [];
 		var removeBullets = [];
-		this.bullets.children.forEach(function(b) {
-			b.position.x += b.speedX;
-			b.position.y += b.speedY;
+		this.bullets.forEach(function(b) {
+			b.mesh.position.x += b.speedX;
+			b.mesh.position.y += b.speedY;
 			b.counter++;
 
-			if(b.counter > 40 || !b.visible) {
+			bulletsData.push(b.getData());
+
+			if(b.counter > 40 || !b.mesh.visible) {
 				removeBullets.push(b);
 			}
 		});
+		this.bulletsData = bulletsData;
 
 		// 自弾削除
 		for (var i = 0; i < removeBullets.length; i++) {
-			this.bullets.remove(removeBullets[i]);
+			scene.remove(removeBullets[i].mesh);
+			this.bullets.splice(this.bullets.indexOf(removeBullets[i]), 1);
 		}
 	};
 

@@ -101,9 +101,9 @@ var EnemyManager = function(scene, player, atkEnemys, soundManager) {
 		});
 
 		// 自弾と敵の当たり判定
-		player.bullets.children.forEach(function(bullet) {
-			var bulletHitBox = new THREE.Box2(new THREE.Vector2(bullet.position.x - bullet.halfSize, bullet.position.y - bullet.halfSize),
-				new THREE.Vector2(bullet.position.x + bullet.halfSize, bullet.position.y + bullet.halfSize));
+		player.bullets.forEach(function(bullet) {
+			var bulletHitBox = new THREE.Box2(new THREE.Vector2(bullet.mesh.position.x - bullet.halfSize, bullet.mesh.position.y - bullet.halfSize),
+				new THREE.Vector2(bullet.mesh.position.x + bullet.halfSize, bullet.mesh.position.y + bullet.halfSize));
 
 			enemysArray.forEach(function(enemy) {
 				// 登場後1秒間、敵は無敵
