@@ -225,6 +225,13 @@ function EnemyGenerator(players, enemys) {
 
 		enemys.push(test);
 	}
+
+	function fireworks() {
+		var playerLength = players.length;
+		if(playerLength > 0) {
+			
+		}
+	}
 }
 
 module.exports = socketio;
