@@ -2,19 +2,12 @@ var Player = function(_id, _x, _y, _hp, _score, _color) {
 	this.id = _id;
 	this.x = _x;
 	this.y = _y;
-	this.shots = [];
+	this.bullets = [];
 	this.hp = _hp;
 	this.score = _score;
 	this.state = "WAIT";
 	this.color = _color;
 };
-
-var Shots = function() {
-	// return {
-	// 	id: 
-	// };
-};
-
 
 var Enemy = function(_x, _y, _type) {
 	this.id = generateID();

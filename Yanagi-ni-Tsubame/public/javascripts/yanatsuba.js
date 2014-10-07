@@ -137,7 +137,8 @@ $(document).ready(function() {
 			x : player.mesh.position.x,
 			y : player.mesh.position.y,
 			hp : player.hp,
-			state : player.state
+			state : player.state,
+			bullets : player.bullets
 		};
 
 		if(player.state != "WAIT") {

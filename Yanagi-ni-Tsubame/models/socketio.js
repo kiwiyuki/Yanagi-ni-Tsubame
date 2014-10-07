@@ -86,6 +86,7 @@ function socketio (server) {
 					players[i].y = dp.y;
 					players[i].hp = dp.hp;
 					players[i].state = dp.state;
+					players[i].bullets = dp.bullets;
 					break;
 				}
 			}
