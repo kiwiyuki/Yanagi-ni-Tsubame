@@ -8,6 +8,19 @@ var ItemManager = function(scene, player, getItems) {
 		this.halfSize = 0;
 
 		switch(data.type) {
+			case "test":
+			this.halfSize = 2;
+
+			var g = new THREE.BoxGeometry(5, 5, 5);
+			var m = new THREE.MeshLambertMaterial({color : 0xffffff});
+			this.mesh.add(new THREE.Mesh(g, m));
+
+			this.animate = function() {
+				this.mesh.rotation.x += 0.05;
+				this.mesh.rotation.y += 0.05;
+			};
+			break;
+
 			case "exp":
 			this.halfSize = 4;
 
