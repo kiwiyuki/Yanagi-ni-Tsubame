@@ -59,23 +59,23 @@ $(document).ready(function() {
 		localData.atkEnemys = [];
 		localData.getItems = [];
 
+		// 音
+		soundManager = new SoundManager(GAME.volume);
+
 		// プレイヤー
-		player = new Player(scene, camera, data.player);
+		player = new Player(scene, camera, data.player, soundManager);
 
 		// 他プレイヤー（アバター）
 		avatarManager = new AvatarManager(scene, player);
 		avatarManager.update(data.players);
 
 		// 敵
-		enemyManager = new EnemyManager(scene, player, localData.atkEnemys);
+		enemyManager = new EnemyManager(scene, player, localData.atkEnemys, soundManager);
 		enemyManager.update(data.enemys);
 
 		// アイテム
 		itemManager = new ItemManager(scene, player, localData.getItems);
 		itemManager.update(data.items);
-
-		// 音
-		soundManager = new SoundManager(GAME.volume);
 
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);

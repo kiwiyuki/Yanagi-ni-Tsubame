@@ -1,4 +1,4 @@
-var Player = function(scene, camera, data) {
+var Player = function(scene, camera, data, soundManager) {
 	var speed = 3;
 	var d = 0.8; // カメラ操作用
 	var controls = {
@@ -133,6 +133,8 @@ var Player = function(scene, camera, data) {
 					bullet.halfSize = 4
 					this.bullets.add(bullet);
 					shotCounter = 0;
+					
+					soundManager.seShot();
 				}
 			}
 		}

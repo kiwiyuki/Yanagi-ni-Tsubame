@@ -1,4 +1,4 @@
-var EnemyManager = function(scene, player, atkEnemys) {
+var EnemyManager = function(scene, player, atkEnemys, soundManager) {
 	var enemysArray = [];
 
 	var Enemy = function(data) {
@@ -98,6 +98,8 @@ var EnemyManager = function(scene, player, atkEnemys) {
 				if(bulletHitBox.isIntersectionBox(enemyHitBox)) {
 					atkEnemys.push({ id : enemy.id, damage : bullet.atk });
 					bullet.visible = false;
+
+					soundManager.seHit();
 				}
 			});
 		});
@@ -165,6 +167,8 @@ var EnemyManager = function(scene, player, atkEnemys) {
 					var newEnemy = new Enemy(ae);
 					enemysArray.push(newEnemy);
 					scene.add(newEnemy.mesh);
+
+					soundManager.seEnemyBorn();
 				}
 			});
 	};
