@@ -208,10 +208,12 @@ function EnemyGenerator(players, enemys) {
 	var counter = 0;
 	
 	this.update = function() {
-		if(counter == 100){
+		if(counter  == 100){
 			fireworks("akatan", 5);
 		}
-
+		if(counter == 350) {
+			stalker("aotan",3);
+		}
 		counter++;
 
 		// 1分で生成タイミングをループ
@@ -224,7 +226,7 @@ function EnemyGenerator(players, enemys) {
 		var test = new go.Enemy(0, 50, "akatan");
 		
 		test.individualUpdate = function(self) {
-			self.y += 3;aw
+			self.y += 3;
 		};
 
 		enemys.push(test);
@@ -262,6 +264,55 @@ function EnemyGenerator(players, enemys) {
 
 				enemys.push(enemy);
 			}
+		}
+	}
+	function stalker(enemyType, enemyNum) {
+		var playersLength = players.length;
+		var angle = Math.PI  / enemyNum;
+
+		// 標的がアクティブでないとき生成失敗
+		var pIndex = Math.random() * playersLength | 0;
+		if(players[pIndex].state == "WAIT") {
+			return;
+		}
+		if(playersLength > 0) {
+			for (var i = 0; i < enemyNum; i++) {
+				var cos = Math.cos(angle * i);
+				var sin = Math.sin(angle * i);
+
+				var x = cos * 100 + players[pIndex].x | 0;
+				var y = sin * 100 + players[pIndex].y | 0;
+				var enemy = new go.Enemy(x, y, enemyType);
+				enemy.vx = (players[pIndex].x < x) ? -2 : 2;
+				enemy.vy = (players[pIndex].y < y) ? -2 : 2;
+				enemy.individualUpdate = function(self) {
+					var d = (i+1) * 20;
+					if(players[pIndex]) {
+						if(players[pIndex].state == "WAIT") {
+							self.x += self.vx;
+							self.y += self.vy;
+						}
+						else if(self.counter > 60) {
+							var dx = Math.abs(self.x - players[pIndex].x) < d;
+							var dy = Math.abs(self.y - players[pIndex].y) < d;
+							if(dx) {
+								self.vy = (players[pIndex].y < self.y) ? -2 : 2;
+							}
+							if(dy) {
+								self.vx = (players[pIndex].x < self.x) ? -2 : 2;
+							}
+							if(!dx && !dy) {
+								self.vx = (players[pIndex].x < self.x) ? -2 : 2;
+								self.vy = (players[pIndex].y < self.y) ? -2 : 2;
+							}
+							self.x += self.vx;
+							self.y += self.vy;
+						}
+					}
+
+				}
+				enemys.push(enemy);
+			};
 		}
 	}
 }
