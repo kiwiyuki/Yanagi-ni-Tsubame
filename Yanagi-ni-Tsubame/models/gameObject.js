@@ -155,12 +155,12 @@ Item.prototype.update = function() {
 		break;
 
 		case "exp":
-		var dx = (this.vx < 0) ? 0.01 : -0.01;
-		var dy = (this.vy < 0) ? 0.01 : -0.01;
+		var dx = (this.vx < 0) ? 0.1 : -0.1;
+		var dy = (this.vy < 0) ? 0.1 : -0.1;
 		this.vx = (Math.round(this.vx) === 0) ? 0 : (this.vx + dx);
 		this.vy = (Math.round(this.vy) === 0) ? 0 : (this.vy + dy);
-		this.x +=　this.vx;
-		this.y += this.vy;
+		this.x = this.x + Math.round(this.vx);
+		this.y = this.y + Math.round(this.vy); 
 		this.counter++;
 		break;
 	}

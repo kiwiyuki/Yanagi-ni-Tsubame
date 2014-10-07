@@ -102,12 +102,13 @@ function socketio (server) {
 							// アイテムの生成
 							var itemNum = enemys[i].itemNum ? enemys[i].itemNum : 0;
 							var j = 0;
+							var diff = Math.random() * 360 / Math.PI;
 							while(j < itemNum) {
-								var _x = enemys[i].x;
-								var _y = enemys[i].y;
-								var angle = 2 * Math.PI *  (j + Math.round(Math.random() * 10)) / ( 2 * itemNum );
-								var _vx = Math.sin(angle) * 2;
-								var _vy = Math.cos(angle) * 2;
+								var _x = enemys[i].x | 0;
+								var _y = enemys[i].y | 0;
+								var angle = 2 * Math.PI * j / ( itemNum ) + diff;
+								var _vx = Math.sin(angle) * 3;
+								var _vy = Math.cos(angle) * 3;
 								var item = new go.Item(_x, _y, _vx, _vy, enemys[i].itemType);
 								items.push(item);
 								j++;
@@ -209,7 +210,7 @@ function socketio (server) {
 }
 
 function generateEnemy(players, enemys) {
-	
+
 }
 
 module.exports = socketio;
