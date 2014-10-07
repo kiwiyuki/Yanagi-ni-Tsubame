@@ -98,7 +98,7 @@ function socketio (server) {
 						enemys[i].hp -= ae.damage;
 
 						// スコア追加
-						if (enemys[i].hp <= 0) {
+						if (enemys[i].hp <= 0 && enemys[i].hp > -1000) {
 							players[pIndex].score += enemys[i].point;
 							
 							// アイテムの生成
@@ -115,6 +115,7 @@ function socketio (server) {
 								items.push(item);
 								j++;
 							}
+							enemys[i].hp = -1500;
 						}
 						break;
 					}
