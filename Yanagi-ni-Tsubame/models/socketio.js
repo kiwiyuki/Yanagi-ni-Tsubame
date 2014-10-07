@@ -179,6 +179,7 @@ function socketio (server) {
 		});
 
 		// 敵の生成
+		generateEnemy(players,enemys);
 		if (timeCounter == 100　&& enemys.length < 50) {
 			var _x = Math.floor((Math.random() * 10) - 5) * 100;
 			var _y = Math.floor((Math.random() * 10) - 5) * 100;
@@ -205,6 +206,10 @@ function socketio (server) {
 		
 		io.sockets.json.emit('server_update', { players : players , enemys : enemys , items : items});
 	};
+}
+
+function generateEnemy(players, enemys) {
+	
 }
 
 module.exports = socketio;
