@@ -9,7 +9,6 @@ var EnemyManager = function(scene, player, atkEnemys, soundManager) {
 		this.mesh.position.set(data.x, data.y, 0);
 		this.halfSize = 0;
 		this.counter = data.counter;
-		console.log(data.counter);
 		this.blinkCounter = 0; // 点滅エフェクト用
 
 		switch(data.type) {

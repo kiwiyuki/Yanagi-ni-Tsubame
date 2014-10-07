@@ -217,7 +217,13 @@ function EnemyGenerator(players, enemys) {
 	};
 
 	function generateTest() {
-		enemys.push(new go.Enemy(0, 50, "akatan"));
+		var test = new go.Enemy(0, 50, "akatan");
+		
+		test.individualUpdate = function(self) {
+			self.y += 3;
+		};
+
+		enemys.push(test);
 	}
 }
 

@@ -97,10 +97,6 @@ var Item = function(_x, _y, _vx, _vy, _type) {
 	this.counter = 0;
 
 	switch(this.type) {
-		case "test":
-		this.point = 100;
-		break;
-
 		case "exp":
 		this.point = 10;
 		break;
@@ -109,16 +105,6 @@ var Item = function(_x, _y, _vx, _vy, _type) {
 
 Item.prototype.update = function() {
 	switch(this.type) {
-		case "test":
-		var dx = (this.vx < 0) ? 0.01 : -0.01;
-		var dy = (this.vy < 0) ? 0.01 : -0.01;
-		this.vx = (Math.round(this.vx) === 0) ? 0 : (this.vx + dx);
-		this.vy = (Math.round(this.vy) === 0) ? 0 : (this.vy + dy);
-		this.x +=　this.vx;
-		this.y += this.vy;
-		this.counter++;
-		break;
-
 		case "exp":
 		var dx = (this.vx < 0) ? 0.01 : -0.01;
 		var dy = (this.vy < 0) ? 0.01 : -0.01;
