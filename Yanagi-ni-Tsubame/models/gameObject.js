@@ -119,7 +119,7 @@ Item.prototype.update = function() {
 
 function generateID() {
 	var dateNow = Date.now().toString();
-	var id = ((Math.random() * 10000)) | 0) + (dateNow.substring(dateNow.length - 7);
+	var id = (dateNow.substring(dateNow.length - 7) + (Math.random() * 10000)) | 0;
 	return id.toString(16);
 }
 
