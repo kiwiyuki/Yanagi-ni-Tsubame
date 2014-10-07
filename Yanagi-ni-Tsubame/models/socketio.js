@@ -97,7 +97,7 @@ function socketio (server) {
 					if(enemys[i].id == ae.id) {
 						enemys[i].hp -= ae.damage;
 
-						// スコア追加
+						// スコア追加（敵のHPが有り得ない数値のときはスコアとアイテムの追加なし）
 						if (enemys[i].hp <= 0 && enemys[i].hp > -1000) {
 							players[pIndex].score += enemys[i].point;
 							
@@ -208,7 +208,7 @@ function EnemyGenerator(players, enemys) {
 	
 	this.update = function() {
 		if(counter == 100){
-			generateTest();
+			fireworks("akatan", 5);
 		}
 
 		counter++;
@@ -223,16 +223,44 @@ function EnemyGenerator(players, enemys) {
 		var test = new go.Enemy(0, 50, "akatan");
 		
 		test.individualUpdate = function(self) {
-			self.y += 3;
+			self.y += 3;aw
 		};
 
 		enemys.push(test);
 	}
 
-	function fireworks() {
-		var playerLength = players.length;
-		if(playerLength > 0) {
-			
+	// あるプレイヤーに集中攻撃
+	function fireworks(enemyType, enemyNum) {
+		var angle = Math.PI * 2 / enemyNum;
+		var playersLength = players.length;
+
+		// 標的がアクティブでないとき生成失敗
+		var pIndex = Math.random() * playersLength | 0;
+		if(players[pIndex].state == "WAIT") {
+			return;
+		}
+
+		if(playersLength > 0) {
+			for (var i = 0; i < enemyNum; i++) {
+				var cos = Math.cos(angle * i);
+				var sin = Math.sin(angle * i);
+
+				var x = cos * 100 + players[pIndex].x | 0;
+				var y = sin * 100 + players[pIndex].y | 0;
+				var enemy = new go.Enemy(x, y, enemyType);
+
+				enemy.vx = -cos * 4 | 0;
+				enemy.vy = -sin * 4 | 0;
+
+				enemy.individualUpdate = function(self) {
+					if(self.counter > 60) {
+						self.x += self.vx;
+						self.y += self.vy;
+					}
+				};
+
+				enemys.push(enemy);
+			}
 		}
 	}
 }
