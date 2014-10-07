@@ -26,6 +26,17 @@ var Enemy = function(_x, _y, _type) {
 	this.point = 0;
 	this.counter = 0;
 
+	this.individualUpdate = function(self) {};
+	this.update = function() {
+		this.individualUpdate(this);
+
+		// 発生から1分で自動的に死ぬ
+		this.counter++;
+		if(this.counter > 3600) {
+			this.hp = 0;
+		}
+	}
+
 	switch(this.type) {
 		// ヤナギニツバメ零号機
 		case 'test':
@@ -33,7 +44,7 @@ var Enemy = function(_x, _y, _type) {
 		this.atk = 1;
 		this.point = 10;
 		this.itemNum = 5;
-		this.itemType = "test";
+		this.itemType = "exp";
 		var speed = 3;
 		var d = 360;
 
@@ -62,28 +73,7 @@ var Enemy = function(_x, _y, _type) {
 		this.atk = 30;
 		this.point = 10;
 		this.itemNum = 3;
-		this.itemType = "exp";
-		var speed = 2;
-		var d = 360;
-
-		this.update = function() {
-			// 移動
-			this.x += speed;
-
-			if(this.x > _x + d) {
-				this.x = _x + d;
-				speed = -speed;
-			} else if (this.x < _x - d) {
-				this.x = _x - d;
-				speed = -speed;
-			}
-
-			// 発生から1分で自動的に死ぬ
-			this.counter++;
-			if(this.counter > 3600) {
-				this.hp = 0;
-			}
-		};
+		this.itemType = "exp"
 		break;
 
 		case 'aotan':
@@ -91,34 +81,9 @@ var Enemy = function(_x, _y, _type) {
 		this.atk = 30;
 		this.point = 10;
 		this.itemNum = 3;
-		this.itemType = "exp";
-		var speed = 2;
-		var d = 360;
-
-		this.update = function() {
-			// 移動
-			this.x += speed;
-
-			if(this.x > _x + d) {
-				this.x = _x + d;
-				speed = -speed;
-			} else if (this.x < _x - d) {
-				this.x = _x - d;
-				speed = -speed;
-			}
-
-			// 発生から1分で自動的に死ぬ
-			this.counter++;
-			if(this.counter > 3600) {
-				this.hp = 0;
-			}
-		};
+		this.itemType = "exp"
 		break;
 	}
-};
-
-Enemy.prototype.update = function() {
-
 };
 
 var Item = function(_x, _y, _vx, _vy, _type) {

@@ -11,7 +11,7 @@ var enemys = [];
 var items = [];
 var loopInterval;
 
-var enemyGenerator = new EnemyGenerator();
+var enemyGenerator = new EnemyGenerator(players, enemys);
 
 function socketio (server) {
 	var io = sio.listen(server);
@@ -200,22 +200,24 @@ function socketio (server) {
 	};
 }
 
-function EnemyGenerator() {
+function EnemyGenerator(players, enemys) {
 	var counter = 0;
 	
 	this.update = function() {
-
+		if(counter == 100){
+			generateTest();
+		}
 
 		counter++;
 
 		// 1分で生成タイミングをループ
-		if(counter > 3600) {
+		if(counter > 360) {
 			counter = 0;
 		}
 	};
 
-	function randomWalk() {
-		
+	function generateTest() {
+		enemys.push(new go.Enemy(0, 50, "akatan"));
 	}
 }
 

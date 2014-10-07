@@ -8,6 +8,9 @@ var EnemyManager = function(scene, player, atkEnemys, soundManager) {
 		this.mesh = new THREE.Object3D();
 		this.mesh.position.set(data.x, data.y, 0);
 		this.halfSize = 0;
+		this.counter = data.counter;
+		console.log(data.counter);
+		this.blinkCounter = 0; // 点滅エフェクト用
 
 		switch(data.type) {
 			case "test":
@@ -84,6 +87,18 @@ var EnemyManager = function(scene, player, atkEnemys, soundManager) {
 	this.localUpdate = function() {
 		enemysArray.forEach(function(enemy) {
 			enemy.animate();
+
+			// 登場後1秒間点滅
+			enemy.mesh.visible = true;
+			if(enemy.counter < 60) {
+				if(enemy.blinkCounter <= 3) {
+					enemy.mesh.visible = false;
+				} else if(enemy.blinkCounter > 7) {
+					enemy.blinkCounter = 0;
+				}
+
+				enemy.blinkCounter++;
+			}
 		});
 
 		// 自弾と敵の当たり判定
@@ -92,14 +107,17 @@ var EnemyManager = function(scene, player, atkEnemys, soundManager) {
 				new THREE.Vector2(bullet.position.x + bullet.halfSize, bullet.position.y + bullet.halfSize));
 
 			enemysArray.forEach(function(enemy) {
-				var enemyHitBox = new THREE.Box2(new THREE.Vector2(enemy.mesh.position.x - enemy.halfSize, enemy.mesh.position.y - enemy.halfSize),
-					new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
+				// 登場後1秒間、敵は無敵
+				if(enemy.counter > 60) {
+					var enemyHitBox = new THREE.Box2(new THREE.Vector2(enemy.mesh.position.x - enemy.halfSize, enemy.mesh.position.y - enemy.halfSize),
+						new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
 
-				if(bulletHitBox.isIntersectionBox(enemyHitBox)) {
-					atkEnemys.push({ id : enemy.id, damage : bullet.atk });
-					bullet.visible = false;
+					if(bulletHitBox.isIntersectionBox(enemyHitBox)) {
+						atkEnemys.push({ id : enemy.id, damage : bullet.atk });
+						bullet.visible = false;
 
-					soundManager.seHit();
+						soundManager.seHit();
+					}
 				}
 			});
 		});
@@ -110,12 +128,14 @@ var EnemyManager = function(scene, player, atkEnemys, soundManager) {
 				new THREE.Vector2(player.mesh.position.x + player.halfSize, player.mesh.position.y + player.halfSize));
 
 			enemysArray.forEach(function(enemy) {
-				var enemyHitBox = new THREE.Box2(new THREE.Vector2(enemy.mesh.position.x - enemy.halfSize, enemy.mesh.position.y - enemy.halfSize),
-					new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
+				if(enemy.counter > 60) {
+					var enemyHitBox = new THREE.Box2(new THREE.Vector2(enemy.mesh.position.x - enemy.halfSize, enemy.mesh.position.y - enemy.halfSize),
+						new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
 
-				if(playerHitBox.isIntersectionBox(enemyHitBox)) {
-					player.state = "DAMAGE";
-					player.hp -= enemy.atk;
+					if(playerHitBox.isIntersectionBox(enemyHitBox)) {
+						player.state = "DAMAGE";
+						player.hp -= enemy.atk;
+					}
 				}
 			});
 		}
@@ -159,6 +179,7 @@ var EnemyManager = function(scene, player, atkEnemys, soundManager) {
 				enemysArray.forEach(function(enemy) {
 					if(enemy.id == ae.id) {
 						enemy.mesh.position.set(ae.x, ae.y, 0);
+						enemy.counter = ae.counter;
 						isFinded = true;
 					};
 				});
