@@ -275,10 +275,11 @@ function EnemyGenerator(players, enemys) {
 		if(players[pIndex].state == "WAIT") {
 			return;
 		}
+		var angleDiff = Math.random() * (180 / Math.PI);
 		if(playersLength > 0) {
 			for (var i = 0; i < enemyNum; i++) {
-				var cos = Math.cos(angle * i);
-				var sin = Math.sin(angle * i);
+				var cos = Math.cos(angle * i + angleDiff);
+				var sin = Math.sin(angle * i + angleDiff);
 
 				var x = cos * 100 + players[pIndex].x | 0;
 				var y = sin * 100 + players[pIndex].y | 0;
@@ -286,7 +287,7 @@ function EnemyGenerator(players, enemys) {
 				enemy.vx = (players[pIndex].x < x) ? -2 : 2;
 				enemy.vy = (players[pIndex].y < y) ? -2 : 2;
 				enemy.individualUpdate = function(self) {
-					var d = (i+1) * 20;
+					var d = 60;
 					if(players[pIndex]) {
 						if(players[pIndex].state == "WAIT") {
 							self.x += self.vx;
@@ -309,7 +310,6 @@ function EnemyGenerator(players, enemys) {
 							self.y += self.vy;
 						}
 					}
-
 				}
 				enemys.push(enemy);
 			};
