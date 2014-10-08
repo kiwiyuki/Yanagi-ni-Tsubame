@@ -22,11 +22,8 @@ html
         div.navbar-header
           a.navbar-brand(href="/") ヤナギニツバメ
           button.navbar-toggle.coolapsed.hidden-xs.hidden-sm(type="button", data-toggle="collapse",data-target="#navbarRight")
-            span.sr-only
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-        div.collapse.navbar-collapse.hidden-xs.hidden-sm#navbarRight
+
+        div.collapse.navbar-collapse#navbarRight
           ul.nav.navbar-nav.navbar-right
             block gameMenu  
             if isLogin

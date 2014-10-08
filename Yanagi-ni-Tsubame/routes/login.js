@@ -57,7 +57,8 @@ function loginCallback (req, res) {
 						$pr: req.session.user.provider,
 						$cr: req.session.user.created,
 					});
-					YTDB.run("insert into game (id, lastX, lastY, lastHP, score, color) values ($id, 0, 0, 300, 0, $co)", { $id: req.session.user.id, $co: co });
+					var pn = (req.session.user.provider === "twitter") ? req.session.user.username : req.session.user.displayName;
+					YTDB.run("insert into game (id, playerName, lastX, lastY, lastHP, score, color) values ($id, $pn, 0, 0, 300, 0, $co)", { $id: req.session.user.id, $pn: pn, $co: co });
 				});
 				res.redirect("/");
 			//2回目以降、更新

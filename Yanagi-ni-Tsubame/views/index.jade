@@ -17,7 +17,7 @@ block content
             i.fa.fa-user  user page
       div
         a.btn.btn-lg.btn-info(href="/game", role="button") Play!
-    div.container
+    div
       h3 About
       div
         p 
@@ -27,12 +27,29 @@ block content
       div.row
         div.col-md-6.col-md-offset-3
           table.table.table-bordered.table-condensed
-            tr
-              td W A S D
-              td 移動
-            tr
-              td 方向キー ↑ ← ↓ →
-              td 攻撃
+            tbody
+              tr
+                td W A S D
+                td 移動
+              tr
+                td 方向キー ↑ ← ↓ →
+                td 攻撃
+    if rank.length > 0
+      div
+        h3 ランキング
+        div.col-md-6.col-md-offset-3
+          table.table.table-condensed
+            tbody
+              - for(var i = 0; i < rank.length; i++) {
+                tr
+                  td= (i+1)
+                  td= rank[i].playerName
+                  td= rank[i].score
+              - }
     div.container
       h3 推奨環境
-        p google Chrome
+      p google Chrome
+      p Internet なんちゃら
+      p firefox
+      p opera
+      p safari

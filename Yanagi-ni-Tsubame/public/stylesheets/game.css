@@ -19,11 +19,6 @@
 	background-color: #422;
 }
 
-#gameVolume:hover {
-	cursor: pointer;
-	color: #a7236f;
-}
-
 .gameTitleText, .gameOverText{
 	position: relative;
 	top: 50%;
@@ -36,4 +31,13 @@
 .gameUIHidden {
 	opacity: 0;
 	visibility: hidden;
+}
+
+#gameVolume:hover {
+	cursor: pointer;
+	color: #a7236f;
+}
+
+#gameVolumeIcon {
+	line-height: 1;
 }
