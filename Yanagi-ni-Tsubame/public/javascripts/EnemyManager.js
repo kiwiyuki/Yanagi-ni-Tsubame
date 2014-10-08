@@ -113,7 +113,7 @@ var EnemyManager = function(scene, player, atkEnemys, soundManager) {
 
 					if(bulletHitBox.isIntersectionBox(enemyHitBox)) {
 						atkEnemys.push({ id : enemy.id, damage : bullet.atk });
-						bullet.visible = false;
+						bullet.mesh.visible = false;
 
 						soundManager.seHit();
 					}
