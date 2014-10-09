@@ -1,38 +1,25 @@
 extends layout
 
 block content
-  div.container
-      h1= title
-    div.hidden-xs
-      if !isLogin
-        div.row
-          div.col-md-6.col-md-offset-3
-            a.btn.btn-lg.btn-primary(href="/login/twitter", role="button")
-              i.fa.fa-twitter-square.   login Twitter   
-            a.btn.btn-lg.btn-primary(href="/login/facebook", role="button")
-              i.fa.fa-facebook-square  login Facebook
-      else
-        div
+  h1= title
+  div.row
+    div.hidden-xs.hidden-sm
+      div.col-md-6.col-md-offset-3.col-lg-6.col-md-offset-3
+        a.btn.btn-lg.btn-info(href="/game", role="button") Play!
+      div.col-md-6.col-md-offset-3.col-lg-6.col-md-offset-3
+        if isLogin
           a.btn.btn-lg.btn-primary(href="/user", role="button")
-            i.fa.fa-user  user page
-      div
-        a.btn.btn-lg.btn-info(href="/game", role="button") 　　　　Play!　　　　
-    div.container
-      h3 About
-      div
-        p 
-        |ヤナギニツバメはnode.js製の多人数参加型全方位シューティングです。
-    div
-      h3 How to play
-      div.row
-        div.col-md-6.col-md-offset-3
-          table.table.table-bordered.table-condensed
-            tr
-              td W A S D
-              td 移動
-            tr
-              td 方向キー ↑ ← ↓ →
-              td 攻撃
-    div.container
-      h3 推奨環境
-        p google Chrome
+            i.fa.fa-user user page
+        else
+          a.btn.btn-lg.btn-primary(href="/login/twitter", role="button")
+            i.fa.fa-twitter-square  login Twitter
+          a.btn.btn-lg.btn-primary(href="/login/facebook", role="button")
+            i.fa.fa-facebook-square  login Facebook
+    div.hidden-lg.hidden-md
+      p.bg-warning.text-muted お使いの端末ではプレイする事が出来ません
+    div.col-md-6.col-md-offset-3.col-lg-6.col-md-offset-3.col-sm-12.col-xs-12
+      table.table.table-condensed
+        tbody
+          - for(var i = 0; i < rank.length; i++) {
+
+          - }
