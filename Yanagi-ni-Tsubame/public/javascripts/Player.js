@@ -32,7 +32,8 @@ var Player = function(scene, camera, data, soundManager) {
 	// 本体メッシュ
 	var core = new THREE.Object3D();
 	var color = new THREE.Color();
-	color.setHSL(data.color, 1.0, 0.5);
+	this.hue = data.color;
+	color.setHSL(this.hue, 1.0, 0.5);
 	for (var i = 0; i < 8; i++) {
 		var ix = i & 1;
 		var iy = (i >> 1) & 1;
@@ -62,27 +63,56 @@ var Player = function(scene, camera, data, soundManager) {
 	scene.add(this.mesh);
 
 	// 弾定義
-	function Bullet(x, y, angle, color) {
-		this.speedX = 8 * Math.cos(angle);
-		this.speedY = 8 * Math.sin(angle);
+	function Bullet(x, y, angle, hue) {
+		this.speedX = 6 * Math.cos(angle);
+		this.speedY = 6 * Math.sin(angle);
 		this.counter = 0;
 		this.atk = 20;
 		this.halfSize = 4;
+		this.tsubame = new THREE.Object3D();
+		this.mesh = new THREE.Object3D();
 
 		var dateNow = Date.now().toString();
 		this.id = (dateNow.substring(dateNow.length - 7) + (Math.random() * 100)) | 0;
 
-		var g = new THREE.SphereGeometry(8, 6, 6);
-		var m = new THREE.MeshBasicMaterial({color: color});
-		this.mesh = new THREE.Mesh(g, m);
+		var color = new THREE.Color();
+		color.setHSL(hue, 0.6, 0.5);
+		var g = new THREE.BoxGeometry(4, 8, 0.5);
+		var m = new THREE.MeshLambertMaterial({color : color});
+		var plate = new THREE.Mesh(g, m);
+
+		var wing = new THREE.Object3D();
+		wing.add(plate);
+
+		plate = plate.clone();
+		plate.position.z = 2;
+		plate.position.y = -3;
+		wing.add(plate);
+
+		plate = plate.clone();
+		plate.position.z = -2;
+		plate.position.y = 3;
+		wing.add(plate);
+
+		wing.position.z = 3;
+		wing.position.y = -1;
+		this.tsubame.add(wing);
+
+		wing = wing.clone();
+		wing.position.z = -3;
+		wing.rotation.y = Math.PI;
+		this.tsubame.add(wing);
+		this.mesh.add(this.tsubame);
 		this.mesh.position.set(x, y, 0);
+		this.mesh.rotation.z = angle - Math.PI / 2;
 	}
 
 	Bullet.prototype.getData = function() {
 		return {
 			id : this.id,
 			x : this.mesh.position.x,
-			y : this.mesh.position.y
+			y : this.mesh.position.y,
+			angle : this.mesh.rotation.z
 		};
 	};
 
@@ -151,7 +181,7 @@ var Player = function(scene, camera, data, soundManager) {
 
 				// ショット
 				if(shotCounter > 6) {
-					var bullet = new Bullet(this.mesh.position.x, this.mesh.position.y, canonAngle, color);
+					var bullet = new Bullet(this.mesh.position.x, this.mesh.position.y, canonAngle, this.hue);
 					
 					this.bullets.push(bullet);
 					scene.add(bullet.mesh);
@@ -167,6 +197,8 @@ var Player = function(scene, camera, data, soundManager) {
 		var bulletsData = [];
 		var removeBullets = [];
 		this.bullets.forEach(function(b) {
+			b.tsubame.rotation.y += 0.3;
+
 			b.mesh.position.x += b.speedX;
 			b.mesh.position.y += b.speedY;
 			b.counter++;

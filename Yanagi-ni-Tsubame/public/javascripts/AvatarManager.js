@@ -11,14 +11,15 @@ var AvatarManager = function(scene, player) {
 
 		// 本体メッシュ
 		var core = new THREE.Object3D();
-		this.color = new THREE.Color();
-		this.color.setHSL(data.color, 1.0, 0.5);
+		var color = new THREE.Color();
+		this.hue = data.color;
+		color.setHSL(this.hue, 1.0, 0.5);
 		for (var i = 0; i < 8; i++) {
 			var ix = i & 1;
 			var iy = (i >> 1) & 1;
 			var iz = (i >> 2) & 1;
 			var g = new THREE.BoxGeometry(4, 4, 4);
-			var m = new THREE.MeshLambertMaterial({color : this.color});
+			var m = new THREE.MeshLambertMaterial({color : color});
 			var box = new THREE.Mesh(g, m);
 			box.position.set(3 - 6 * ix, 3 - 6 * iy, 3 - 6 * iz);
 			core.add(box);
@@ -76,19 +77,48 @@ var AvatarManager = function(scene, player) {
 
 				// 弾の追加
 				if(!isFinded) {
-					this.bullets.push(new Bullet(bullets[i], this.color));
+					this.bullets.push(new Bullet(bullets[i], this.hue));
 				}
 			}
 		}
 
 	};
 
-	function Bullet(data, color) {
+	function Bullet(data, hue) {
 		this.id = data.id;
-		var g = new THREE.SphereGeometry(8, 6, 6);
-		var m = new THREE.MeshBasicMaterial({color: color});
-		this.mesh = new THREE.Mesh(g, m);
+		this.tsubame = new THREE.Object3D();
+		this.mesh = new THREE.Object3D();
+
+		var color = new THREE.Color();
+		color.setHSL(hue, 0.6, 0.5);
+		var g = new THREE.BoxGeometry(4, 8, 0.5);
+		var m = new THREE.MeshLambertMaterial({color : color});
+		var plate = new THREE.Mesh(g, m);
+
+		var wing = new THREE.Object3D();
+		wing.add(plate);
+
+		plate = plate.clone();
+		plate.position.z = 2;
+		plate.position.y = -3;
+		wing.add(plate);
+
+		plate = plate.clone();
+		plate.position.z = -2;
+		plate.position.y = 3;
+		wing.add(plate);
+
+		wing.position.z = 3;
+		wing.position.y = -1;
+		this.tsubame.add(wing);
+
+		wing = wing.clone();
+		wing.position.z = -3;
+		wing.rotation.y = Math.PI;
+		this.tsubame.add(wing);
+		this.mesh.add(this.tsubame);
 		this.mesh.position.set(data.x, data.y, 0);
+		this.mesh.rotation.z = data.angle;
 		scene.add(this.mesh);
 	}
 
@@ -100,6 +130,14 @@ var AvatarManager = function(scene, player) {
 				avatar.mesh.visible = true;
 				avatar.mesh.rotation.x += 0.05;
 				avatar.mesh.rotation.y += 0.05;
+
+				// 弾のアップデート
+				var length = avatar.bullets.length;
+				if(length > 0) {
+					for (var i = 0; i < length; i++) {
+						avatar.bullets[i].tsubame.rotation.y += 0.3;
+					}
+				}
 			}
 		});
 	};
