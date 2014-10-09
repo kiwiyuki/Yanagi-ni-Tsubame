@@ -165,6 +165,13 @@ var AvatarManager = function(scene, player) {
 			for (var i = 0; i < avatarsArray.length; i++) {
 				if(avatarsArray[i].id == rmAvatarID) {
 					scene.remove(avatarsArray[i].mesh);
+
+					if(avatarsArray[i].bullets.length) {
+						for (var j = 0; j < avatarsArray[i].bullets.length; i++) {
+							scene.remove(avatarsArray[i].bullets[j].mesh);
+						}
+					}
+
 					avatarsArray.splice(i, 1);
 					break;
 				}
