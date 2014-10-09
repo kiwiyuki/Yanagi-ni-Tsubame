@@ -37,7 +37,7 @@ var Enemy = function(_x, _y, _type) {
 		this.hp = 60;
 		this.atk = 30;
 		this.point = 100;
-		this.itemNum = 3;
+		this.itemNum = 2;
 		this.itemType = "exp"
 		break;
 
@@ -53,7 +53,7 @@ var Enemy = function(_x, _y, _type) {
 		this.hp = 160;
 		this.atk = 100;
 		this.point = 800;
-		this.itemNum = 5;
+		this.itemNum = 4;
 		this.itemType = "exp";
 		break;
 	}

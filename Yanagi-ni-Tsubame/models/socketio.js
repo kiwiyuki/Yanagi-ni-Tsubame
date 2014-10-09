@@ -52,7 +52,7 @@ function socketio (server) {
 					user.id = socket.id;
 					user.game.lastX = 0;
 					user.game.lastY = 0;
-					user.game.lastHP = 30;
+					user.game.lastHP = 300;
 					user.game.score = 0;
 					user.game.color = Math.random();
 				}
@@ -208,11 +208,28 @@ function EnemyGenerator(players, enemys) {
 	var counter = 0;
 	
 	this.update = function() {
-		if(counter  == 100){
-			fireworks("syobu", 5);
-		}
-		if(counter == 350) {
-			stalker("aotan",3);
+		switch(counter) {
+			case 100:
+			fireworks("akatan", 5);
+			break;
+
+			case 200:
+			fireworks("akatan", 4);
+			fireworks("aotan", 3);
+			break;
+
+			case 250:
+			fireworks("aotan", 3);
+			break;
+
+			case 300:
+			fireworks("akatan", 5);
+			break;
+
+			case 350:
+			stalker("syobu" ,1);
+			fireworks("akatan", 5);
+			break;
 		}
 		counter++;
 
