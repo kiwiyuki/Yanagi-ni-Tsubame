@@ -9,7 +9,7 @@ var ItemManager = function(scene, player, getItems) {
 
 		switch(data.type) {
 			case "exp":
-			this.halfSize = 4;
+			this.halfSize = 6;
 
 			for (var i = 0; i < 8; i++) {
 				var ix = i & 1;

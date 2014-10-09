@@ -23,9 +23,9 @@ var Enemy = function(_x, _y, _type) {
 	this.update = function() {
 		this.individualUpdate(this);
 
-		// 発生から1分で自動的に死ぬ
+		// 発生から約3分で自動的に死ぬ
 		this.counter++;
-		if(this.counter > 3600) {
+		if(this.counter > 10000) {
 			this.hp = 0;
 		}
 	};
