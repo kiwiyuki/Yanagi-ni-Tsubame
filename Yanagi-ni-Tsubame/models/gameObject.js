@@ -31,50 +31,30 @@ var Enemy = function(_x, _y, _type) {
 	};
 
 	switch(this.type) {
-		// ヤナギニツバメ零号機
-		case 'test':
-		this.hp = 40;
-		this.atk = 1;
-		this.point = 10;
-		this.itemNum = 5;
-		this.itemType = "exp";
-		var speed = 3;
-		var d = 360;
-
-		this.update = function() {
-			// 移動
-			this.x += speed;
-
-			if(this.x > _x + d) {
-				this.x = _x + d;
-				speed = -speed;
-			} else if (this.x < _x - d) {
-				this.x = _x - d;
-				speed = -speed;
-			}
-
-			// 発生から1分で自動的に死ぬ
-			this.counter++;
-			if(this.counter > 3600) {
-				this.hp = 0;
-			}
-		};
-		break;
+		// ヤナギニツバメ零号機は死にました
 
 		case 'akatan':
 		this.hp = 60;
 		this.atk = 30;
-		this.point = 10;
+		this.point = 100;
 		this.itemNum = 3;
 		this.itemType = "exp"
 		break;
 
 		case 'aotan':
 		this.hp = 80;
-		this.atk = 30;
-		this.point = 10;
+		this.atk = 50;
+		this.point = 300;
 		this.itemNum = 3;
 		this.itemType = "exp"
+		break;
+
+		case 'syobu':
+		this.hp = 160;
+		this.atk = 100;
+		this.point = 800;
+		this.itemNum = 5;
+		this.itemType = "exp";
 		break;
 	}
 };
@@ -91,7 +71,7 @@ var Item = function(_x, _y, _vx, _vy, _type) {
 
 	switch(this.type) {
 		case "exp":
-		this.point = 10;
+		this.point = 1000;
 		break;
 	}
 };

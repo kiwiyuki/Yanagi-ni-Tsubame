@@ -209,7 +209,7 @@ function EnemyGenerator(players, enemys) {
 	
 	this.update = function() {
 		if(counter  == 100){
-			fireworks("akatan", 5);
+			fireworks("syobu", 5);
 		}
 		if(counter == 350) {
 			stalker("aotan",3);
@@ -222,8 +222,8 @@ function EnemyGenerator(players, enemys) {
 		}
 	};
 
-	function generateTest() {
-		var test = new go.Enemy(0, 50, "akatan");
+	function generateTest(enemyType) {
+		var test = new go.Enemy(0, 50, enemyType);
 		
 		test.individualUpdate = function(self) {
 			self.y += 3;

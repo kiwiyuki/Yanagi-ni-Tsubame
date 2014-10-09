@@ -12,19 +12,6 @@ var EnemyManager = function(scene, player, atkEnemys, soundManager) {
 		this.blinkCounter = 0; // 点滅エフェクト用
 
 		switch(data.type) {
-			case "test":
-			this.halfSize = 9;
-
-			var g = new THREE.BoxGeometry(20, 20, 20);
-			var m = new THREE.MeshLambertMaterial({color : 0xff0000});
-			this.mesh.add(new THREE.Mesh(g, m));
-
-			this.animate = function() {
-				this.mesh.rotation.x += 0.05;
-				this.mesh.rotation.y += 0.05;
-			};
-			break;
-
 			case "akatan":
 			this.halfSize = 12;
 
@@ -80,6 +67,19 @@ var EnemyManager = function(scene, player, atkEnemys, soundManager) {
 				this.mesh.rotation.z += 0.05;
 			};
 			break;
+
+			case "syobu":
+			this.halfSize = 7;
+
+			var g = new THREE.OctahedronGeometry(15);
+			var m = new THREE.MeshLambertMaterial({color : 0xff00ff});
+			this.mesh.add(new THREE.Mesh(g, m));
+
+			this.animate = function() {
+				this.mesh.rotation.x += 0.05;
+				this.mesh.rotation.y += 0.05;
+			};
+			break;
 		}
 	}
 
@@ -100,25 +100,28 @@ var EnemyManager = function(scene, player, atkEnemys, soundManager) {
 			}
 		});
 
-		// 自弾と敵の当たり判定
+		// 自機弾と敵の当たり判定
+		atkEnemys.length = 0;
 		player.bullets.forEach(function(bullet) {
-			var bulletHitBox = new THREE.Box2(new THREE.Vector2(bullet.mesh.position.x - bullet.halfSize, bullet.mesh.position.y - bullet.halfSize),
-				new THREE.Vector2(bullet.mesh.position.x + bullet.halfSize, bullet.mesh.position.y + bullet.halfSize));
+			if(bullet.mesh.visible) {
+				var bulletHitBox = new THREE.Box2(new THREE.Vector2(bullet.mesh.position.x - bullet.halfSize, bullet.mesh.position.y - bullet.halfSize),
+					new THREE.Vector2(bullet.mesh.position.x + bullet.halfSize, bullet.mesh.position.y + bullet.halfSize));
 
-			enemysArray.forEach(function(enemy) {
-				// 登場後1秒間、敵は無敵
-				if(enemy.counter > 60) {
-					var enemyHitBox = new THREE.Box2(new THREE.Vector2(enemy.mesh.position.x - enemy.halfSize, enemy.mesh.position.y - enemy.halfSize),
-						new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
+				enemysArray.forEach(function(enemy) {
+					// 登場後1秒間、敵は無敵
+					if(enemy.counter > 60) {
+						var enemyHitBox = new THREE.Box2(new THREE.Vector2(enemy.mesh.position.x - enemy.halfSize, enemy.mesh.position.y - enemy.halfSize),
+							new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
 
-					if(bulletHitBox.isIntersectionBox(enemyHitBox)) {
-						atkEnemys.push({ id : enemy.id, damage : bullet.atk });
-						bullet.mesh.visible = false;
-
-						soundManager.seHit();
+						if(bulletHitBox.isIntersectionBox(enemyHitBox)) {
+							atkEnemys.push({ id : enemy.id, damage : bullet.atk });
+							bullet.mesh.visible = false;
+							console.log("hit!");
+							soundManager.seHit();
+						}
 					}
-				}
-			});
+				});
+			}
 		});
 
 		// プレイヤーと敵の当たり判定

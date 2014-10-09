@@ -180,7 +180,7 @@ var Player = function(scene, camera, data, soundManager) {
 				canon.position.set(canonRadius * Math.cos(canonAngle), canonRadius * Math.sin(canonAngle), 0);
 
 				// ショット
-				if(shotCounter > 6) {
+				if(shotCounter > 10) {
 					var bullet = new Bullet(this.mesh.position.x, this.mesh.position.y, canonAngle, this.hue);
 					
 					this.bullets.push(bullet);
