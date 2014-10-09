@@ -28,7 +28,7 @@ var Enemy = function(_x, _y, _type) {
 		if(this.counter > 3600) {
 			this.hp = 0;
 		}
-	}
+	};
 
 	switch(this.type) {
 		// ヤナギニツバメ零号機
