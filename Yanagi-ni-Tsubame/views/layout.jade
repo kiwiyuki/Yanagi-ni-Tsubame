@@ -1,4 +1,4 @@
-doctype html
+doctype html5
 html
   head
     meta(charset="utf-8")
@@ -20,11 +20,7 @@ html
       div.container
         div.navbar-header
           a.navbar-brand(href="/") ヤナギニツバメ
-          button.navbar-toggle.coolapsed.hidden-xs.hidden-sm(type="button", data-toggle="collapse",data-target="#navbarRight")
-            span.sr-only
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
+          //- button.navbar-toggle.coolapsed.hidden-xs.hidden-sm(type="button", data-toggle="collapse",data-target="#navbarRight")
         div.collapse.navbar-collapse#navbarRight
           ul.nav.navbar-nav.navbar-right.hidden-xs.hidden-sm
             block gameMenu  
@@ -57,7 +53,7 @@ html
                   li
                     a(href="/login/facebook") 
                       i.fa.fa-facebook-square  with Facebook
-    div#main.container
+    div#main.container-fluid
       block content
     block insertScript
-    footer
+    

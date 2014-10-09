@@ -7,14 +7,15 @@ block gameMenu
   li.navbar-text Score 
     span#gameScore  0 
     |  pt 
-  li#gameVolume.navbar-text
-    i.fa.fa-volume-off.fa-lg
+  li.navbar-text#gameVolume
+    i.fa.fa-volume-off.fa-lg#gameVolumeIcon
 block content
   div#gameTitle
     h1.gameTitleText.text-center ヤナギニツバメ
     p.gameTitleText.text-center EnterKeyでスタート！
   div#gameOver.gameUIHidden
     h1.gameOverText.text-center GameOver!
+    p.gameOverText.text-center EnterKeyでタイトルへ
   <div id="game"><span id="load_msg">now loading...</span></div>
 block insertScript
   script(src="//cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.min.js")

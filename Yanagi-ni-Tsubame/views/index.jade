@@ -17,9 +17,41 @@ block content
             i.fa.fa-facebook-square  login Facebook
     div.hidden-lg.hidden-md
       p.bg-warning.text-muted お使いの端末ではプレイする事が出来ません
-    div.col-md-6.col-md-offset-3.col-lg-6.col-md-offset-3.col-sm-12.col-xs-12
+    div.col-md-6.col-md-offset-3.col-lg-6.col-lg-offset-3.col-sm-6.col-sm-offset-3.col-xs-12
+      h3 About
+      p ヤナギニツバメはnode.js製の多人数参加型全方位シューティングです。
+      h3 操作方法
+        table.table.table-condensed.table-bordered
+          tbody
+            tr
+              td W A S D
+              td 移動
+            tr
+              td 方向キー ↑ ← ↓ →
+              td 攻撃
+      h3 推奨ブラウザ
+      p Google chrome
+      p Internet Explorer
+      h3 ランキング
       table.table.table-condensed
         tbody
           - for(var i = 0; i < rank.length; i++) {
-
+            tr
+              td= (i+1)
+              td= rank[i].playerName
+              td= rank[i].score
           - }
+      h3 LINK
+      div.col-md-4.col-md-offset-4.col-lg-4.col-lg-4.col-sm-4.col-sm-offset-4.col-xs-3.col-xs-offset-4
+        ul
+          li
+            a(href="https://github.com/kiwiyuki/Yanagi-ni-Tsubame.git") Github
+          li
+            a(href="http://inf.tsukuba.ac.jp/ET-COJT/") COJT
+          li
+            a(href="#") jdsfl;kjalsjkflakdjslfakjslkf
+  footer &copy; 2014 
+    a(href="https://twitter.com/hotsure_sj") hotsure_sj 
+    & 
+    a(href="https://twitter.com/kiwi_yuki") TKG
+    |  ALL Rights Reserved 
