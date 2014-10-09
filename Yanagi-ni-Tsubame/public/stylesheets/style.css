@@ -4,7 +4,6 @@ html, body {
 	margin: 0;
 	padding: 0;
 
-	overflow: hidden;
 	background: #111;
 	color: #eee;
 	text-align: center;
@@ -34,7 +33,5 @@ a.btn {
 }
 
 #main {
-	/*margin-top: 50px;*/
 	padding-top: 50px;
-	/*padding: 10px;*/
 }
