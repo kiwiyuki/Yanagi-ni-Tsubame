@@ -13,7 +13,6 @@ html
     
     script(src="//code.jquery.com/jquery-1.11.1.min.js")
     script(src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
-    script(src="//cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.min.js")
     
     block head
   body
@@ -26,8 +25,8 @@ html
             span.icon-bar
             span.icon-bar
             span.icon-bar
-        div.collapse.navbar-collapse.hidden-xs.hidden-sm#navbarRight
-          ul.nav.navbar-nav.navbar-right
+        div.collapse.navbar-collapse#navbarRight
+          ul.nav.navbar-nav.navbar-right.hidden-xs.hidden-sm
             block gameMenu  
             if isLogin
               li.dropdown
