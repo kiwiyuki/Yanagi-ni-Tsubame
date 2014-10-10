@@ -251,23 +251,35 @@ function EnemyGenerator(players, enemys) {
 
 	// あるプレイヤーに集中攻撃
 	function fireworks(enemyType, enemyNum, radPer) {
-		var angle = Math.PI * 2 / enemyNum;
 		var playersLength = players.length;
 
-		// 標的がアクティブでないとき生成失敗
-		var pIndex = Math.random() * playersLength | 0;
-		if(players[pIndex].state == "WAIT") {
-			return;
-		}
-
-		var angleDiff = Math.random() * (180 / Math.PI);
+		// 誰もいないときはスルー
 		if(playersLength > 0) {
+			var pIndex = Math.random() * playersLength | 0;
+			var angle = Math.PI * 2 / enemyNum;
+			var angleDiff = Math.random() * (180 / Math.PI);
+
+			var targetPositionX = 0;
+			var targetPositionY = 0;
+
+			var maxX = 1100; // targetPositionXの最大値
+
+
+			// 標的がアクティブでないときランダムにポジションをセット
+			if(players[pIndex].state != "WAIT") {
+				targetPositionX = players[pIndex].x;
+				targetPositionY = players[pIndex].y;
+			} else {
+				targetPositionX = (Math.random() - 0.5) * maxX;
+				targetPositionY = (Math.random() - 0.5) * maxX;
+			}
+
 			for (var i = 0; i < enemyNum; i++) {
 				var cos = Math.cos(angle * i + angleDiff);
 				var sin = Math.sin(angle * i + angleDiff);
 
-				var x = cos * 100 * radPer + players[pIndex].x | 0;
-				var y = sin * 100 * radPer + players[pIndex].y | 0;
+				var x = cos * 100 * radPer + targetPositionX | 0;
+				var y = sin * 100 * radPer + targetPositionY | 0;
 				var enemy = new go.Enemy(x, y, enemyType);
 
 				enemy.vx = -cos * 4 | 0;
@@ -284,6 +296,8 @@ function EnemyGenerator(players, enemys) {
 			}
 		}
 	}
+
+	// あるプレイヤーを追尾
 	function stalker(enemyType, enemyNum) {
 		var playersLength = players.length;
 		var angle = Math.PI  / enemyNum;
