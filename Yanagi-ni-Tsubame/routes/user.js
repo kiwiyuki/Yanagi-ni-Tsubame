@@ -24,10 +24,6 @@ router.post("/", ensureAuthenticated, function (req, res) {
 		$co: req.session.user.game.color,
 		$id: req.session.user.id
 	});
-	res.render("user", {
-		title: "ヤナギニツバメ ユーザーページ",
-		isLogin: req.session.isLogin,
-		user: req.session.user
-	});
+	res.redirect("user");
 });
 module.exports = router;

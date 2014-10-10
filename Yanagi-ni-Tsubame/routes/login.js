@@ -39,7 +39,7 @@ function loginCallback (req, res) {
 		if(!err) {
 			//新規
 			if(rows.length === 0) {
-				var co = Math.random();
+				var co = Math.random() * 100 | 0 / 100;
 				console.log("account init");
 				req.session.user.game = {
 					lastX : 0,
