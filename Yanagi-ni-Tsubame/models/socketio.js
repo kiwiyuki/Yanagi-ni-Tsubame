@@ -54,7 +54,7 @@ function socketio (server) {
 					user.game.lastY = 0;
 					user.game.lastHP = 300;
 					user.game.score = 0;
-					user.game.color = Math.random();
+					user.game.color = (Math.random() * 100 | 0) / 100;
 				}
 
 				p = new go.Player(user.id, user.game.lastX, user.game.lastY, user.game.lastHP, user.game.score,user.game.color);
@@ -210,25 +210,25 @@ function EnemyGenerator(players, enemys) {
 	this.update = function() {
 		switch(counter) {
 			case 100:
-			fireworks("akatan", 5);
+			fireworks("akatan", 5, 1);
 			break;
 
 			case 200:
-			fireworks("akatan", 4);
-			fireworks("aotan", 3);
+			fireworks("akatan", 5,1.5);
+			fireworks("aotan", 3,1);
 			break;
 
 			case 250:
-			fireworks("aotan", 3);
+			fireworks("aotan", 3,1);
 			break;
 
 			case 300:
-			fireworks("akatan", 5);
+			fireworks("akatan", 5,1);
 			break;
 
 			case 350:
 			stalker("syobu" ,1);
-			fireworks("akatan", 5);
+			fireworks("akatan", 5,1);
 			break;
 		}
 		counter++;
@@ -250,7 +250,7 @@ function EnemyGenerator(players, enemys) {
 	}
 
 	// あるプレイヤーに集中攻撃
-	function fireworks(enemyType, enemyNum) {
+	function fireworks(enemyType, enemyNum, radPer) {
 		var angle = Math.PI * 2 / enemyNum;
 		var playersLength = players.length;
 
@@ -260,13 +260,14 @@ function EnemyGenerator(players, enemys) {
 			return;
 		}
 
+		var angleDiff = Math.random() * (180 / Math.PI);
 		if(playersLength > 0) {
 			for (var i = 0; i < enemyNum; i++) {
-				var cos = Math.cos(angle * i);
-				var sin = Math.sin(angle * i);
+				var cos = Math.cos(angle * i + angleDiff);
+				var sin = Math.sin(angle * i + angleDiff);
 
-				var x = cos * 100 + players[pIndex].x | 0;
-				var y = sin * 100 + players[pIndex].y | 0;
+				var x = cos * 100 * radPer + players[pIndex].x | 0;
+				var y = sin * 100 * radPer + players[pIndex].y | 0;
 				var enemy = new go.Enemy(x, y, enemyType);
 
 				enemy.vx = -cos * 4 | 0;
