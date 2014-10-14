@@ -111,6 +111,8 @@ $(document).ready(function() {
 			enemyManager.update(data.enemys);
 			itemManager.update(data.items);
 		}
+
+		// console.log("objects : " + (data.players.length + data.enemys.length + data.items.length));
 	});
 
 	// 死亡時メッセージ受信

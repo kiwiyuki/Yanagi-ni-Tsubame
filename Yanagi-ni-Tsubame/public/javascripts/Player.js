@@ -16,6 +16,7 @@ var Player = function(scene, camera, data, soundManager) {
 	var shotCounter = 0; // ショット制御用
 	var damageCounter = 0 // ダメージ時、2秒間無敵
 	var blinkCounter = 0; // 点滅エフェクト用
+	var maxX = 1200; // 行動範囲限定用
 
 	this.id = data.id;
 	this.hp = data.hp;
@@ -150,7 +151,6 @@ var Player = function(scene, camera, data, soundManager) {
 			if(controls.moveDown) this.mesh.position.y -= speed;
 
 			// 行動範囲の限定
-			var maxX = 1200;
 			if(this.mesh.position.x > maxX) this.mesh.position.x = maxX;
 			if(this.mesh.position.x < -maxX) this.mesh.position.x = -maxX;
 			if(this.mesh.position.y > maxX) this.mesh.position.y = maxX;

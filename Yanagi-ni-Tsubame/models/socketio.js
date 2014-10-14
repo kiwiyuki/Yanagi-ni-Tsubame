@@ -199,7 +199,7 @@ function socketio (server) {
 			items.splice(di, 1);
 		});
 		
-		io.sockets.volatile.json.emit('server_update', { players : players , enemys : enemys , items : items});
+		io.sockets.volatile.json.emit('server_update', { players : players , enemys : enemys , items : items });
 	};
 }
 

@@ -10,6 +10,7 @@ var Player = function(_id, _x, _y, _hp, _score, _color) {
 };
 
 var Enemy = function(_x, _y, _type) {
+	var maxX = 1500;
 	this.id = generateID();
 	this.x = _x;
 	this.y = _y;
@@ -23,9 +24,14 @@ var Enemy = function(_x, _y, _type) {
 	this.update = function() {
 		this.individualUpdate(this);
 
-		// 発生から約3分で自動的に死ぬ
+		// 発生から約1分で自動的に死ぬ
 		this.counter++;
-		if(this.counter > 10000) {
+		if(this.counter > 3000) {
+			this.hp = 0;
+		}
+
+		// 場外に出ても死ぬ
+		if(this.x > maxX || this.x < -maxX || this.y > maxX || this.y < -maxX) {
 			this.hp = 0;
 		}
 	};
