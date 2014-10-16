@@ -15,6 +15,7 @@ var user = require("./routes/user");
 var login = require("./routes/login");
 var logout = require("./routes/logout");
 var game = require("./routes/game");
+var gameDev = require("./routes/gameDev");
 
 var app = express();
 
@@ -45,6 +46,9 @@ app.use("/user", user);
 app.use("/login", login);
 app.use("/logout", logout);
 app.use("/game", game);
+if(app.get("env") !== "production") {
+    app.use("/gameDev", gameDev);
+}
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

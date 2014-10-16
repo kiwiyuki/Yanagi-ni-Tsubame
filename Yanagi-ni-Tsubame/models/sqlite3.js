@@ -1,4 +1,4 @@
-var sqlite3 = require("sqlite3").verbose();
+var sqlite3 = require("sqlite3");
 var setting = require("../setting");
 var YTDB = new sqlite3.Database(setting.database.path);
 var sessionDB = new sqlite3.Database(setting.session.path);

@@ -22,6 +22,33 @@ block content
       p ヤナギニツバメはnode.js製の多人数参加型全方位シューティング！
       p 出現する敵を倒したり、倒した敵から出たアイテムを集めてポイントを稼ごう！
       p なかなか倒せない敵は協力して倒したり、他のプレイヤーの近くに敵を出したり、遊び方は自由！
+      table.table.table-condensed
+        tbody
+          tr
+            td
+              img(src="resources/player.png")
+            td PLAYER
+            td 本文
+          tr
+            td
+              img(src="/resources/item.png") 
+            td ITEM
+            td 1つ1000ポイントのアイテムで、触れると獲得できます。もっともポイントが高いのでたくさん集めましょう！
+          tr
+            td
+              img(src="/resources/akatan.png") 
+            td AKATAN
+            td 体力の低い敵で、倒して得られるポイントはかなり低いです。
+          tr
+            td
+              img(src="resources/aotan.png") 
+            td AOTAN
+            td AKATANより少し強い敵です。
+          tr
+            td
+              img(src="resources/syobu.png") 
+            td SYOBU
+            td プレイヤーを追尾してくる敵です。体力と攻撃力が高いですが、ポイントは低めなので厄介です。
       h3 操作方法
         table.table.table-condensed.table-bordered
           tbody
@@ -33,7 +60,7 @@ block content
               td 攻撃
       h3 推奨ブラウザ
       p Google chrome
-      p Internet Explorer
+      p Internet Explorer11
       h3 ランキング
       table.table.table-condensed
         tbody
@@ -43,15 +70,14 @@ block content
               td= rank[i].playerName
               td= rank[i].score
           - }
+      h3 News
+      p 2014/10/17 v1.0 公開      
       h3 LINK
-      div.col-md-4.col-md-offset-4.col-lg-4.col-lg-4.col-sm-4.col-sm-offset-4.col-xs-3.col-xs-offset-4
-        ul
-          li
-            a(href="https://github.com/kiwiyuki/Yanagi-ni-Tsubame.git") Github
-          li
-            a(href="http://inf.tsukuba.ac.jp/ET-COJT/") COJT
+      p 
+        a(href="https://github.com/kiwiyuki/Yanagi-ni-Tsubame.git") Github
+      p
+        a(href="http://inf.tsukuba.ac.jp/ET-COJT/") COJT
   footer &copy; 2014 
     a(href="https://twitter.com/hotsure_sj") hotsure_sj 
-    | & 
+    | and 
     a(href="https://twitter.com/kiwi_yuki") TKG
-    |  ALL Rights Reserved 
