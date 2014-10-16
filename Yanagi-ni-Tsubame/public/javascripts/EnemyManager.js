@@ -114,7 +114,7 @@ var EnemyManager = function(scene, player, atkEnemys, soundManager) {
 							new THREE.Vector2(enemy.mesh.position.x + enemy.halfSize, enemy.mesh.position.y + enemy.halfSize));
 
 						if(bulletHitBox.isIntersectionBox(enemyHitBox)) {
-							atkEnemys.push({ id : enemy.id, damage : bullet.atk });
+							atkEnemys.push({ id : enemy.id, bt : bullet.type });
 							bullet.mesh.visible = false;
 							soundManager.seHit();
 						}

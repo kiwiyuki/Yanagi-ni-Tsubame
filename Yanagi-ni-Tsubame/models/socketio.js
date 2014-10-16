@@ -96,7 +96,9 @@ function socketio (server) {
 			data.atkEnemys.forEach(function(ae) {
 				for(var i = 0; i < enemys.length; i++) {
 					if(enemys[i].id == ae.id) {
-						enemys[i].hp -= ae.damage;
+						if(ae.bt == "y") {
+							enemys[i].hp -= 20;
+						}
 
 						// スコア追加（敵のHPが有り得ない数値のときはスコアとアイテムの追加なし）
 						if (enemys[i].hp <= 0 && enemys[i].hp > -1000) {
