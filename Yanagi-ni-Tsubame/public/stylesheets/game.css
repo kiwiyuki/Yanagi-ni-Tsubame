@@ -22,13 +22,16 @@ html, body {
 	background-color: #422;
 }
 
-.gameTitleText, .gameOverText{
+.gameTitleText, .gameOverText {
 	position: relative;
-	top: 50%;
+	top: 30%;
 	left: 50%;
 	transform: translateY(-50%);
 	transform: translateX(-50%);
 	color: #fff;
+}
+.gameOverText {
+	top: 30%;
 }
 
 .gameUIHidden {
