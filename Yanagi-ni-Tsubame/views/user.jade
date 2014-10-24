@@ -5,7 +5,7 @@ block content
     h1 プレイヤーデータ
     div.row
       div.col-md-6.col-md-offset-3
-        form(method="post", target="/")
+        form(method="post", target="postReturn")
           table.table.table-condensed
             tr
               td ICON
@@ -18,12 +18,14 @@ block content
               else
                 td= user.displayName
             tr
-              td(id="color") color
+              - var c = "color : hsl(" + user.game.color * 360 + ",100%, 50%);"
+              td(id="color" style= c) COLOR
               td
                 input(type="range",name="color",min="0",max="1",step="0.01",value= user.game.color,id="colorSlider")
           div.col-md-6.col-md-offset-3
             input.btn.btn-lg.btn-primary(type="submit",value="Save!")
           div.col-md-6.col-md-offset-3
             a.btn.btn-lg.btn-info(href="/game", role="button") Play!
+        iframe(name="postReturn",style="display:none;",id="postReturn")
 block insertScript
   script(src="javascripts/user.js")
