@@ -1,4 +1,4 @@
-var Player = function(scene, camera, data, soundManager) {
+var Player = function(GAME, data) {
 	var speed = 3;
 	var d = 0.8; // カメラ操作用
 	var controls = {
@@ -54,14 +54,14 @@ var Player = function(scene, camera, data, soundManager) {
 	canon.position.set(canonRadius, 0, 0);
 	this.mesh.add(canon);
 	this.mesh.position.set(data.x, data.y, 0);
-	camera.position.x = data.x;
-	camera.position.y = data.y;
+	GAME.camera.position.x = data.x;
+	GAME.camera.position.y = data.y;
 
 	// 弾の管理
 	this.bullets = [];
 	this.bulletsData = [];
 
-	scene.add(this.mesh);
+	GAME.scene.add(this.mesh);
 
 	// 弾定義
 	function Bullet(x, y, angle, hue) {
@@ -160,11 +160,11 @@ var Player = function(scene, camera, data, soundManager) {
 			core.rotation.y += 0.05;
 
 			// カメラ移動
-			var targetPositionX = camera.position.x * d + this.mesh.position.x * (1 - d);
-			var targetPositionY = camera.position.y * d + this.mesh.position.y * (1 - d);
-			camera.position.x = targetPositionX;
-			camera.position.y = targetPositionY;
-			camera.lookAt(new THREE.Vector3(targetPositionX, targetPositionY, 0));
+			var targetPositionX = GAME.camera.position.x * d + this.mesh.position.x * (1 - d);
+			var targetPositionY = GAME.camera.position.y * d + this.mesh.position.y * (1 - d);
+			GAME.camera.position.x = targetPositionX;
+			GAME.camera.position.y = targetPositionY;
+			GAME.camera.lookAt(new THREE.Vector3(targetPositionX, targetPositionY, 0));
 
 			// ショット関連
 			shotCounter++;
@@ -184,9 +184,9 @@ var Player = function(scene, camera, data, soundManager) {
 					var bullet = new Bullet(this.mesh.position.x, this.mesh.position.y, canonAngle, this.hue);
 					
 					this.bullets.push(bullet);
-					scene.add(bullet.mesh);
+					GAME.scene.add(bullet.mesh);
 					
-					soundManager.seShot();
+					GAME.soundManager.seShot();
 
 					shotCounter = 0;
 				}
@@ -213,7 +213,7 @@ var Player = function(scene, camera, data, soundManager) {
 
 		// 自弾削除
 		for (var i = 0; i < removeBullets.length; i++) {
-			scene.remove(removeBullets[i].mesh);
+			GAME.scene.remove(removeBullets[i].mesh);
 			this.bullets.splice(this.bullets.indexOf(removeBullets[i]), 1);
 		}
 	};

@@ -53,7 +53,7 @@ $(document).ready(function() {
 		GAME.soundManager = new SoundManager(0);
 
 		// プレイヤー
-		GAME.player = new Player(GAME.scene, GAME.camera, data.player, GAME.soundManager);
+		GAME.player = new Player(GAME, data.player);
 
 		// オブジェクトマネージャー
 		GAME.objectManager = new ObjectManager(GAME);
