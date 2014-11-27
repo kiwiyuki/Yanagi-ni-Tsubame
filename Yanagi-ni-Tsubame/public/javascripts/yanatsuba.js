@@ -17,7 +17,6 @@ $(document).ready(function() {
 		GAMEOVER : 4
 	};
 	GAME.state = GAME.utils.state.LOAD;
-	GAME.volume = 0;
 	
 	// socket通信開始
 	socket = io.connect();
@@ -63,7 +62,7 @@ $(document).ready(function() {
 		localData.getItems = [];
 
 		// 音
-		soundManager = new SoundManager(GAME.volume);
+		soundManager = new SoundManager(0);
 
 		// プレイヤー
 		player = new Player(scene, camera, data.player, soundManager);
@@ -83,7 +82,6 @@ $(document).ready(function() {
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
 		window.addEventListener('keydown', onKeyDown, false);
-		$('#gameVolume').click(onClickVolumeIcon);
 
 		// 再接続時のエラー防止
 		if(GAME.state == GAME.utils.state.LOAD) {
@@ -190,21 +188,4 @@ $(document).ready(function() {
 			}
 		}
 	}
-
-	function onClickVolumeIcon() {
-		if(GAME.volume <= 0) {
-			GAME.volume = 0.5;
-			$('#gameVolume i').removeClass("fa-volume-off");
-			$('#gameVolume i').addClass("fa-volume-down");
-		} else if (GAME.volume < 1.0) {
-			GAME.volume = 1.0;
-			$('#gameVolume i').removeClass("fa-volume-down");
-			$('#gameVolume i').addClass("fa-volume-up");
-		} else if (GAME.volume >= 1.0) {
-			GAME.volume = 0;
-			$('#gameVolume i').removeClass("fa-volume-up");
-			$('#gameVolume i').addClass("fa-volume-off");
-		}
-		soundManager.changeVolume(GAME.volume);
-	};
 });
