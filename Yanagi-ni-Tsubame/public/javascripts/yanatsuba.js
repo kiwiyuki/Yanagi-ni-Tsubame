@@ -1,14 +1,14 @@
 // メイン
 $(document).ready(function() {
-	// 大域変数
-	var WIDTH = window.innerWidth;
-	var HEIGHT = window.innerHeight;
+	// 変数定義
 	var socket, localData;
-	var scene, camera, renderer, background, player, avatarManager, enemyManager, itemManager, soundManager;
-	var gameDomElement = document.getElementById("game");
-	var bgColor = 0x333333;
-	
+	var player;
 	var GAME = {};
+	GAME.WIDTH = window.innerWidth;
+	GAME.HEIGHT = window.innerHeight;
+	GAME.domElement = document.getElementById("game");
+	GAME.bgColor = 0x333333;
+	
 	GAME.utils = {};
 	GAME.utils.state = {
 		LOAD : 1,
@@ -27,26 +27,26 @@ $(document).ready(function() {
 		
 		// 初期化
 		// シーン
-		scene = new THREE.Scene();
+		GAME.scene = new THREE.Scene();
 
 		// カメラ
-		camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 1, 1500);
-		camera.position.set(0, 0, 500);
-		camera.lookAt(new THREE.Vector3(0, 0, 0));
+		GAME.camera = new THREE.PerspectiveCamera(45, GAME.WIDTH / GAME.HEIGHT, 1, 1500);
+		GAME.camera.position.set(0, 0, 500);
+		GAME.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 		// フォグ
-		scene.fog = new THREE.Fog(bgColor, 1250, 1500);
+		GAME.scene.fog = new THREE.Fog(GAME.bgColor, 1250, 1500);
 
 		// レンダラー
-		renderer = new THREE.WebGLRenderer();
-		renderer.setSize(WIDTH, HEIGHT);
-		renderer.setClearColor(bgColor, 1);
-		gameDomElement.appendChild(renderer.domElement);
+		GAME.renderer = new THREE.WebGLRenderer();
+		GAME.renderer.setSize(GAME.WIDTH, GAME.HEIGHT);
+		GAME.renderer.setClearColor(GAME.bgColor, 1);
+		GAME.domElement.appendChild(GAME.renderer.domElement);
 
 		// 光源
 		var light = new THREE.DirectionalLight(0xffffff, 0.95);
 		light.position.set(0, 0, 1000);
-		scene.add(light);
+		GAME.scene.add(light);
 
 		// メッシュ
 		GAME.mf = new MeshFactory();
@@ -58,13 +58,13 @@ $(document).ready(function() {
 		localData.getItems = [];
 
 		// 音
-		soundManager = new SoundManager(0);
+		GAME.soundManager = new SoundManager(0);
 
 		// プレイヤー
-		player = new Player(scene, camera, data.player, soundManager);
+		player = new Player(GAME.scene, GAME.camera, data.player, GAME.soundManager);
 
 		// オブジェクトマネージャー
-		om = new ObjectManager();
+		GAME.objectManager = new ObjectManager();
 
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
@@ -73,7 +73,7 @@ $(document).ready(function() {
 		// 再接続時のエラー防止
 		if(GAME.state == GAME.utils.state.LOAD) {
 			// ロードメッセージ削除
-			gameDomElement.removeChild(document.getElementById("load_msg"));
+			GAME.domElement.removeChild(document.getElementById("load_msg"));
 
 			// 状態遷移
 			GAME.state = GAME.utils.state.TITLE;
@@ -89,7 +89,7 @@ $(document).ready(function() {
 		if(GAME.state != GAME.utils.state.LOAD) {
 			// スコア更新
 
-			om.serverUpdate(data);
+			GAME.objectManager.serverUpdate(data);
 		}
 
 		// console.log("objects : " + (data.players.length + data.enemys.length + data.items.length));
@@ -108,7 +108,7 @@ $(document).ready(function() {
 	// ループ
 	function loop() {
 		// 状態更新
-		om.localUpdate();
+		GAME.objectManager.localUpdate();
 		player.update();
 
 		// 弾幕情報の取得
@@ -132,18 +132,18 @@ $(document).ready(function() {
 		}
 
 		// レンダリング
-		renderer.render(scene, camera);
+		GAME.renderer.render(GAME.scene, GAME.camera);
 
 		requestAnimationFrame(loop);
 	}
 
 	// イベントリスナー
 	function onWindowResize(e) {
-		WIDTH = window.innerWidth;
-		HEIGHT = window.innerHeight;
-		renderer.setSize(WIDTH, HEIGHT);
-		camera.aspect = WIDTH / HEIGHT;
-		camera.updateProjectionMatrix();
+		GAME.WIDTH = window.innerWidth;
+		GAME.HEIGHT = window.innerHeight;
+		GAME.renderer.setSize(GAME.WIDTH, GAME.HEIGHT);
+		GAME.camera.aspect = GAME.WIDTH / GAME.HEIGHT;
+		GAME.camera.updateProjectionMatrix();
 	}
 
 	function onKeyDown(e) {
