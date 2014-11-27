@@ -95,9 +95,9 @@ $(document).ready(function() {
 
 	// 死亡時メッセージ受信
 	socket.json.on("dead_message", function(data) {
-		// GAME.player.mesh.visible = false;
-		// GAME.player.hp = data.hp;
-		// GAME.player.score = data.score;
+		GAME.player.mesh.visible = false;
+		GAME.player.hp = data.hp;
+		GAME.player.score = data.score;
 
 		GAME.state = GAME.utils.state.GAMEOVER;
 		$("#gameOver").removeClass("gameUIHidden");
@@ -106,8 +106,8 @@ $(document).ready(function() {
 	// ループ
 	function loop() {
 		// 状態更新
-		GAME.objectManager.localUpdate();
 		GAME.player.update();
+		GAME.objectManager.localUpdate();
 
 		// 弾幕情報の取得
 
