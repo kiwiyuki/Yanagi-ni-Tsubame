@@ -51,10 +51,6 @@ $(document).ready(function() {
 		// メッシュ
 		GAME.mf = new MeshFactory();
 
-		// 背景
-		background = new Background();
-		scene.add(background.mesh);
-
 		// ローカルデータ定義
 		localData = {};
 		localData.player = {};
@@ -67,17 +63,8 @@ $(document).ready(function() {
 		// プレイヤー
 		player = new Player(scene, camera, data.player, soundManager);
 
-		// 他プレイヤー（アバター）
-		avatarManager = new AvatarManager(scene, player);
-		avatarManager.update(data.players);
-
-		// 敵
-		enemyManager = new EnemyManager(scene, player, localData.atkEnemys, soundManager);
-		enemyManager.update(data.enemys);
-
-		// アイテム
-		itemManager = new ItemManager(scene, player, localData.getItems, GAME.mf);
-		itemManager.update(data.items);
+		// オブジェクトマネージャー
+		om = new ObjectManager();
 
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
@@ -100,17 +87,9 @@ $(document).ready(function() {
 	socket.on('server_update', function(data) {
 		// ロード時は情報の更新をしない
 		if(GAME.state != GAME.utils.state.LOAD) {
-			// プレイヤー情報更新
-			for (var i = 0; i < data.players.length; i++) {
-				if(data.players[i].id == player.id) {
-					player.score = data.players[i].score;
-					break;
-				}
-			}
+			// スコア更新
 
-			avatarManager.update(data.players);
-			enemyManager.update(data.enemys);
-			itemManager.update(data.items);
+			om.serverUpdate(data);
 		}
 
 		// console.log("objects : " + (data.players.length + data.enemys.length + data.items.length));
@@ -118,9 +97,10 @@ $(document).ready(function() {
 
 	// 死亡時メッセージ受信
 	socket.json.on("dead_message", function(data) {
-		player.mesh.visible = false;
-		player.hp = data.hp;
-		player.score = data.score;
+		// player.mesh.visible = false;
+		// player.hp = data.hp;
+		// player.score = data.score;
+
 		GAME.state = GAME.utils.state.GAMEOVER;
 		$("#gameOver").removeClass("gameUIHidden");
 	});
@@ -128,17 +108,10 @@ $(document).ready(function() {
 	// ループ
 	function loop() {
 		// 状態更新
-		background.update();
+		om.localUpdate();
 		player.update();
-		avatarManager.animate();
-		enemyManager.localUpdate();
-		itemManager.localUpdate();
 
 		// 弾幕情報の取得
-		var bullets = [];
-		player.bullets.forEach(function(b) {
-			bullets.push(b.getData());
-		});
 
 		// 鯖へデータ送信
 		localData.player = {
