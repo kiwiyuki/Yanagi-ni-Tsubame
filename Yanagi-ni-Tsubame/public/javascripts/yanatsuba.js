@@ -144,7 +144,7 @@ $(document).ready(function() {
 			id : player.id,
 			x : player.mesh.position.x,
 			y : player.mesh.position.y,
-			hp : player.hp,
+			// hp : player.hp,
 			state : player.state,
 			bullets : player.bulletsData
 		};
