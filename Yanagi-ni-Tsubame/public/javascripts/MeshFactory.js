@@ -8,6 +8,7 @@ var MeshFactory = function() {
 	**********/
 
 	this.generate.player = function(hue) {
+
 	};
 
 	/**********
@@ -31,4 +32,19 @@ var MeshFactory = function() {
 	}
 
 	this.exp = exp;
+
+
+	/**********
+
+	その他
+
+	**********/
+
+	this.hugeBox = (function() {
+		var g = new THREE.BoxGeometry(150, 150, 800);
+		var m = new THREE.MeshLambertMaterial({color : 0x222222});
+		var box = new THREE.Mesh(g, m);
+		
+		return box;
+	})();
 };

@@ -1,4 +1,3 @@
-// メイン
 $(document).ready(function() {
 	// 変数定義
 	var socket, localData;
@@ -8,7 +7,7 @@ $(document).ready(function() {
 	GAME.HEIGHT = window.innerHeight;
 	GAME.domElement = document.getElementById("game");
 	GAME.bgColor = 0x333333;
-	
+
 	GAME.utils = {};
 	GAME.utils.state = {
 		LOAD : 1,
@@ -49,13 +48,7 @@ $(document).ready(function() {
 		GAME.scene.add(light);
 
 		// メッシュ
-		GAME.mf = new MeshFactory();
-
-		// ローカルデータ定義
-		localData = {};
-		localData.player = {};
-		localData.atkEnemys = [];
-		localData.getItems = [];
+		GAME.meshFactory = new MeshFactory();
 
 		// 音
 		GAME.soundManager = new SoundManager(0);
@@ -64,7 +57,13 @@ $(document).ready(function() {
 		player = new Player(GAME.scene, GAME.camera, data.player, GAME.soundManager);
 
 		// オブジェクトマネージャー
-		GAME.objectManager = new ObjectManager();
+		GAME.objectManager = new ObjectManager(GAME);
+
+		// ローカルデータ定義
+		localData = {};
+		localData.player = {};
+		localData.atkEnemys = [];
+		localData.getItems = [];
 
 		// イベント追加
 		window.addEventListener('resize', onWindowResize, false);
