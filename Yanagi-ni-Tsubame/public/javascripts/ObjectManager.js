@@ -8,7 +8,6 @@ var ObjectManager = function(GAME){
 	var background = new Background();
 	GAME.scene.add(background.mesh);
 
-
 	// ローカルの状態更新
 	this.localUpdate = function() {
 		background.update();

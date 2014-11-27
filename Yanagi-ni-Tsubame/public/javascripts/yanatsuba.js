@@ -1,7 +1,6 @@
 $(document).ready(function() {
 	// 変数定義
 	var socket, localData;
-	var player;
 	var GAME = {};
 	GAME.WIDTH = window.innerWidth;
 	GAME.HEIGHT = window.innerHeight;
@@ -54,7 +53,7 @@ $(document).ready(function() {
 		GAME.soundManager = new SoundManager(0);
 
 		// プレイヤー
-		player = new Player(GAME.scene, GAME.camera, data.player, GAME.soundManager);
+		GAME.player = new Player(GAME.scene, GAME.camera, data.player, GAME.soundManager);
 
 		// オブジェクトマネージャー
 		GAME.objectManager = new ObjectManager(GAME);
@@ -96,9 +95,9 @@ $(document).ready(function() {
 
 	// 死亡時メッセージ受信
 	socket.json.on("dead_message", function(data) {
-		// player.mesh.visible = false;
-		// player.hp = data.hp;
-		// player.score = data.score;
+		// GAME.player.mesh.visible = false;
+		// GAME.player.hp = data.hp;
+		// GAME.player.score = data.score;
 
 		GAME.state = GAME.utils.state.GAMEOVER;
 		$("#gameOver").removeClass("gameUIHidden");
@@ -108,25 +107,25 @@ $(document).ready(function() {
 	function loop() {
 		// 状態更新
 		GAME.objectManager.localUpdate();
-		player.update();
+		GAME.player.update();
 
 		// 弾幕情報の取得
 
 		// 鯖へデータ送信
 		localData.player = {
-			id : player.id,
-			x : player.mesh.position.x,
-			y : player.mesh.position.y,
-			// hp : player.hp,
-			state : player.state,
-			bullets : player.bulletsData
+			id : GAME.player.id,
+			x : GAME.player.mesh.position.x,
+			y : GAME.player.mesh.position.y,
+			// hp : GAME.player.hp,
+			state : GAME.player.state,
+			bullets : GAME.player.bulletsData
 		};
 
-		if(player.state != "WAIT") {
+		if(GAME.player.state != "WAIT") {
 			socket.json.emit("player_data", localData);
 
-			if(player.hp <= 0) {
-				player.state = "WAIT";
+			if(GAME.player.hp <= 0) {
+				GAME.player.state = "WAIT";
 			}
 		}
 
@@ -152,7 +151,7 @@ $(document).ready(function() {
 			if(GAME.state == GAME.utils.state.TITLE) {
 				GAME.state = GAME.utils.state.PLAY;
 				$("#gameTitle").addClass("gameUIHidden");
-				player.state = "NORMAL";
+				GAME.player.state = "NORMAL";
 			} else if(GAME.state == GAME.utils.state.GAMEOVER) {
 				GAME.state = GAME.utils.state.TITLE;
 				$("#gameOver").addClass("gameUIHidden");
