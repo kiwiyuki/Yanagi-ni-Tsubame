@@ -49,6 +49,9 @@ $(document).ready(function() {
 		light.position.set(0, 0, 1000);
 		scene.add(light);
 
+		// メッシュ
+		GAME.mf = new MeshFactory();
+
 		// 背景
 		background = new Background();
 		scene.add(background.mesh);
@@ -74,7 +77,7 @@ $(document).ready(function() {
 		enemyManager.update(data.enemys);
 
 		// アイテム
-		itemManager = new ItemManager(scene, player, localData.getItems);
+		itemManager = new ItemManager(scene, player, localData.getItems, GAME.mf);
 		itemManager.update(data.items);
 
 		// イベント追加

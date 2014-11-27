@@ -1,26 +1,16 @@
-var ItemManager = function(scene, player, getItems) {
+var ItemManager = function(scene, player, getItems, mf) {
 	var itemsArray = [];
 
 	var Item = function(data) {
 		this.id = data.id;
 		this.mesh = new THREE.Object3D();
-		this.mesh.position.set(data.x, data.y, 0);
 		this.halfSize = 0;
 
 		switch(data.type) {
 			case "exp":
 			this.halfSize = 6;
 
-			for (var i = 0; i < 8; i++) {
-				var ix = i & 1;
-				var iy = (i >> 1) & 1;
-				var iz = (i >> 2) & 1;
-				var g = new THREE.BoxGeometry(3, 3, 3);
-				var m = new THREE.MeshLambertMaterial({color : 0xeeeeee});
-				var box = new THREE.Mesh(g, m);
-				box.position.set(2 - 4 * ix, 2 - 4 * iy, 2 - 4 * iz);
-				this.mesh.add(box);
-			}
+			this.mesh = mf.exp.clone();
 
 			this.animate = function() {
 				this.mesh.rotation.x += 0.05;
@@ -28,6 +18,8 @@ var ItemManager = function(scene, player, getItems) {
 			};
 			break;
 		}
+
+		this.mesh.position.set(data.x, data.y, 0);
 	}
 
 	this.localUpdate = function() {
