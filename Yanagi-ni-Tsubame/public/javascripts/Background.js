@@ -25,22 +25,25 @@ var Background = function() {
 		mesh : bg,
 
 		update : function() {
-			bg.children.forEach(function(hugeBox) {
-				if(hugeBox.flag) {
-					hugeBox.position.z = hugeBox.position.z * d - 900 * (1 - d);
+			// hugeBoxの上下移動
+			for (var i = 0; i < bg.children.length; i++) {
+				if(bg.children[i].flag) {
+					bg.children[i].position.z = bg.children[i].position.z * d - 900 * (1 - d);
 				} else {
-					hugeBox.position.z = hugeBox.position.z * d - 1100 * (1 - d);
+					bg.children[i].position.z = bg.children[i].position.z * d - 1100 * (1 - d);
 				}
-			});
+			}
 
-			counter++;
+			// 3秒ごとに上下移動フラグを変更
 			if(counter > 180) {
-				bg.children.forEach(function(hugeBox) {
-					hugeBox.flag = Math.random() < 0.5;
-				});
+				for (var i = 0; i < bg.children.length; i++) {
+					bg.children[i].flag = Math.random() < 0.5;
+				}
 
 				counter = 0;
 			}
+			
+			counter++;
 		}
 	};
 }
