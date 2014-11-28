@@ -52,11 +52,8 @@ $(document).ready(function() {
 		// 音
 		GAME.soundManager = new SoundManager(0);
 
-		// プレイヤー
-		GAME.player = new Player(GAME, data.player);
-
 		// オブジェクトマネージャー
-		GAME.objectManager = new ObjectManager(GAME);
+		GAME.objectManager = new ObjectManager(GAME, data);
 
 		// ローカルデータ定義
 		localData = {};
@@ -106,7 +103,6 @@ $(document).ready(function() {
 	// ループ
 	function loop() {
 		// 状態更新
-		GAME.player.update();
 		GAME.objectManager.localUpdate();
 
 		// 弾幕情報の取得

@@ -42,6 +42,10 @@ function Bullet(x, y, angle, hue) {
 	this.mesh.rotation.z = angle - Math.PI / 2;
 }
 
+Bullet.prototype.update = function() {
+
+};
+
 Bullet.prototype.getData = function() {
 	return {
 		id : this.id,

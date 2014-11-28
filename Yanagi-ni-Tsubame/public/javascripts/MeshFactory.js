@@ -1,15 +1,4 @@
 var MeshFactory = function() {
-	this.generate = {}; // 引数を受け取り、一からメッシュを作るとき
-
-	/**********
-
-	プレイヤー（アバター）
-
-	**********/
-
-	this.generate.player = function(hue) {
-
-	};
 
 	/**********
 
