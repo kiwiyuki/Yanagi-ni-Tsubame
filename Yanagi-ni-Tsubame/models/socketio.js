@@ -126,15 +126,15 @@ function socketio (server) {
 			}
 
 			// アイテム取得処理
-			data.getItems.forEach(function(gi) {
-				for(var i = 0; i < items.length; i++) {
-					if(items[i].id == gi.id) {
+			for(var dgi = 0, dgil = data.getItems.length; dgi < dgil; dgi++) {
+				for(var i = 0, il = items.length; i < il; i++) {
+					if(items[i].id == data.getItems[dgi].id) {
 						players[pIndex].score += items[i].point;
 						items.splice(i, 1);
 						break;
 					}
 				}
-			});
+			}
 
 			// プレイヤー死亡処理
 			if(dp.hp <= 0 && dp.state !== "WAIT") {
