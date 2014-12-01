@@ -79,7 +79,7 @@ function socketio (server) {
 			var dp = data.player;
 			var pIndex = 0;
 			for(var i = 0; i < players.length; i++) {
-				if(players[i].id == dp.id) {
+				if(players[i].id === dp.id) {
 					pIndex = i;
 					//playerデータの更新
 					players[i].x = dp.x;
@@ -93,10 +93,10 @@ function socketio (server) {
 
 
 			// ダメージ処理
-			data.atkEnemys.forEach(function(ae) {
+			for(var daIndex = 0, dal = data.atkEnemys.length; daIndex < dal; daIndex++) {
 				for(var i = 0; i < enemys.length; i++) {
-					if(enemys[i].id == ae.id) {
-						if(ae.bt == "y") {
+					if(enemys[i].id === data.atkEnemys[daIndex].id) {
+						if(data.atkEnemys[daIndex].bt === "y") {
 							enemys[i].hp -= 20;
 						}
 
@@ -123,7 +123,7 @@ function socketio (server) {
 						break;
 					}
 				}
-			});
+			}
 
 			// アイテム取得処理
 			data.getItems.forEach(function(gi) {
