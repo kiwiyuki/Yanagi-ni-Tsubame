@@ -13,6 +13,8 @@ var loopInterval;
 
 var enemyGenerator = new EnemyGenerator(players, enemys);
 
+
+//TODO ゲームロジックと通信部分を分離したい
 function socketio (server) {
 	var io = sio.listen(server);
 
@@ -30,7 +32,7 @@ function socketio (server) {
 	});
 
 	// サーバー接続処理
-	io.sockets.on('connection', function (socket) {
+	io.sockets.on("connection", function (socket) {
 		// データーベース処理
 		var p;
 		sessionDB.all("select sess from sessions where sid = $sid", { $sid: socket.sessionId }, function (err, rows) {
@@ -61,8 +63,8 @@ function socketio (server) {
 				players.push(p);
 
 				// 初回データ送信
-				socket.json.emit('first_message', { player: p, players: players, enemys: enemys, items: items });
-				console.log('connection\nplayer num : ' + players.length);
+				socket.json.emit("first_message", { player: p, players: players, enemys: enemys, items: items });
+				console.log("connection\nplayer num : " + players.length);
 				
 				if(players.length == 1) {
 					console.log("start main loop");
@@ -75,7 +77,7 @@ function socketio (server) {
 		});
 
 		// 各クライアントのデータ受信
-		socket.json.on('player_data', function (data) {
+		socket.json.on("player_data", function (data) {
 			var dp = data.player;
 			var pIndex = 0;
 			for(var i = 0; i < players.length; i++) {
@@ -147,12 +149,12 @@ function socketio (server) {
 		});
 
 		// 切断処理
-		socket.on('disconnect', function() {
+		socket.on("disconnect", function() {
 			for(var i = 0; i < players.length; i++) {
 				if(players[i].id === p.id) {
 					YTDB.run("update game set lastX = $x, lastY = $y, lastHP = $hp, score = $sc where id = $id", { $x: players[i].x, $y: players[i].y, $hp: players[i].hp, $sc : players[i].score, $id: players[i].id} );
 					players.splice(i, 1);
-					console.log('disconnection\nplayer num : ' + players.length);
+					console.log("disconnection\nplayer num : " + players.length);
 					break;
 				}
 			}
@@ -168,19 +170,29 @@ function socketio (server) {
 
 		// 敵の更新、HPが0以下の敵を検索
 		var deadEnemys = [];
-		enemys.forEach(function(enemy) {
-			enemy.update();
-
-			if (enemy.hp <= 0) {
-				deadEnemys.push(enemy);
+		for(var ei = 0, eil = enemys.length; ei < eil; ei++) {
+			enemys[ei].update();
+			if(enemys[ei].hp <= 0) {
+				deadEnemys.push(ei);
 			}
-		});
+		}
+		// var deadEnemys = [];
+		// enemys.forEach(function(enemy) {
+		// 	enemy.update();
 
-		// 敵の削除
-		deadEnemys.forEach(function(de) {
-			var deIndex = enemys.indexOf(de);
-			enemys.splice(deIndex, 1);
-		});
+		// 	if (enemy.hp <= 0) {
+		// 		deadEnemys.push(enemy);
+		// 	}
+		// });
+
+		for(var dei = 0, deil = deadEnemys.length; dei < deil; dei++) {
+			enemys.splice(deadEnemys[dei], 1);
+		}
+		// // 敵の削除
+		// deadEnemys.forEach(function(de) {
+		// 	var deIndex = enemys.indexOf(de);
+		// 	enemys.splice(deIndex, 1);
+		// });
 
 		// 敵の生成
 		enemyGenerator.update();
@@ -201,7 +213,7 @@ function socketio (server) {
 			items.splice(di, 1);
 		});
 		
-		io.sockets.volatile.json.emit('server_update', { players : players , enemys : enemys , items : items });
+		io.sockets.volatile.json.emit("server_update", { players : players , enemys : enemys , items : items });
 	};
 }
 
